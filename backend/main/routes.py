@@ -1,5 +1,5 @@
 from flask import render_template, request, Blueprint
-from ponzischeme.models import Post
+from backend.models import Post
 
 main = Blueprint('main', __name__)
 

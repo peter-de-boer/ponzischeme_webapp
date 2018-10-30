@@ -1,11 +1,11 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint
 from flask_login import login_user, current_user, logout_user, login_required
-from ponzischeme import db # , bcrypt
+from backend import db # , bcrypt
 from werkzeug.security import generate_password_hash, check_password_hash
-from ponzischeme.models import User, Post
-from ponzischeme.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
+from backend.models import User, Post
+from backend.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
                                    RequestResetForm, ResetPasswordForm)
-from ponzischeme.users.utils import save_picture, send_reset_email
+from backend.users.utils import save_picture, send_reset_email
 
 users = Blueprint('users', __name__)
 
