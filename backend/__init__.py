@@ -27,7 +27,7 @@ def create_app(config_class=Config):
     #mail.init_app(app)
 
     @app.route('/', defaults={'path': ''})
-    @app.route('/<path:path>')
+    @app.route('/<path:path>')    # not clear why/if this is needed
     def catch_all(path):
         return render_template("index.html")
 

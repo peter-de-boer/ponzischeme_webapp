@@ -5,7 +5,7 @@ games = Blueprint('games', __name__)
 
 
 @games.route("/", methods=['GET'])
-def get_game():
+def get_def():
     return jsonify(game_id=2,
                    player1 = "no game")
 

@@ -1,6 +1,7 @@
 <template>
 	<div id="app">
-		<app-game></app-game>
+        <h1>Top page</h1>
+        <router-view></router-view>
 	</div>
 </template>
 
