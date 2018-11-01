@@ -5,9 +5,17 @@
 </template>
 
 <script>
-export default {
-	name: 'Game'
-}
+    import axios from 'axios';
+
+    export default {
+        name: 'Game',
+        created() {
+            console.log('created')
+            axios.get('/game')
+                .then(res => console.log(res))
+                .catch(error => console.log(error))
+        }
+    }
 </script>
 
 <style scoped>

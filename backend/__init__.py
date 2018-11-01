@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+from flask_cors import CORS
 #from flask_sqlalchemy import SQLAlchemy
 # from flask_bcrypt import Bcrypt
 #from flask_login import LoginManager
@@ -17,6 +18,7 @@ import requests
 
 def create_app(config_class=Config):
     app = Flask(__name__)
+    CORS(app)
     app.config.from_object(Config)
 
     #db.init_app(app)
@@ -28,12 +30,9 @@ def create_app(config_class=Config):
     @app.route('/<path:path>')
     def catch_all(path):
         return render_template("index.html")
-    """
-    def index():
-        if app.debug:
-            return requests.get('http://localhost:8080/').text
-        return render_template("index.html")
-    """
+
+    from backend.games.routes import games
+    app.register_blueprint(games)
     """
     from backend.users.routes import users
     from backend.posts.routes import posts
