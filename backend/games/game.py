@@ -9,7 +9,8 @@ class Game(object):
         self.id = id
         self.numPlayers = len(players)
         self.players = players
-        self.advanced = advanced
+        self.advanced2 = advanced
+        #self.advanced = advanced
         self.fundCards = self.fundCardsTest()
         #self.fundCards = self.fundCards()
         self.fundingBoard = FundingBoard(self.fundCards[0:9])
