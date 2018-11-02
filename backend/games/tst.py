@@ -1,6 +1,7 @@
 from game import Game
 from fundCard import FundCard
 from fundingBoard import FundingBoard
+from gameIO import *
 
 def printFundcard(fundCard):
     print(("Value: {:4d},   Time: {:3d},   "
@@ -96,7 +97,7 @@ def tstPickCard(n):
     gamex.addCardFromDeck()
 
 def tstPickCards():
-    for i in range(9):
+    for i in range(8):
         print("****", i)
         tstPickCard(4)
         printDeckBoard()
@@ -104,8 +105,11 @@ def tstPickCards():
 
 gamex = Game()
 printGame(gamex)
+writeGame(gamex)
 
 #tstEqualities()
 #tstRemoveAdd()
 
 tstPickCards()
+gamey = readGame()
+printGame(gamey)
