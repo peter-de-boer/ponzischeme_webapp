@@ -4,6 +4,8 @@ import App from './App.vue'
 import { routes } from './routes'
 import axios from 'axios'
 
+import { store } from './store/store.js';
+
 Vue.use(VueRouter)
 
 const router = new VueRouter({
@@ -17,6 +19,7 @@ axios.defaults.baseURL = 'http://127.0.0.1:5000/'
 
 
 new Vue({
+    store,
     router,
     render: h => h(App)
 }).$mount('#app')
