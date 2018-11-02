@@ -1,4 +1,3 @@
-#import pickle
 import json, jsonpickle
 from game import Game
 
@@ -9,10 +8,6 @@ def writeGame(game):
     f = open('game.json', 'w')
     f.write(g)
     f.close()
-    """
-    with open('filename.pickle', 'wb') as handle:
-        pickle.dump(gamejs, handle, protocol=pickle.HIGHEST_PROTOCOL)
-    """
 
 def readGame():
 
@@ -20,8 +15,4 @@ def readGame():
     gamejs = f.read()
     f.close()
     return jsonpickle.decode(gamejs)
-    """
-    with open('filename.pickle', 'rb') as handle:
-        return pickle.load(handle)
-    """
 
