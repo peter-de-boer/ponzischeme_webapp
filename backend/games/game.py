@@ -1,5 +1,5 @@
-from fundCard import FundCard
-from fundingBoard import FundingBoard
+from backend.games.fundCard import FundCard
+from backend.games.fundingBoard import FundingBoard
 import random
 import sys
 

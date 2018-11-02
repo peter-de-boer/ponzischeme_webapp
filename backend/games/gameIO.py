@@ -1,5 +1,5 @@
 import json, jsonpickle
-from game import Game
+from backend.games.game import Game
 
 def writeGame(game):
 
@@ -15,4 +15,13 @@ def readGame():
     gamejs = f.read()
     f.close()
     return jsonpickle.decode(gamejs)
+
+def readGameJSON():
+
+    f = open('game.json')
+    gamejs = f.read()
+    f.close()
+    gm = jsonpickle.decode(gamejs)
+    gamejs_expand = jsonpickle.encode(gm, unpicklable=False)
+    return gamejs_expand
 
