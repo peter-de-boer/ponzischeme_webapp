@@ -9,8 +9,7 @@ class Game(object):
         self.id = id
         self.numPlayers = len(players)
         self.players = players
-        self.advanced2 = advanced
-        #self.advanced = advanced
+        self.advanced = advanced
         self.fundCards = self.fundCardsTest()
         #self.fundCards = self.fundCards()
         self.fundingBoard = FundingBoard(self.fundCards[0:9])
@@ -18,12 +17,21 @@ class Game(object):
         random.shuffle(self.fundDeck)
         self.discards =  []
 
-    def addCardFromDeck(self):
+    def addCardFromDeckToBoard(self):
         if len(self.fundDeck)==0:
             # empty deck should never happen
             sys.exit("empty deck")
         card = self.fundDeck.pop(0)
         self.fundingBoard.addCard(card)
+
+    def removeCardFromBoard(self, value):
+        remove = None
+        for card in self.fundingBoard.board:
+            if card.value == value:
+                remove = card
+        if remove:
+            self.fundingBoard.board.remove(remove)
+
 
 
     @staticmethod

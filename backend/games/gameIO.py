@@ -14,7 +14,7 @@ def readGame():
     f = open('game.json')
     gamejs = f.read()
     f.close()
-    return jsonpickle.decode(gamejs)
+    return jsonpickle.decode(str(gamejs))
 
 def readGameJSON():
 
