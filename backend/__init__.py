@@ -17,8 +17,20 @@ db = SQLAlchemy()
 
 
 def create_app(config_class=Config):
-    app = Flask(__name__, template_folder="../dist") # needed in production only
+    """
+    in production, we need to specify the template folder
+    it only contains index.html
+    it is located in (in production) in the dist folder
+    in development, this is not relevant since
+    all routing is covered by frontend
+    """
+    app = Flask(__name__, template_folder="../dist")
+
+    """
+    TODO: disable or modify CORS in production
+    """
     CORS(app)
+
     app.config.from_object(Config)
 
     db.init_app(app)
@@ -27,7 +39,7 @@ def create_app(config_class=Config):
     #mail.init_app(app)
 
     @app.route('/', defaults={'path': ''})
-    @app.route('/<path:path>')    # not clear why/if this is needed
+    @app.route('/<path:path>')
     def catch_all(path):
         return render_template("index.html")
 
