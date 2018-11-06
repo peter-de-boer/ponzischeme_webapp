@@ -17,7 +17,7 @@ db = SQLAlchemy()
 
 
 def create_app(config_class=Config):
-    app = Flask(__name__)
+    app = Flask(__name__, template_folder="../dist") # needed in production only
     CORS(app)
     app.config.from_object(Config)
 
