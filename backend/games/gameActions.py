@@ -3,7 +3,7 @@ from backend.games.gameIO import writeGame, readGame
 
 def selectCard(value):
     game = readGame()
-    game.removeCardFromBoard(value)
-    game.addCardFromDeckToBoard()
-    writeGame(game)
+    if game.removeCardFromBoard(value):
+        game.addCardFromDeckToBoard()
+        writeGame(game)
 

@@ -1,37 +1,50 @@
 from backend.games.fundCard import FundCard
 from backend.games.fundingBoard import FundingBoard
-import random
+from random import shuffle
 import sys
 
 class Game(object):
-    def __init__(self, players=("Alice", "Bob", "Charlie"), advanced=False,
-                 id=None):
+    def __init__(self, players=[{'name': "Alice",   'id': 1},  \
+                                {'name': "Bob",     'id': 2},  \
+                                {'name': "Charlie", 'id': 3}], \
+                advanced=False, id=None):
         self.id = id
         self.numPlayers = len(players)
-        self.players = players
+        self.players = []
+        for i in len(players):
+            self.players.append(Player(players[i]))
+        shuffle(self.players)
+        self.startPlayer = self.players[0]
         self.advanced = advanced
         self.fundCards = self.fundCardsTest()
         #self.fundCards = self.fundCards()
         self.fundingBoard = FundingBoard(self.fundCards[0:9])
         self.fundDeck = self.fundCards[9:]
-        random.shuffle(self.fundDeck)
-        self.discards =  []
+        shuffle(self.fundDeck)
+        self.discardPile =  []
+        self.industryTiles = [15]*4
 
     def addCardFromDeckToBoard(self):
         if len(self.fundDeck)==0:
             # empty deck should never happen
-            sys.exit("empty deck")
+            return
         card = self.fundDeck.pop(0)
         self.fundingBoard.addCard(card)
 
     def removeCardFromBoard(self, value):
-        remove = None
-        for card in self.fundingBoard.board:
-            if card.value == value:
-                remove = card
-        if remove:
-            self.fundingBoard.board.remove(remove)
+        return self.fundingBoard.removeCardFromBoard(value)
 
+    def addCardToDiscardPile(self, card):
+        self.discardPile.append(card)
+
+    def numBearCardsGreaterOrEqualoNumPlayers():
+        return self.fundingBoard.numBearCards() >= self.numPlayers
+
+    def checkForEmptyDeck(self):
+        if len(self.fundDeck)==0:
+            self.fundDeck = self.discardPile
+            self.discardPile = []
+            shuffle(self.fundDeck)
 
 
     @staticmethod

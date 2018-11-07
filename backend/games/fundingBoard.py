@@ -17,12 +17,18 @@ class FundingBoard(object):
 
         # find the fundingCard on the board and if found then remove it
 
-        removeIndex = None
-        for i in range(len(self.board)):
-            if self.board[i] == fundingCard:
-                removeIndex = i
-        if removeIndex is not None:
-            del self.board[removeIndex]
+        if fundingCard in self.board:
+            self.board.remove(fundingCard)
+
+
+    def removeCardFromBoard(self, value):
+        remove = None
+        for card in self.board:
+            if card.value == value:
+                remove = card
+        if remove:
+            self.board.remove(remove)
+        return remove
 
 
 
