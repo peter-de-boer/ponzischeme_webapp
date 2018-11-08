@@ -18,6 +18,7 @@
         created() {
             axios.get('/game')
                 .then( res => {
+                    console.log(res)
                     this.setGameState(res.data)
                 }, error => {
                     console.log(error)

@@ -1,8 +1,8 @@
 <template>
-    <div>
+    <div class="container">
         <h2>Deck</h2>
         <div class="row" v-for="card in fundDeck">
-            <div class="col-xs-2 col-md-1">
+            <div class="col-xs-2">
                 <fund-card :card="card"></fund-card>
             </div>
             

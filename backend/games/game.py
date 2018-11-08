@@ -1,5 +1,6 @@
 from backend.games.fundCard import FundCard
 from backend.games.fundingBoard import FundingBoard
+from backend.games.player import Player
 from random import shuffle
 import sys
 
@@ -11,18 +12,22 @@ class Game(object):
         self.id = id
         self.numPlayers = len(players)
         self.players = []
-        for i in len(players):
+        for i in range(len(players)):
             self.players.append(Player(players[i]))
         shuffle(self.players)
-        self.startPlayer = self.players[0]
+        self.startPlayerIndex = 0
+        self.activePlayerIndex = 0
         self.advanced = advanced
-        self.fundCards = self.fundCardsTest()
-        #self.fundCards = self.fundCards()
+        #self.fundCards = self.fundCardsTest()
+        self.fundCards = self.fundCards()
         self.fundingBoard = FundingBoard(self.fundCards[0:9])
         self.fundDeck = self.fundCards[9:]
         shuffle(self.fundDeck)
         self.discardPile =  []
         self.industryTiles = [15]*4
+
+    def passStartPlayerMarker():
+        self.startPlayerIndex =  (self.startPlayerIndex + 1)%self.numPlayers
 
     def addCardFromDeckToBoard(self):
         if len(self.fundDeck)==0:
@@ -37,7 +42,7 @@ class Game(object):
     def addCardToDiscardPile(self, card):
         self.discardPile.append(card)
 
-    def numBearCardsGreaterOrEqualoNumPlayers():
+    def numBearCardsGreaterOrEqualNumPlayers():
         return self.fundingBoard.numBearCards() >= self.numPlayers
 
     def checkForEmptyDeck(self):

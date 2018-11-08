@@ -38,3 +38,10 @@ class FundingBoard(object):
 
         self.board.append(fundingcard)
         self.board.sort()
+
+    def numBearCards():
+        n = 0
+        for card in self.board:
+            if card.fundtype=="Bear Fund Card":
+                n+=1
+        return n

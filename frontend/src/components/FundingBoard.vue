@@ -1,8 +1,8 @@
 <template>
-    <div>
+    <div class="container">
         <h2>Funding Board</h2>
         <div class="row" v-for="i in 3" :key="i">
-            <div class="col-xs-2 col-md-1" 
+            <div class="col-xs-2" 
                 v-for="j in 3" 
                 :key=j
                 @click="selectCard(fundingBoard[3*(i-1)+j-1].value)">
