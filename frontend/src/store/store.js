@@ -3,9 +3,31 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
+const selectPlayer = {
+    state: {
+        currentPlayer: {}
+    },
+    getters: {
+        currentPlayer: state => {
+            return state.currentPlayer;
+        }
+    },
+    mutations: {
+        selectCurrentPlayer: (state, payload) => {
+            Vue.set(state, "currentPlayer", payload);
+        }    
+    },
+    actions: {
+        selectCurrentPlayer: ({ commit }, payload) => {
+            commit('selectCurrentPlayer', payload)
+        }
+    }    
+}
 
-    
 export const store = new Vuex.Store({
+    modules: {
+        selectPlayer
+    },
     state: {
         gameStateLoaded: 0,
         gameState: {}

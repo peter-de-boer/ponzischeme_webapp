@@ -2,6 +2,10 @@
     <div class="container">
         <h1>Game</h1>
         <div class="row">
+                <select-player></select-player>
+                <hr>
+        </div>
+        <div class="row">
             <div class="col-sm-5">
                 <funding-board v-if="gameStateLoaded"></funding-board>
                 <deck v-if="gameStateLoaded"></deck>
@@ -14,6 +18,7 @@
 </template>
 
 <script>
+    import SelectPlayer from './SelectPlayer.vue';
     import axios from 'axios';
     import Board from './FundingBoard.vue';
     import Deck from './Deck.vue';
@@ -33,6 +38,7 @@
                 }); 
         },
         components: {
+            selectPlayer: SelectPlayer,
             fundingBoard: Board,
             deck: Deck,
             player: Player

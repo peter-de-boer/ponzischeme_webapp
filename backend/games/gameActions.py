@@ -1,12 +1,13 @@
 from backend.games.game import Game
 from backend.games.gameIO import writeGame, readGame
 
-def selectCard(value):
+def selectCard(value, name):
     game = readGame()
-    card = game.removeCardFromBoard(value)
-    if card:
-        active = game.activePlayerIndex
-        game.players[active].selectCard(card)
-        game.addCardFromDeckToBoard()
-        writeGame(game)
+    active = game.activePlayerIndex
+    if (name==game.players[active].name):
+        card = game.removeCardFromBoard(value)
+        if card:
+            game.players[active].selectCard(card)
+            game.addCardFromDeckToBoard()
+            writeGame(game)
 

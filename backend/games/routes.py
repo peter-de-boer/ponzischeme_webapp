@@ -19,7 +19,8 @@ def get_game():
 def selectcard():
     req = request.get_json()
     value = req['value']
-    selectCard(value)
+    name = req['name']
+    selectCard(value, name)
     """
        need input parameters:
            selected card (value is unique),
