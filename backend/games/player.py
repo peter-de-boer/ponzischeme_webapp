@@ -8,10 +8,12 @@ class Player(object):
         self.wheel =  [[],[],[],[],[],[]]
         self.bankrupt = False
         self.industryTiles = [0]*4
+        self.start = False
+        self.active = False
 
     def selectCard(self, fundCard):
         self.money = self.money + fundCard.value
-        self.wheel[0].append(fundCard)
+        self.wheel[fundCard.time].append(fundCard)
 
     def selectCardAndTile(self, fundCard, row, tile):
         if self.industryTiles[tile] != row-1:

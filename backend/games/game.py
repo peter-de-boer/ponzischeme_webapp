@@ -1,6 +1,7 @@
 from backend.games.fundCard import FundCard
 from backend.games.fundingBoard import FundingBoard
 from backend.games.player import Player
+from backend.games.status import Status
 from random import shuffle
 import sys
 
@@ -15,8 +16,12 @@ class Game(object):
         for i in range(len(players)):
             self.players.append(Player(players[i]))
         shuffle(self.players)
+        self.players[0].start = True
+        self.players[0].active = True
         self.startPlayerIndex = 0
         self.activePlayerIndex = 0
+        self.status = Status(self.numPlayers)
+        #self.gameFlow = GameFlow()
         self.advanced = advanced
         #self.fundCards = self.fundCardsTest()
         self.fundCards = self.fundCards()
@@ -27,7 +32,9 @@ class Game(object):
         self.industryTiles = [15]*4
 
     def passStartPlayerMarker():
+        self.players[self.startPlayerIndex].start = False
         self.startPlayerIndex =  (self.startPlayerIndex + 1)%self.numPlayers
+        self.players[self.startPlayerIndex].start = True
 
     def addCardFromDeckToBoard(self):
         if len(self.fundDeck)==0:
@@ -51,6 +58,17 @@ class Game(object):
             self.discardPile = []
             shuffle(self.fundDeck)
 
+    def turnWheel():
+        for player in players:
+            player.turnWheel()
+
+    def payInterest():
+        for player in players:
+            player.payInterest()
+
+    def moveFundCards():
+        for player in players:
+            player.moveFundCards()
 
     @staticmethod
     def fundCards():

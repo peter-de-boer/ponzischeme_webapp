@@ -1,15 +1,23 @@
 <template>
-  <div>
-    <h1>Game</h1>
-    <funding-board v-if="gameStateLoaded"></funding-board>
-    <deck v-if="gameStateLoaded"></deck>
-  </div>
+    <div class="container">
+        <h1>Game</h1>
+        <div class="row">
+            <div class="col-sm-5">
+                <funding-board v-if="gameStateLoaded"></funding-board>
+                <deck v-if="gameStateLoaded"></deck>
+            </div>
+            <div class="col-sm-7">
+                <player v-for="plr in players" :player="plr"></player>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
     import axios from 'axios';
     import Board from './FundingBoard.vue';
     import Deck from './Deck.vue';
+    import Player from './Player.vue';
     import {mapActions} from 'vuex';
     import {mapGetters} from 'vuex';
 
@@ -26,12 +34,14 @@
         },
         components: {
             fundingBoard: Board,
-            deck: Deck
+            deck: Deck,
+            player: Player
         },
         computed: {
             ...mapGetters([
                 'fundingBoard',
-                'gameStateLoaded'
+                'gameStateLoaded',
+                'players'
             ])    
         },
         methods: {

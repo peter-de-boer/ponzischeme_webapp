@@ -27,6 +27,9 @@ export const store = new Vuex.Store({
             }    
 
         },
+        players: state => {
+            return state.gameState.players;
+        },    
         gameStateLoaded: state => {
             return state.gameStateLoaded;
         }    
