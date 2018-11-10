@@ -1,8 +1,8 @@
 <template>
     <div>
+        <time-wheel :wheel="player.wheel"></time-wheel>
         <p>name:  {{player.name}} </p>
         <p>money: {{player.money}} </p>
-        <p>wheel: {{player.wheel}} </p>
         <p>tiles: {{player.industryTiles}} </p>
         <p>bankrupt: {{player.bankrupt}} </p>
         <p>start: {{player.start}} </p>
@@ -12,7 +12,11 @@
 </template>
 
 <script>
+    import TimeWheel from './TimeWheel.vue'
     export default {
-        props: ['player']
+        props: ['player'],
+        components: {
+            timeWheel: TimeWheel
+        }
     }
 </script>
