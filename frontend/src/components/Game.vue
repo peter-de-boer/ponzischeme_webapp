@@ -6,12 +6,13 @@
                 <hr>
         </div>
         <div class="row">
-            <div class="col-sm-5">
+            <div class="col-sm-6">
+                <industry-tiles v-if="gameStateLoaded"></industry-tiles>
                 <funding-board v-if="gameStateLoaded"></funding-board>
                 <deck v-if="gameStateLoaded"></deck>
             </div>
-            <div class="col-sm-7">
-                <player v-for="plr in players" :player="plr"></player>
+            <div class="col-sm-6">
+                <player v-if="gameStateLoaded" v-for="plr in players" :player="plr"></player>
             </div>
         </div>
     </div>
@@ -23,6 +24,7 @@
     import Board from './FundingBoard.vue';
     import Deck from './Deck.vue';
     import Player from './Player.vue';
+    import IndustryTiles from './IndustryTiles.vue';
     import {mapActions} from 'vuex';
     import {mapGetters} from 'vuex';
 
@@ -38,6 +40,7 @@
                 }); 
         },
         components: {
+            industryTiles: IndustryTiles,
             selectPlayer: SelectPlayer,
             fundingBoard: Board,
             deck: Deck,

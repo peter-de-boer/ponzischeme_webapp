@@ -33,6 +33,13 @@ export const store = new Vuex.Store({
         gameState: {}
     },
     getters: {
+        industryTiles: state => {
+            if (state.gameStateLoaded) {
+                return state.gameState.industryTiles;
+            } else {
+                return null;
+            }    
+        },
         fundDeck: state => {
             if (state.gameStateLoaded) {
                 return state.gameState.fundDeck;
@@ -50,7 +57,11 @@ export const store = new Vuex.Store({
 
         },
         players: state => {
-            return state.gameState.players;
+            if (state.gameStateLoaded) {
+                return state.gameState.players;
+            } else {
+                return null;
+            }    
         },    
         gameStateLoaded: state => {
             return state.gameStateLoaded;

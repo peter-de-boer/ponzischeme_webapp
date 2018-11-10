@@ -5,11 +5,9 @@
                 <div class="col-sm-2">
                     {{time}} {{totalInterest(cards)}}
                 </div>
-                <div class="col-sm-8">
-                    <div v-for="card in cards" :key="card.value">
+                    <div v-for="card in cards" :key="card.value" class="col-sm-2">
                        {{card.interest}} ({{card.time}})
                     </div>
-                </div>
             </div>
         </div>
     </div>

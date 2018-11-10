@@ -1,8 +1,8 @@
 <template>
     <div class="container">
         <h2>Funding Board</h2>
-        <div class="row" v-for="i in 3" :key="i">
-            <div class="col-sm-1" 
+        <div class="row small-gutter" v-for="i in 3" :key="i">
+            <div class="col-sm-2"
                 v-for="j in 3" 
                 :key=j
                 @click="selectCard(fundingBoard[3*(i-1)+j-1].value, currentPlayer)">
@@ -49,4 +49,8 @@
 </script>
 
 <style scoped>
+.small-gutter > [class*='col-'] {
+    padding-right:2px;
+    padding-left:2px;
+}
 </style>
