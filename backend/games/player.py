@@ -15,13 +15,9 @@ class Player(object):
         self.money = self.money + fundCard.value
         self.wheel[fundCard.time].append(fundCard)
 
-    def selectCardAndTile(self, fundCard, row, tile):
-        if self.industryTiles[tile] != row-1:
-            return false
-        else:
-            self.industryTiles[tile]+=1
-            self.selectCard(fundCard)
-            return True
+    def selectCardAndTile(self, fundCard, tile):
+        self.industryTiles[tile]+=1
+        self.selectCard(fundCard)
 
     def turnWheel(self, double=False):
         self.wheel.append(self.wheel.pop(0))

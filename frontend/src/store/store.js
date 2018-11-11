@@ -5,7 +5,7 @@ Vue.use(Vuex);
 
 const selectPlayer = {
     state: {
-        currentPlayer: {}
+        currentPlayer: null
     },
     getters: {
         currentPlayer: state => {
@@ -26,19 +26,29 @@ const selectPlayer = {
 
 const selectItems = {
     state: {
-        selectedFundCard: {}
+        selectedFundCard: {},
+        selectedIndustryTile: null
     },
     getters: {
+        selectedIndustryTile: state => {
+            return state.selectedIndustryTile;
+        },
         selectedFundCard: state => {
             return state.selectedFundCard;
         }
     },
     mutations: {
+        selectIndustryTile: (state, payload) => {
+            Vue.set(state, "selectedIndustryTile", payload);
+        },    
         selectFundCard: (state, payload) => {
             Vue.set(state, "selectedFundCard", payload);
         }    
     },
     actions: {
+        selectIndustryTile: ({ commit }, payload) => {
+            commit('selectIndustryTile', payload)
+        },
         selectFundCard: ({ commit }, payload) => {
             commit('selectFundCard', payload)
         }

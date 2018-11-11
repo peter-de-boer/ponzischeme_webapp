@@ -15,15 +15,19 @@ def get_game():
                    player1 = "peter")
     """
 
-@games.route("/game/selectCard", methods=['PUT'])
-def selectcard():
-    req = request.get_json()
-    value = req['value']
-    name = req['name']
-    selectCard(value, name)
+@games.route("/game/selectTileAndCard", methods=['PUT'])
+def selecttileandcard():
     """
        need input parameters:
-           selected card (value is unique),
+           selected card (value is unique), tile
            (player, currentPlayer)
     """
-    return readGameJSON()
+    req = request.get_json()
+    value = req['value']
+    tile = req['tile']
+    name = req['name']
+    error = selectTileAndCard(value, tile, name)
+    if error:
+        return error
+    else:
+        return readGameJSON()

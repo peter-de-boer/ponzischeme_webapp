@@ -3,7 +3,7 @@
         <h2>Industry Tiles</h2>
         <div class="row">
             <div class="col-sm-1" v-for="(tiles, i) in industryTiles" :key="i">
-                <div :class="tileStyle(i)">
+                <div :class="tileStyle(i)" @click="selectIndustryTile(i)">
                     {{tiles}}
                 </div>
             </div>
@@ -23,7 +23,8 @@
         },
         methods: {
             ...mapActions([
-                'setGameState'
+                'setGameState',
+                'selectIndustryTile'
             ]),
             tileStyle(i) {
                 switch(i) {

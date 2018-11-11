@@ -2,18 +2,14 @@
     <div class="container">
         <h2>Funding Board</h2>
         <div class="row small-gutter" v-for="i in 3" :key="i">
-            <div class="col-sm-2"
-                v-for="j in 3" 
-                :key=j
-                @click="selectFundCard(fundingBoard[3*(i-1)+j-1])">
-                    <fund-card :card="fundingBoard[3*(i-1)+j-1]" ></fund-card>
+            <div class="col-sm-2" v-for="j in 3" :key=j>
+                <fund-card :card="fundingBoard[3*(i-1)+j-1]" ></fund-card>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import axios from 'axios';
     import {mapGetters} from 'vuex';
     import {mapActions} from 'vuex';
     import FundCard from './FundCard.vue';

@@ -2,32 +2,50 @@
     <div class="action">
         <h2>Funding</h2>
         <p>Please select an industry tile and a fund card, or pass</p>
-        <p><button class="btn btn-default">Select Tile/Card</button> {{selectedFundCard.value}}</p>
-        <button class="btn btn-default">Pass</button>
+        <p><button class="btn btn-default" 
+                @click="selectTileAndCard(selectedFundCard.value,selectedIndustryTile)"> 
+                    Select Tile/Card 
+           </button> 
+             {{selectedFundCard.value}} {{selectedIndustryTile}}</p>
+        <button class="btn btn-default"> Pass </button> 
     </div>
 </template>
 
 <script>
+    import axios from 'axios';
     import { mapGetters } from 'vuex';
+    import { mapActions } from 'vuex';
 
     export default {
         computed: {
             ...mapGetters([
+                'currentPlayer',
                 'isPhase1',
-                'selectedFundCard'
+                'selectedFundCard',
+                'selectedIndustryTile'
             ])    
         },
         methods: {
-            selectTileAndCard() {
-                console.log("in selectcard")
-                var json = {"value": value, "name": currentPlayer.name}
-                axios.put('/game/selectCard', json)
-                    .then( res => {
-                        console.log(res)
-                        this.setGameState(res.data)
-                }, error => {
-                    console.log(error)
-                }); 
+            ...mapActions([
+                'setGameState'
+            ]),
+            selectTileAndCard(value,tile) {
+                console.log("in selectTileAndCard")
+                if (this.currentPlayer) {
+                    var json = {"value": value, "tile": tile, "name": this.currentPlayer.name}
+                    console.log(json)
+                    axios.put('/game/selectTileAndCard', json)
+                        .then( res => {
+                            console.log(res)
+                            if (res.data.error) {
+                                console.log(res.data.error)
+                            } else {
+                                this.setGameState(res.data)
+                            }
+                    }, error => {
+                        console.log(error)
+                    }); 
+                }
             }
         }
     }
