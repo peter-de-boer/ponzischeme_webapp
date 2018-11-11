@@ -24,15 +24,44 @@ const selectPlayer = {
     }    
 }
 
+const selectItems = {
+    state: {
+        selectedFundCard: {}
+    },
+    getters: {
+        selectedFundCard: state => {
+            return state.selectedFundCard;
+        }
+    },
+    mutations: {
+        selectFundCard: (state, payload) => {
+            Vue.set(state, "selectedFundCard", payload);
+        }    
+    },
+    actions: {
+        selectFundCard: ({ commit }, payload) => {
+            commit('selectFundCard', payload)
+        }
+    }    
+}
+
 export const store = new Vuex.Store({
     modules: {
-        selectPlayer
+        selectPlayer,
+        selectItems
     },
     state: {
         gameStateLoaded: 0,
         gameState: {}
     },
     getters: {
+        isPhase1: state => {
+            if (state.gameStateLoaded) {
+                return state.gameState.status.phase==1;
+            } else {
+                return null;
+            }    
+        },
         industryTiles: state => {
             if (state.gameStateLoaded) {
                 return state.gameState.industryTiles;

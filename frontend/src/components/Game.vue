@@ -7,11 +7,12 @@
         </div>
         <div class="row">
             <div class="col-sm-6">
+                <action-box></action-box>
                 <industry-tiles v-if="gameStateLoaded"></industry-tiles>
                 <funding-board v-if="gameStateLoaded"></funding-board>
                 <deck v-if="gameStateLoaded"></deck>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-offset-1 col-sm-5">
                 <player v-if="gameStateLoaded" v-for="plr in players" :player="plr"></player>
             </div>
         </div>
@@ -25,6 +26,7 @@
     import Deck from './Deck.vue';
     import Player from './Player.vue';
     import IndustryTiles from './IndustryTiles.vue';
+    import ActionBox from './ActionBox.vue';
     import {mapActions} from 'vuex';
     import {mapGetters} from 'vuex';
 
@@ -40,6 +42,7 @@
                 }); 
         },
         components: {
+            actionBox: ActionBox,
             industryTiles: IndustryTiles,
             selectPlayer: SelectPlayer,
             fundingBoard: Board,

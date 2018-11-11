@@ -5,7 +5,7 @@
             <div class="col-sm-2"
                 v-for="j in 3" 
                 :key=j
-                @click="selectCard(fundingBoard[3*(i-1)+j-1].value, currentPlayer)">
+                @click="selectFundCard(fundingBoard[3*(i-1)+j-1])">
                     <fund-card :card="fundingBoard[3*(i-1)+j-1]" ></fund-card>
             </div>
         </div>
@@ -31,19 +31,9 @@
         },
         methods: {
             ...mapActions([
-                'setGameState'
-            ]),    
-            selectCard(value, currentPlayer) {
-                console.log("in selectcard")
-                var json = {"value": value, "name": currentPlayer.name}
-                axios.put('/game/selectCard', json)
-                    .then( res => {
-                        console.log(res)
-                        this.setGameState(res.data)
-                }, error => {
-                    console.log(error)
-                }); 
-            }
+                'setGameState',
+                'selectFundCard'
+            ])    
         }
     }    
 </script>
