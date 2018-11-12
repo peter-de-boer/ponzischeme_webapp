@@ -1,3 +1,4 @@
+import json
 from backend.games.fundCard import FundCard
 from backend.games.fundingBoard import FundingBoard
 from backend.games.player import Player
@@ -31,7 +32,7 @@ class Game(object):
         self.discardPile =  []
         self.industryTiles = [15]*4
 
-    def passStartPlayerMarker():
+    def passStartPlayerMarker(self):
         self.players[self.startPlayerIndex].start = False
         self.startPlayerIndex =  (self.startPlayerIndex + 1)%self.numPlayers
         self.players[self.startPlayerIndex].start = True
@@ -49,7 +50,7 @@ class Game(object):
     def addCardToDiscardPile(self, card):
         self.discardPile.append(card)
 
-    def numBearCardsGreaterOrEqualNumPlayers():
+    def numBearCardsGreaterOrEqualNumPlayers(self):
         return self.fundingBoard.numBearCards() >= self.numPlayers
 
     def checkForEmptyDeck(self):
@@ -58,17 +59,38 @@ class Game(object):
             self.discardPile = []
             shuffle(self.fundDeck)
 
-    def turnWheel():
-        for player in players:
+    def turnWheel(self):
+        for player in self.players:
             player.turnWheel()
 
-    def payInterest():
-        for player in players:
+    def payInterest(self):
+        for player in self.players:
             player.payInterest()
 
-    def moveFundCards():
-        for player in players:
+    def moveFundCards(self):
+        for player in self.players:
             player.moveFundCards()
+
+    def selectTileAndCard(self, value, tile, name):
+        data = {}
+        # TODO: check phase
+        # check if player is active player
+        active = self.activePlayerIndex
+        if (name!=self.players[active].name):
+            data['error'] = name + " is not the active player"
+            return json.dumps(data)
+        # check if player is allowed to take this combination of tile and card
+        numberOfTiles = self.players[active].industryTiles[tile]
+        row = self.fundingBoard.getRow(value)
+        if (row != numberOfTiles+1):
+            data['error'] = "You have " +  str(numberOfTiles) + \
+                           " tiles, you cannot select a card from  row " + str(row)
+            return json.dumps(data)
+        card = self.removeCardFromBoard(value)
+        self.players[active].selectCardAndTile(card, tile)
+        self.addCardFromDeckToBoard()
+        return None
+
 
     @staticmethod
     def fundCards():
