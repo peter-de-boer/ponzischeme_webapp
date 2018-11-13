@@ -49,9 +49,9 @@ class FundingBoard(object):
     def getRow(self, value):
         """
         return the row (1,2, or 3) of fund card with this value
-        if no card with htis value on the board, return 0
+        if no card with this value on the board, return 0
         """
         for i in range(9):
             if self.board[i].value==value:
                 return i//3 + 1
-        return 0
+        return None

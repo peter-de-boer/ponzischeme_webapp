@@ -5,8 +5,6 @@
         <p>money: {{player.money}} </p>
         <p>tiles: {{player.industryTiles}} </p>
         <p>bankrupt: {{player.bankrupt}} </p>
-        <p>start: {{player.start}} </p>
-        <p>active: {{player.active}} </p>
         <hr>
     </div>
 </template>

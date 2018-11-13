@@ -65,9 +65,37 @@ export const store = new Vuex.Store({
         gameState: {}
     },
     getters: {
+        round: state => {
+            if (state.gameStateLoaded) {
+                return state.gameState.status.round;
+            } else {
+                return null;
+            }    
+        },
+        phase: state => {
+            if (state.gameStateLoaded) {
+                return state.gameState.status.phase;
+            } else {
+                return null;
+            }    
+        },
         isPhase1: state => {
             if (state.gameStateLoaded) {
                 return state.gameState.status.phase==1;
+            } else {
+                return null;
+            }    
+        },
+        startPlayer: state => {
+            if (state.gameStateLoaded) {
+                return state.gameState.players[state.gameState.status.start].name;
+            } else {
+                return null;
+            }    
+        },
+        activePlayer: state => {
+            if (state.gameStateLoaded) {
+                return state.gameState.players[state.gameState.status.active[0]].name;
             } else {
                 return null;
             }    

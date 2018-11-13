@@ -2,10 +2,9 @@
 class Status(object):
     def __init__(self, numPlayers, startPlayer=0):
         self.numPlayers = numPlayers
-        self.phase = 1
         self.start = startPlayer
-        self.active = self.getPlayerOrder()
-        self.opponent = None
+        self.round = 0
+        self.phase1Start()
         """
         phase:
             1: Pay The Interest
@@ -28,21 +27,40 @@ class Status(object):
 
 
     def phase1Start(self):
-        self.phase1 = 1
-        self.active = getPlayerOrder()
+        self.round += 1
+        self.phase = 1
+        self.active = self.getPlayerOrder()
         self.opponent = None
 
     def phase2Start(self):
-        self.phase1 = 2
-        self.active = getPlayerOrder()
+        self.phase = 2
+        self.active = self.getPlayerOrder()
         self.opponent = None
 
-    def next():
+    def phase3Start(self):
+        self.phase = 3
+        self.start = (self.start+1)%self.numPlayers
+        self.active = [self.start]
+        self.opponent = None
+
+    def phase4Start(self):
+        self.phase = 4
+        return
+
+    def phase5Start(self):
+        self.phase = 5
+        return
+
+    def phase6Start(self):
+        self.phase = 6
+        return
+
+    def next(self):
         if self.phase==1:
             del self.active[0]
             if len(self.active)==0:
-                phase2Start()
+                self.phase2Start()
         if self.phase==2:
             del self.active[0]
             if len(self.active)==0:
-                phase3Start()
+                self.phase3Start()

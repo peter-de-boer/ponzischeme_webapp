@@ -8,8 +8,6 @@ class Player(object):
         self.wheel =  [[],[],[],[],[],[]]
         self.bankrupt = False
         self.industryTiles = [0]*4
-        self.start = False
-        self.active = False
 
     def selectCard(self, fundCard):
         self.money = self.money + fundCard.value

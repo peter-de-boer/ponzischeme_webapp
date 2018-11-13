@@ -72,25 +72,61 @@ class Game(object):
             player.moveFundCards()
 
     def selectTileAndCard(self, value, tile, name):
-        data = {}
         # TODO: check phase
         # check if player is active player
-        active = self.activePlayerIndex
+        active = self.status.active[0]
         if (name!=self.players[active].name):
-            data['error'] = name + " is not the active player"
-            return json.dumps(data)
+            return self.error(name + " is not the active player")
         # check if player is allowed to take this combination of tile and card
         numberOfTiles = self.players[active].industryTiles[tile]
         row = self.fundingBoard.getRow(value)
+        if (row is None):
+            return(self.error("There is no card with value " + str(value) + \
+                              " on the board"))
         if (row != numberOfTiles+1):
-            data['error'] = "You have " +  str(numberOfTiles) + \
-                           " tiles, you cannot select a card from  row " + str(row)
-            return json.dumps(data)
+            return(self.error("You have " + str(numberOfTiles) + \
+                         " tiles, you cannot select a card from row " + \
+                         str(row)))
         card = self.removeCardFromBoard(value)
         self.players[active].selectCardAndTile(card, tile)
         self.addCardFromDeckToBoard()
+        self.status.next()
+        self.autoFlow()
         return None
 
+    def autoFlow(self):
+        """
+        auto-execute actions:
+            - if there is no decision at all (like in the phases turn the wheel
+              and pay interest)
+            - if there is no decision to make because of the game situation
+              (like in the phase market crash and there is a single tile type
+              with the most tiles)
+            - if there is an order given (to be implemented...)
+        """
+        while True:
+            if (self.status.phase==1):
+                return
+            elif (self.status.phase==2):
+                self.status.phase3Start()
+            elif (self.status.phase==3):
+                self.status.phase4Start()
+            elif (self.status.phase==4):
+                self.status.phase5Start()
+            elif (self.status.phase==5):
+                self.status.phase6Start()
+            elif (self.status.phase==6):
+                self.status.phase1Start()
+            else:
+                #should never happen
+                return self.error("Unknown phase")
+
+    @staticmethod
+    def error(txt):
+        # returns an error text in json format
+        data = {}
+        data['error'] = txt
+        return json.dumps(data)
 
     @staticmethod
     def fundCards():
