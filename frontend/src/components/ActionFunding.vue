@@ -7,7 +7,7 @@
                     Select Tile/Card 
            </button> 
              {{selectedFundCard.value}} {{selectedIndustryTile}}</p>
-        <button class="btn btn-default"> Pass </button> 
+        <button class="btn btn-default" @click="passFunding()"> Pass </button> 
     </div>
 </template>
 
@@ -45,6 +45,24 @@
                     }, error => {
                         console.log(error)
                     }); 
+                }
+            },
+            passFunding() {
+                console.log("in passFunding")
+                if (this.currentPlayer) {
+                    var json = {"name": this.currentPlayer.name}
+                    axios.put('/game/passFunding', json)
+                        .then( res => {
+                            console.log(res)
+                            if (res.data.error) {
+                                console.log(res.data.error)
+                            } else {
+                                this.setGameState(res.data)
+                            }
+                        }, error => {
+                            console.log(error)
+                        }
+                    ); 
                 }
             }
         }

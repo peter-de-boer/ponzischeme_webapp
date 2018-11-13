@@ -31,3 +31,17 @@ def selecttileandcard():
         return error
     else:
         return readGameJSON()
+
+@games.route("/game/passFunding", methods=['PUT'])
+def passfunding():
+    """
+       need input parameters:
+           (player, currentPlayer)
+    """
+    req = request.get_json()
+    name = req['name']
+    error = passFunding(name)
+    if error:
+        return error
+    else:
+        return readGameJSON()

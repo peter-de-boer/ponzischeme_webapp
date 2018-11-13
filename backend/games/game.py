@@ -94,6 +94,19 @@ class Game(object):
         self.autoFlow()
         return None
 
+    def passFunding(self, name):
+        # TODO: check phase
+        # check if player is active player
+        active = self.status.active[0]
+        if (name!=self.players[active].name):
+            return self.error(name + " is not the active player")
+        # not allowed to pass in round 1
+        if (self.status.round==1):
+            return(self.error("You may not pass in the first round"))
+        self.status.next()
+        self.autoFlow()
+        return None
+
     def autoFlow(self):
         """
         auto-execute actions:

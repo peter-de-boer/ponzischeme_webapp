@@ -10,3 +10,12 @@ def selectTileAndCard(value, tile, name):
     else:
         writeGame(game)
         return None
+
+def passFunding(name):
+    game = readGame()
+    error = game.passFunding(name)
+    if error:
+        return error
+    else:
+        writeGame(game)
+        return None
