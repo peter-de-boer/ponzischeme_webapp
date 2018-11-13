@@ -32,17 +32,13 @@ class Game(object):
         self.discardPile =  []
         self.industryTiles = [15]*4
 
-    def passStartPlayerMarker(self):
-        self.players[self.startPlayerIndex].start = False
-        self.startPlayerIndex =  (self.startPlayerIndex + 1)%self.numPlayers
-        self.players[self.startPlayerIndex].start = True
-
     def addCardFromDeckToBoard(self):
-        if len(self.fundDeck)==0:
-            # empty deck should never happen
-            return
         card = self.fundDeck.pop(0)
         self.fundingBoard.addCard(card)
+        if len(self.fundDeck)==0:
+            self.fundDeck = self.discardPile
+            shuffle(self.fundDeck)
+            self.discardPile = []
 
     def removeCardFromBoard(self, value):
         return self.fundingBoard.removeCardFromBoard(value)
@@ -71,6 +67,10 @@ class Game(object):
         for player in self.players:
             player.moveFundCards()
 
+    """
+    Phase 1: Funding
+    """
+
     def selectTileAndCard(self, value, tile, name):
         # TODO: check phase
         # check if player is active player
@@ -81,12 +81,12 @@ class Game(object):
         numberOfTiles = self.players[active].industryTiles[tile]
         row = self.fundingBoard.getRow(value)
         if (row is None):
-            return(self.error("There is no card with value " + str(value) + \
-                              " on the board"))
+            return self.error("There is no card with value " + str(value) + \
+                              " on the board")
         if (row != numberOfTiles+1):
-            return(self.error("You have " + str(numberOfTiles) + \
+            return self.error("You have " + str(numberOfTiles) + \
                          " tiles, you cannot select a card from row " + \
-                         str(row)))
+                         str(row))
         card = self.removeCardFromBoard(value)
         self.players[active].selectCardAndTile(card, tile)
         self.addCardFromDeckToBoard()
@@ -102,7 +102,27 @@ class Game(object):
             return self.error(name + " is not the active player")
         # not allowed to pass in round 1
         if (self.status.round==1):
-            return(self.error("You may not pass in the first round"))
+            return self.error("You may not pass in the first round")
+        self.status.next()
+        self.autoFlow()
+        return None
+
+    """
+    Phase 3: Pass the Start Player Marker
+    """
+    def selectCardToDiscard(self, value, name):
+        # TODO: check phase
+        # check if player is active player
+        active = self.status.active[0]
+        if (name!=self.players[active].name):
+            return self.error(name + " is not the active player")
+        card = self.removeCardFromBoard(value)
+        if (card is None):
+            return self.error("There is no card with value " + str(value) + \
+                              " on the board")
+        if (card.fundtype != "Starting Fund Card"):
+            self.discardPile.append(card)
+        self.addCardFromDeckToBoard()
         self.status.next()
         self.autoFlow()
         return None
@@ -123,7 +143,7 @@ class Game(object):
             elif (self.status.phase==2):
                 self.status.phase3Start()
             elif (self.status.phase==3):
-                self.status.phase4Start()
+                return
             elif (self.status.phase==4):
                 self.status.phase5Start()
             elif (self.status.phase==5):

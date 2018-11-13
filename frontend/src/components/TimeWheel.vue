@@ -1,6 +1,5 @@
 <template>
     <div>
-        maxLength: {{maxLength()}}
         <div class="row small-gutter">
             <div v-for="(cards, index) in wheel" class="col-sm-2" :key="index + 'top'">
                 {{index}}

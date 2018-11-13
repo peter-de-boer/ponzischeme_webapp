@@ -45,3 +45,20 @@ def passfunding():
         return error
     else:
         return readGameJSON()
+
+
+@games.route("/game/selectCardToDiscard", methods=['PUT'])
+def selectcardtodiscard():
+    """
+       need input parameters:
+           selected card (value is unique)
+           (player, currentPlayer)
+    """
+    req = request.get_json()
+    value = req['value']
+    name = req['name']
+    error = selectCardToDiscard(value, name)
+    if error:
+        return error
+    else:
+        return readGameJSON()

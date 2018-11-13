@@ -13,6 +13,7 @@
                 <action-box></action-box>
                 <industry-tiles v-if="gameStateLoaded"></industry-tiles>
                 <funding-board v-if="gameStateLoaded"></funding-board>
+                <discard-pile v-if="gameStateLoaded"></discard-pile>
                 <deck v-if="gameStateLoaded"></deck>
             </div>
             <div class="col-sm-offset-1 col-sm-5">
@@ -27,6 +28,7 @@
     import axios from 'axios';
     import Board from './FundingBoard.vue';
     import Deck from './Deck.vue';
+    import DiscardPile from './DiscardPile.vue';
     import Player from './Player.vue';
     import IndustryTiles from './IndustryTiles.vue';
     import ActionBox from './ActionBox.vue';
@@ -50,6 +52,7 @@
             selectPlayer: SelectPlayer,
             fundingBoard: Board,
             deck: Deck,
+            discardPile: DiscardPile,
             player: Player
         },
         computed: {

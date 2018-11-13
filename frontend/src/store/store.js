@@ -79,13 +79,6 @@ export const store = new Vuex.Store({
                 return null;
             }    
         },
-        isPhase1: state => {
-            if (state.gameStateLoaded) {
-                return state.gameState.status.phase==1;
-            } else {
-                return null;
-            }    
-        },
         startPlayer: state => {
             if (state.gameStateLoaded) {
                 return state.gameState.players[state.gameState.status.start].name;
@@ -110,6 +103,14 @@ export const store = new Vuex.Store({
         fundDeck: state => {
             if (state.gameStateLoaded) {
                 return state.gameState.fundDeck;
+            } else {
+                return null;
+            }    
+
+        },
+        discardPile: state => {
+            if (state.gameStateLoaded) {
+                return state.gameState.discardPile;
             } else {
                 return null;
             }    

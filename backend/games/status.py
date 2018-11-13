@@ -60,7 +60,11 @@ class Status(object):
             del self.active[0]
             if len(self.active)==0:
                 self.phase2Start()
-        if self.phase==2:
+        elif self.phase==2:
             del self.active[0]
             if len(self.active)==0:
                 self.phase3Start()
+        elif self.phase==3:
+            del self.active[0]
+            if len(self.active)==0:
+                self.phase4Start()
