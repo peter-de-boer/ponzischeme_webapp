@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div>
         <div class="row">
             <div class="col-sm-2" v-for="plr in players" @click="selectCurrentPlayer(plr)">
                 <p :class="[{notcurrent: (!currentPlayer ||currentPlayer.name!=plr.name) }, 

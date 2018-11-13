@@ -63,6 +63,12 @@ class Game(object):
         for player in self.players:
             player.payInterest()
 
+    def gameEnded(self):
+        for player in self.players:
+            if player.bankrupt:
+                self.status.setEndOfGame()
+        return self.status.endOfGame
+
     def moveFundCards(self):
         for player in self.players:
             player.moveFundCards()
@@ -147,9 +153,14 @@ class Game(object):
             elif (self.status.phase==4):
                 self.status.phase5Start()
             elif (self.status.phase==5):
-                self.status.phase6Start()
+                self.turnWheel()
+                self.status.next()
             elif (self.status.phase==6):
-                self.status.phase1Start()
+                self.payInterest()
+                if self.gameEnded():
+                    return
+                self.moveFundCards()
+                self.status.next()
             else:
                 #should never happen
                 return self.error("Unknown phase")

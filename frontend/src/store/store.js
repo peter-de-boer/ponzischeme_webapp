@@ -87,7 +87,7 @@ export const store = new Vuex.Store({
             }    
         },
         activePlayer: state => {
-            if (state.gameStateLoaded) {
+            if (state.gameStateLoaded && !state.gameState.status.endOfGame) {
                 return state.gameState.players[state.gameState.status.active[0]].name;
             } else {
                 return null;
@@ -131,6 +131,13 @@ export const store = new Vuex.Store({
                 return null;
             }    
         },    
+        gameEnded: state => {
+            if (state.gameStateLoaded) {
+                return state.gameState.status.endOfGame;
+            } else {
+                return null;
+            }
+        },
         gameStateLoaded: state => {
             return state.gameStateLoaded;
         }    

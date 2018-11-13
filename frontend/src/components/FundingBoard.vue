@@ -1,8 +1,8 @@
 <template>
-    <div class="container">
+    <div>
         <h2>Funding Board</h2>
         <div class="row small-gutter" v-for="i in 3" :key="i">
-            <div class="col-sm-2" v-for="j in 3" :key=j>
+            <div class="col-sm-4" v-for="j in 3" :key=j>
                 <fund-card :card="fundingBoard[3*(i-1)+j-1]" ></fund-card>
             </div>
         </div>

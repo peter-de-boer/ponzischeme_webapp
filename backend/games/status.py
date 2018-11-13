@@ -4,6 +4,7 @@ class Status(object):
         self.numPlayers = numPlayers
         self.start = startPlayer
         self.round = 0
+        self.endOfGame = False
         self.phase1Start()
         """
         phase:
@@ -25,6 +26,12 @@ class Status(object):
             order[i]= (order[i] +  self.start)%self.numPlayers
         return(order)
 
+    def setEndOfGame(self):
+        """
+        set end of game status
+        and set the properties so that the frontend does not break
+        """
+        self.endOfGame = True
 
     def phase1Start(self):
         self.round += 1
@@ -68,3 +75,9 @@ class Status(object):
             del self.active[0]
             if len(self.active)==0:
                 self.phase4Start()
+        elif self.phase==4:
+            self.phase5Start()
+        elif self.phase==5:
+            self.phase6Start()
+        elif self.phase==6:
+            self.phase1Start()

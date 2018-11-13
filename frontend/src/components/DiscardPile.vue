@@ -1,8 +1,8 @@
 <template>
-    <div class="container">
+    <div>
         <h2>Discard Pile</h2>
         <div class="row" v-for="card in discardPile">
-            <div class="col-xs-2">
+            <div class="col-sm-4">
                 <fund-card :card="card"></fund-card>
             </div>
             

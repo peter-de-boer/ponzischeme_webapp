@@ -1,8 +1,8 @@
 <template>
-    <div class="container">
+    <div>
         <h2>Industry Tiles</h2>
         <div class="row">
-            <div class="col-sm-1" v-for="(tiles, i) in industryTiles" :key="i">
+            <div class="col-sm-2" v-for="(tiles, i) in industryTiles" :key="i">
                 <div :class="tileStyle(i)" @click="selectIndustryTile(i)">
                     {{tiles}}
                 </div>

@@ -10,7 +10,8 @@
         </div>
         <div class="row">
             <div class="col-sm-6">
-                <action-box></action-box>
+                <end-of-game v-if="gameStateLoaded && gameEnded"></end-of-game>
+                <action-box v-if="gameStateLoaded && !gameEnded"></action-box>
                 <industry-tiles v-if="gameStateLoaded"></industry-tiles>
                 <funding-board v-if="gameStateLoaded"></funding-board>
                 <discard-pile v-if="gameStateLoaded"></discard-pile>
@@ -32,6 +33,7 @@
     import Player from './Player.vue';
     import IndustryTiles from './IndustryTiles.vue';
     import ActionBox from './ActionBox.vue';
+    import EndOfGame from './EndOfGame.vue';
     import {mapActions} from 'vuex';
     import {mapGetters} from 'vuex';
 
@@ -47,6 +49,7 @@
                 }); 
         },
         components: {
+            endOfGame: EndOfGame,
             actionBox: ActionBox,
             industryTiles: IndustryTiles,
             selectPlayer: SelectPlayer,
@@ -62,6 +65,7 @@
                 'startPlayer',
                 'activePlayer',
                 'fundingBoard',
+                'gameEnded',
                 'gameStateLoaded',
                 'players'
             ])    
