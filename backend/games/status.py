@@ -5,6 +5,7 @@ class Status(object):
         self.start = startPlayer
         self.round = 0
         self.endOfGame = False
+        self.marketCrash = False
         self.phase1Start()
         """
         phase:
@@ -54,6 +55,10 @@ class Status(object):
         self.phase = 4
         return
 
+    def phase4SetMarketCrash():
+        self.marketCrash = True
+        self.active = self.getPlayerOrder()
+
     def phase5Start(self):
         self.phase = 5
         return
@@ -76,8 +81,14 @@ class Status(object):
             if len(self.active)==0:
                 self.phase4Start()
         elif self.phase==4:
-            self.phase5Start()
+            if (self.marketCrash):
+                del self.active[0]
+                if len(self.active)==0:
+                    self.phase5Start()
+            else:
+                self.phase5Start()
         elif self.phase==5:
+            self.marketCrash = False
             self.phase6Start()
         elif self.phase==6:
             self.phase1Start()

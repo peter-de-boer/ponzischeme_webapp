@@ -93,8 +93,11 @@ class Game(object):
             return self.error("You have " + str(numberOfTiles) + \
                          " tiles, you cannot select a card from row " + \
                          str(row))
+        if (self.industryTiles[tile]<=0):
+            return(self.error("No tiles left of that type"))
         card = self.removeCardFromBoard(value)
         self.players[active].selectCardAndTile(card, tile)
+        self.industryTiles[tile] -= 1
         self.addCardFromDeckToBoard()
         self.status.next()
         self.autoFlow()
@@ -133,6 +136,46 @@ class Game(object):
         self.autoFlow()
         return None
 
+    def marketCrash(self):
+        """
+        """
+        numBearCards = self.fundingBoard.numBearCards()
+        if numBearCards < self.numPlayers:
+            self.status.next()
+        else:
+            """
+            remove bear cards from board
+            new fund deck  is old fund deck + discards + removed bear cards
+            shuffle deck
+            add cards to board
+            """
+            bearCards = self.fundingBoard.removeBearCards()
+            self.fundDeck = self.fundDeck + self.discardPile + bearCards
+            shuffle(self.fundDeck)
+            self.discardPile = []
+            for i in range(numBearCards):
+                card = self.fundDeck.pop(0)
+                self.fundingBoard.addCard(card)
+            # empty deck cannot happen, if it does then discard pile is empty
+            # anyway
+            self.status.phase4SetMarketCrash()
+
+    def autoDiscard():
+        """
+        if possible auto-discard a tile for the active player
+        """
+        active = self.status.active[0]
+        discardableTiles = self.player[active].discardableTiles()
+        if len(discardableTiles) > 1:
+            return False
+        else:
+            if len(discardableTiles) == 1:
+                self.player[active].discardTile(discardableTile[0])
+                self.industryTiles[discardableTile[0]]+=1
+            return True
+
+
+
     def autoFlow(self):
         """
         auto-execute actions:
@@ -151,7 +194,11 @@ class Game(object):
             elif (self.status.phase==3):
                 return
             elif (self.status.phase==4):
-                self.status.phase5Start()
+                if self.status.marketCrash:
+                    if not self.autoDiscard():
+                        return
+                else:
+                    self.marketCrash()
             elif (self.status.phase==5):
                 self.turnWheel()
                 self.status.next()

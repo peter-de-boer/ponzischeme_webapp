@@ -1,5 +1,6 @@
 <template>
     <div>
+        <player-industry-tiles :industryTiles="player.industryTiles"></player-industry-tiles>
         <time-wheel :wheel="player.wheel"></time-wheel>
         <p>name:  {{player.name}} </p>
         <p>money: {{player.money}} </p>
@@ -11,10 +12,12 @@
 
 <script>
     import TimeWheel from './TimeWheel.vue'
+    import PlayerIndustryTiles from './PlayerIndustryTiles.vue'
     export default {
         props: ['player'],
         components: {
-            timeWheel: TimeWheel
+            timeWheel: TimeWheel,
+            playerIndustryTiles: PlayerIndustryTiles
         }
     }
 </script>
