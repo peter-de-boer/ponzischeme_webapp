@@ -3,6 +3,7 @@ from backend.games.fundCard import FundCard
 from backend.games.fundingBoard import FundingBoard
 from backend.games.player import Player
 from backend.games.status import Status
+from backend.games.log import Log
 from random import shuffle
 import sys
 
@@ -31,11 +32,15 @@ class Game(object):
         shuffle(self.fundDeck)
         self.discardPile =  []
         self.industryTiles = [15]*4
+        self.log = Log(self.players, advanced, id)
 
     def addCardFromDeckToBoard(self):
         card = self.fundDeck.pop(0)
+        self.log.add("Funding Card " + str(card.value) + " enters the board.")
         self.fundingBoard.addCard(card)
         if len(self.fundDeck)==0:
+            self.log.add("Deck is empty. The discard pile is " + \
+                         "shuffled to form a new deck.")
             self.fundDeck = self.discardPile
             shuffle(self.fundDeck)
             self.discardPile = []
@@ -56,6 +61,7 @@ class Game(object):
             shuffle(self.fundDeck)
 
     def turnWheel(self):
+        self.log("The Wheel is turned.")
         for player in self.players:
             player.turnWheel()
 
@@ -95,6 +101,8 @@ class Game(object):
                          str(row))
         if (self.industryTiles[tile]<=0):
             return(self.error("No tiles left of that type"))
+        self.log.add(name + " takes Funding Card " + \
+                     str(value) + " and a " + self.tileName(tile) + " tile.")
         card = self.removeCardFromBoard(value)
         self.players[active].selectCardAndTile(card, tile)
         self.industryTiles[tile] -= 1
@@ -112,6 +120,7 @@ class Game(object):
         # not allowed to pass in round 1
         if (self.status.round==1):
             return self.error("You may not pass in the first round")
+        self.log.add(name + " passes.")
         self.status.next()
         self.autoFlow()
         return None
@@ -131,7 +140,31 @@ class Game(object):
                               " on the board")
         if (card.fundtype != "Starting Fund Card"):
             self.discardPile.append(card)
+        self.log.add(name + " removes Funding Card " \
+                     + str(value) + " from the board.")
         self.addCardFromDeckToBoard()
+        self.status.next()
+        self.autoFlow()
+        return None
+
+    """
+    Phase 4: Market Crash
+    """
+
+    def discardTile(self, tile, name):
+        # TODO: check phase
+        # check if player is active player
+        active = self.status.active[0]
+        if (name!=self.players[active].name):
+            return self.error(name + " is not the active player")
+        # check if player is allowed to discard this tile 
+        discardableTiles = self.players[active].discardableTiles()
+        if (tile not in discardableTiles):
+            return(self.error("You cannot discard that tile"))
+        self.log.add(name + " discards a " + self.tileName(tile) + \
+                     " tile.")
+        self.players[active].discardTile(tile)
+        self.industryTiles[tile]+=1
         self.status.next()
         self.autoFlow()
         return None
@@ -150,28 +183,39 @@ class Game(object):
             add cards to board
             """
             bearCards = self.fundingBoard.removeBearCards()
+            logstr = "All Bear Funding Cards ("
+            for card in bearCards[:-1]:
+                logstr = logstr + str(card.value) + ", "
+            logstr = logstr + str(bearCards[-1].value) + ") are removed " + \
+                    "from the board."
+            self.log.add("Market crash!")
+            self.log.add(logstr)
             self.fundDeck = self.fundDeck + self.discardPile + bearCards
             shuffle(self.fundDeck)
             self.discardPile = []
             for i in range(numBearCards):
                 card = self.fundDeck.pop(0)
+                self.log.add("Funding Card " + str(card.value) + " enters the board.")
                 self.fundingBoard.addCard(card)
             # empty deck cannot happen, if it does then discard pile is empty
             # anyway
             self.status.phase4SetMarketCrash()
 
-    def autoDiscard():
+    def autoDiscard(self):
         """
         if possible auto-discard a tile for the active player
         """
         active = self.status.active[0]
-        discardableTiles = self.player[active].discardableTiles()
+        discardableTiles = self.players[active].discardableTiles()
         if len(discardableTiles) > 1:
             return False
         else:
             if len(discardableTiles) == 1:
-                self.player[active].discardTile(discardableTile[0])
-                self.industryTiles[discardableTile[0]]+=1
+                self.log.add( self.players[active].name + " auto-discards a " \
+                             + self.tileName(discardableTiles[0]) + " tile.")
+                self.players[active].discardTile(discardableTiles[0])
+                self.industryTiles[discardableTiles[0]]+=1
+            self.status.next()
             return True
 
 
@@ -191,6 +235,8 @@ class Game(object):
                 return
             elif (self.status.phase==2):
                 self.status.phase3Start()
+                self.log.add(self.players[self.status.start].name + \
+                             " is the new start player.")
             elif (self.status.phase==3):
                 return
             elif (self.status.phase==4):
@@ -211,6 +257,19 @@ class Game(object):
             else:
                 #should never happen
                 return self.error("Unknown phase")
+
+    @staticmethod
+    def tileName(tile):
+        if tile==0:
+            return "transportation"
+        elif tile==1:
+            return "grain"
+        elif tile==2:
+            return "media"
+        elif tile==3:
+            return "real estate"
+        else:
+            return "unknown"
 
     @staticmethod
     def error(txt):

@@ -39,28 +39,28 @@ class Player(object):
             self.wheel[card.time].append(card)
         self.wheel[0] = []
 
-    def canSell(tile):
+    def canSell(self, tile):
         return self.industryTiles[tile] > 0
 
-    def sell(tile,price):
+    def sell(self, tile, price):
         self.industryTiles[tile] -= 1
         self.money = self.money + price
 
-    def canBuy(tile, price):
+    def canBuy(self, tile, price):
         return (self.industryTiles[tile] > 0) & (self.money >= price)
 
-    def buy(tile, price):
+    def buy(self, tile, price):
         self.industryTiles[tile] += 1
         self.money = self.money - price
 
-    def discardTile(tile):
+    def discardTile(self, tile):
         self.industryTiles[tile] -= 1
 
-    def discardableTiles():
+    def discardableTiles(self):
         discardable=[]
-        maxTiles = max(this.industryTiles)
+        maxTiles = max(self.industryTiles)
         if maxTiles > 0:
-            for tile in this.industryTiles:
-                if this.industryTile[tile]==maxTiles:
-                    discardable.append(tile)
+            for index, tiles in enumerate(self.industryTiles):
+                if tiles==maxTiles:
+                    discardable.append(index)
         return discardable

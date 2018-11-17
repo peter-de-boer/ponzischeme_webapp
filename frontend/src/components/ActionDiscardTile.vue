@@ -26,7 +26,7 @@
             ...mapActions([
                 'setGameState'
             ]),
-            discardTile(value,tile) {
+            discardTile(tile) {
                 console.log("in discardTile")
                 if (this.currentPlayer) {
                     var json = {"tile": tile, "name": this.currentPlayer.name}

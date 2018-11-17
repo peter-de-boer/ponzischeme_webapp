@@ -31,7 +31,7 @@
             ]),
             selectTileAndCard(value,tile) {
                 console.log("in selectTileAndCard")
-                if (this.currentPlayer) {
+                if (this.currentPlayer && value != null && tile != null) {
                     var json = {"value": value, "tile": tile, "name": this.currentPlayer.name}
                     console.log(json)
                     axios.put('/game/selectTileAndCard', json)

@@ -29,3 +29,12 @@ def selectCardToDiscard(value, name):
         writeGame(game)
         return None
 
+def discardTile(tile, name):
+    game = readGame()
+    error = game.discardTile(tile, name)
+    if error:
+        return error
+    else:
+        writeGame(game)
+        return None
+

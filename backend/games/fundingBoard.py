@@ -39,14 +39,14 @@ class FundingBoard(object):
         self.board.append(fundingcard)
         self.board.sort()
 
-    def removeBearCards():
+    def removeBearCards(self):
         bearCards = [card for card in self.board  \
                      if card.fundtype == "Bear Fund Card"]
         for card in bearCards:
             self.board.remove(card)
         return bearCards
 
-    def numBearCards():
+    def numBearCards(self):
         n = 0
         for card in self.board:
             if card.fundtype=="Bear Fund Card":

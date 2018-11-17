@@ -55,7 +55,7 @@ class Status(object):
         self.phase = 4
         return
 
-    def phase4SetMarketCrash():
+    def phase4SetMarketCrash(self):
         self.marketCrash = True
         self.active = self.getPlayerOrder()
 

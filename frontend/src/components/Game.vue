@@ -19,6 +19,7 @@
             </div>
             <div class="col-sm-offset-1 col-sm-5">
                 <player v-if="gameStateLoaded" v-for="plr in players" :player="plr"></player>
+                <log></log>
             </div>
         </div>
     </div>
@@ -34,6 +35,7 @@
     import IndustryTiles from './IndustryTiles.vue';
     import ActionBox from './ActionBox.vue';
     import EndOfGame from './EndOfGame.vue';
+    import Log from './Log.vue';
     import {mapActions} from 'vuex';
     import {mapGetters} from 'vuex';
 
@@ -49,6 +51,7 @@
                 }); 
         },
         components: {
+            log: Log,
             endOfGame: EndOfGame,
             actionBox: ActionBox,
             industryTiles: IndustryTiles,

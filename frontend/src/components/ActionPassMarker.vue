@@ -4,7 +4,7 @@
         <p>Please select a fund card to discard (or remove, if blue)</p>
         <p><button class="btn btn-default" 
                 @click="selectCardToDiscard(selectedFundCard.value)"> 
-                    Select Tile/Card 
+                    Select Card 
            </button> 
              {{selectedFundCard.value}} </p>
     </div>
@@ -42,24 +42,6 @@
                     }, error => {
                         console.log(error)
                     }); 
-                }
-            },
-            passFunding() {
-                console.log("in passFunding")
-                if (this.currentPlayer) {
-                    var json = {"name": this.currentPlayer.name}
-                    axios.put('/game/passFunding', json)
-                        .then( res => {
-                            console.log(res)
-                            if (res.data.error) {
-                                console.log(res.data.error)
-                            } else {
-                                this.setGameState(res.data)
-                            }
-                        }, error => {
-                            console.log(error)
-                        }
-                    ); 
                 }
             }
         }

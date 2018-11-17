@@ -62,3 +62,19 @@ def selectcardtodiscard():
         return error
     else:
         return readGameJSON()
+
+@games.route("/game/discardTile", methods=['PUT'])
+def discardtile():
+    """
+       need input parameters:
+           selected card (value is unique)
+           (player, currentPlayer)
+    """
+    req = request.get_json()
+    tile = req['tile']
+    name = req['name']
+    error = discardTile(tile, name)
+    if error:
+        return error
+    else:
+        return readGameJSON()

@@ -65,6 +65,13 @@ export const store = new Vuex.Store({
         gameState: {}
     },
     getters: {
+        log: state => {
+            if (state.gameStateLoaded) {
+                return state.gameState.log.log;
+            } else {
+                return null;
+            }    
+        },
         round: state => {
             if (state.gameStateLoaded) {
                 return state.gameState.status.round;
