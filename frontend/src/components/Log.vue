@@ -1,7 +1,14 @@
 <template>
-    <div class="log">
-        <h2> Log </h2>
-        <div v-for="line in log"> {{line}} </div>
+    <div class="log"> 
+        <!--
+            need an additional div to get the scroll 
+            down to bottom feature working 
+            https://stackoverflow.com/questions/18614301/keep-overflow-div-scrolled-to-bottom-unless-user-scrolls-up
+        -->
+        <div>
+            <h2> Log </h2>
+            <div v-for="line in log"> {{line}} </div>
+        </div>
     </div>
 </template>
 
@@ -19,5 +26,9 @@
 <style scoped>
 .log {
     border-style: solid;
+    height: 500px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column-reverse;
 }
 </style>
