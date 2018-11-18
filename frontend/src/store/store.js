@@ -27,9 +27,17 @@ const selectPlayer = {
 const selectItems = {
     state: {
         selectedFundCard: {},
-        selectedIndustryTile: null
+        selectedIndustryTile: null,
+        selectedOpponent: {},
+        tradeMoney: null
     },
     getters: {
+        tradeMoney: state => {
+            return state.tradeMoney;
+        },
+        selectedOpponent: state => {
+            return state.selectedOpponent;
+        },
         selectedIndustryTile: state => {
             return state.selectedIndustryTile;
         },
@@ -38,6 +46,12 @@ const selectItems = {
         }
     },
     mutations: {
+        setTradeMoney: (state, payload) => {
+            Vue.set(state, "setTradeMoney", payload);
+        },    
+        selectOpponent: (state, payload) => {
+            Vue.set(state, "selectedOpponent", payload);
+        },    
         selectIndustryTile: (state, payload) => {
             Vue.set(state, "selectedIndustryTile", payload);
         },    
@@ -46,6 +60,12 @@ const selectItems = {
         }    
     },
     actions: {
+        setTradeMoney: ({ commit }, payload) => {
+            commit('setTradeMoney', payload)
+        },
+        selectOpponent: ({ commit }, payload) => {
+            commit('selectOpponent', payload)
+        },
         selectIndustryTile: ({ commit }, payload) => {
             commit('selectIndustryTile', payload)
         },

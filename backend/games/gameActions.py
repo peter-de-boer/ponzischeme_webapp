@@ -20,6 +20,15 @@ def passFunding(name):
         writeGame(game)
         return None
 
+def passTrading(name):
+    game = readGame()
+    error = game.passTrading(name)
+    if error:
+        return error
+    else:
+        writeGame(game)
+        return None
+
 def selectCardToDiscard(value, name):
     game = readGame()
     error = game.selectCardToDiscard(value, name)

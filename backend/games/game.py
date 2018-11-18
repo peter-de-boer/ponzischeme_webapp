@@ -23,7 +23,7 @@ class Game(object):
         self.startPlayerIndex = 0
         self.activePlayerIndex = 0
         self.log = Log(self.players, advanced, id)
-        self.status = Status(self.numPlayers, 0, self.log)
+        self.status = Status(self.numPlayers, self.players, self.log)
         #self.gameFlow = GameFlow()
         self.advanced = advanced
         #self.fundCards = self.fundCardsTest()
@@ -129,6 +129,25 @@ class Game(object):
         return None
 
     """
+    Phase 2: Clandestine Trading 
+    """
+
+    def autoPassTrading(self):
+        # TODO: implement
+        return False
+
+    def passTrading(self, name):
+        # TODO: check phase
+        # check if player is active player
+        active = self.status.active[0]
+        if (name!=self.players[active].name):
+            return self.error(name + " is not the active player")
+        self.log.add(name + " passes.")
+        self.status.next()
+        self.autoFlow()
+        return None
+
+    """
     Phase 3: Pass the Start Player Marker
     """
     def selectCardToDiscard(self, value, name):
@@ -218,6 +237,11 @@ class Game(object):
                              + self.tileName(discardableTiles[0]) + " tile.")
                 self.players[active].discardTile(discardableTiles[0])
                 self.industryTiles[discardableTiles[0]]+=1
+            else:
+                # no discardableTiles
+                self.log.add( self.players[active].name + \
+                             " has no tiles to discard.")
+
             self.status.next()
             return True
 
@@ -237,9 +261,8 @@ class Game(object):
             if (self.status.phase==1):
                 return
             elif (self.status.phase==2):
-                self.status.phase3Start()
-                self.log.add(self.players[self.status.start].name + \
-                             " is the new start player.")
+                if not self.autoPassTrading():
+                    return
             elif (self.status.phase==3):
                 return
             elif (self.status.phase==4):

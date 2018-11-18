@@ -46,6 +46,20 @@ def passfunding():
     else:
         return readGameJSON()
 
+@games.route("/game/passTrading", methods=['PUT'])
+def passtrading():
+    """
+       need input parameters:
+           (player, currentPlayer)
+    """
+    req = request.get_json()
+    name = req['name']
+    error = passTrading(name)
+    if error:
+        return error
+    else:
+        return readGameJSON()
+
 
 @games.route("/game/selectCardToDiscard", methods=['PUT'])
 def selectcardtodiscard():

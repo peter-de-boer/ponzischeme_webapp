@@ -1,8 +1,12 @@
 
 class Status(object):
-    def __init__(self, numPlayers, startPlayer, log):
+    def __init__(self, numPlayers, players, log):
         self.numPlayers = numPlayers
-        self.start = startPlayer
+        # only store players name, for logging purposes
+        self.players = [""]*numPlayers
+        for i in range(numPlayers):
+            self.players[i] = players[i].name
+        self.start = 0
         self.round = 0
         self.endOfGame = False
         self.marketCrash = False
@@ -52,6 +56,7 @@ class Status(object):
         self.start = (self.start+1)%self.numPlayers
         self.active = [self.start]
         self.opponent = None
+        self.log.add(self.players[self.start] + " is the new start player.")
 
     def phase4Start(self):
         self.phase = 4
