@@ -1,11 +1,12 @@
 
 class Status(object):
-    def __init__(self, numPlayers, startPlayer=0):
+    def __init__(self, numPlayers, startPlayer, log):
         self.numPlayers = numPlayers
         self.start = startPlayer
         self.round = 0
         self.endOfGame = False
         self.marketCrash = False
+        self.log = log
         self.phase1Start()
         """
         phase:
@@ -39,6 +40,7 @@ class Status(object):
         self.phase = 1
         self.active = self.getPlayerOrder()
         self.opponent = None
+        self.log.add("*** Round " + str(self.round) + " ***")
 
     def phase2Start(self):
         self.phase = 2

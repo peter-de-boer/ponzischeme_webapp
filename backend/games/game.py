@@ -22,7 +22,8 @@ class Game(object):
         self.players[0].active = True
         self.startPlayerIndex = 0
         self.activePlayerIndex = 0
-        self.status = Status(self.numPlayers)
+        self.log = Log(self.players, advanced, id)
+        self.status = Status(self.numPlayers, 0, self.log)
         #self.gameFlow = GameFlow()
         self.advanced = advanced
         #self.fundCards = self.fundCardsTest()
@@ -32,7 +33,6 @@ class Game(object):
         shuffle(self.fundDeck)
         self.discardPile =  []
         self.industryTiles = [15]*4
-        self.log = Log(self.players, advanced, id)
 
     def addCardFromDeckToBoard(self):
         card = self.fundDeck.pop(0)
@@ -61,13 +61,16 @@ class Game(object):
             shuffle(self.fundDeck)
 
     def turnWheel(self):
-        self.log("The Wheel is turned.")
+        if self.status.marketCrash:
+            self.log.add("The Wheel is turned twice (market crash)!")
+        else: 
+            self.log.add("The Wheel is turned.")
         for player in self.players:
-            player.turnWheel()
+            player.turnWheel(self.status.marketCrash)
 
     def payInterest(self):
         for player in self.players:
-            player.payInterest()
+            player.payInterest(self.log)
 
     def gameEnded(self):
         for player in self.players:
@@ -251,6 +254,7 @@ class Game(object):
             elif (self.status.phase==6):
                 self.payInterest()
                 if self.gameEnded():
+                    self.log.add("Game ended.")
                     return
                 self.moveFundCards()
                 self.status.next()

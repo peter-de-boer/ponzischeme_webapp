@@ -24,14 +24,19 @@ class Player(object):
             self.wheel[0]= []
             self.wheel.append(self.wheel.pop(0))
 
-    def payInterest(self):
+    def payInterest(self, log):
         interest = 0
         for card in self.wheel[0]:
             interest = interest + card.interest
         if interest > self.money:
+            log.add(self.name + " cannot pay " + str(interest) + \
+                    " interest (only " + str(self.money) + " left).")
+            log.add(self.name + " is bankrupt.")
             self.money = 0
             self.bankrupt = True
         else:
+            log.add(self.name + " pays " + str(interest) + \
+                    " interest.")
             self.money = self.money - interest
 
     def moveFundCards(self):

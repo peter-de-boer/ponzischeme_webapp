@@ -33,7 +33,7 @@
                     case 1:
                         return "grain";
                     case 2:
-                        return "media";
+                        return "medix";
                     case 3:
                         return "realestate";
                 }
@@ -51,7 +51,7 @@
     background-color: yellow
 }
 
-.media {
+.medix {
     background-color: green
 }
 

@@ -40,7 +40,7 @@
                     case 1:
                         return "grain";
                     case 2:
-                        return "media";
+                        return "medix";
                     case 3:
                         return "realestate";
                 }
@@ -52,8 +52,8 @@
 <style scoped>
 
 .bar {
-    height: 5px;
-    margin-top:2px;
+    height: 6px;
+    margin-top:6px;
 }
 
 .transport {
@@ -64,7 +64,7 @@
     background-color: yellow
 }
 
-.media {
+.medix {
     background-color: green
 }
 
