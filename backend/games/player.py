@@ -8,6 +8,25 @@ class Player(object):
         self.wheel =  [[],[],[],[],[],[]]
         self.bankrupt = False
         self.industryTiles = [0]*4
+        self.points = 0
+        self.maxCardValue = 0
+
+    def __eq__(self, other):
+        return self.points==other.points and \
+               self.maxCardValue == other.maxCardValue
+
+    def __lt__(self, other):
+        return self.points<other.points or \
+               (self.points==other.points and \
+                self.maxCardValue < other.maxCardValue)
+
+    def getMaxCardValue(self):
+        maxValue = 0
+        for cards in self.wheel:
+            for card in cards:
+                if card.value>maxValue:
+                    maxValue = card.value
+        return maxValue
 
     def selectCard(self, fundCard):
         self.money = self.money + fundCard.value
@@ -69,3 +88,25 @@ class Player(object):
                 if tiles==maxTiles:
                     discardable.append(index)
         return discardable
+
+    def cashPoints(self):
+        if self.money < 30:
+            return 0
+        elif self.money < 56:
+            return 1
+        elif self.money < 78:
+            return 2
+        elif self.money < 96:
+            return 3
+        else:
+            return 4
+
+    def tilePoints(self):
+        points = 0
+        for tiles in self.industryTiles:
+            points += (tiles*(tiles+1))/2
+        return points
+
+    def calculatePoints(self):
+        self.points = self.tilePoints() + self.cashPoints()
+        self.maxCardValue = self.getMaxCardValue()

@@ -18,10 +18,6 @@ class Game(object):
         for i in range(len(players)):
             self.players.append(Player(players[i]))
         shuffle(self.players)
-        self.players[0].start = True
-        self.players[0].active = True
-        self.startPlayerIndex = 0
-        self.activePlayerIndex = 0
         self.log = Log(self.players, advanced, id)
         self.status = Status(self.numPlayers, self.players, self.log)
         #self.gameFlow = GameFlow()
@@ -33,6 +29,8 @@ class Game(object):
         shuffle(self.fundDeck)
         self.discardPile =  []
         self.industryTiles = [15]*4
+        self.standings = []
+        self.bankruptPlayers = []
 
     def addCardFromDeckToBoard(self):
         card = self.fundDeck.pop(0)
@@ -245,7 +243,33 @@ class Game(object):
             self.status.next()
             return True
 
-
+    def calculateFinalScoring(self):
+        self.bankruptPlayers = []
+        self.standings = []
+        for player in self.players:
+            player.calculatePoints()
+            if player.bankrupt:
+                self.bankruptPlayers.append(player)
+            else:
+                self.standings.append(player)
+        self.standings.sort(reverse=True)
+        self.bankruptPlayers.sort(reverse=True)
+        if len(self.standings)==0:
+            self.log.add("There is no winner.")
+        else:
+            self.log.add("The winner is: " + self.standings[0].name)
+        for place, player in enumerate(self.standings, start=1):
+            self.log.add(str(place) + ": " + player.name + \
+                         "(points: "  + str(player.points) + \
+                         "; most valuable card: " + \
+                         str(player.maxCardValue) + ")")
+        for index, player in enumerate(self.bankruptPlayers, ):
+            self.log.add(str(len(self.standings) + index + 1) + \
+                         ": " + player.name + \
+                         " BANKRUPT " + \
+                         "(points: "  + str(player.points) + \
+                         "; most valuable card: " + \
+                         str(player.maxCardValue) + ")")
 
     def autoFlow(self):
         """
@@ -278,6 +302,7 @@ class Game(object):
                 self.payInterest()
                 if self.gameEnded():
                     self.log.add("Game ended.")
+                    self.calculateFinalScoring()
                     return
                 self.moveFundCards()
                 self.status.next()
