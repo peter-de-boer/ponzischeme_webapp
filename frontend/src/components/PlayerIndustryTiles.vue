@@ -3,7 +3,9 @@
         {{maxTiles()}} {{industryTiles}}
         <div class="row" v-for="row in maxTiles()" :key="row + 'row'">
             <div class="col-sm-2" v-for="(tiles, i) in industryTiles" :key="i + 'x'">
-                <div :class="tileStyle(i)" v-if="row>(maxTiles()-tiles)" @click="selectPlayerIndustryTile(i)">
+                <div :class="tileStyle(i)" 
+                    v-if="row>(maxTiles()-tiles)" 
+                    @click="selectPlayerIndustryTile(i, name, phase)">
                    <div class="bar"></div> 
                 </div>
             </div>
@@ -16,10 +18,16 @@
     import {mapActions} from 'vuex';
 
     export default {
-        props: ['industryTiles'],
+        props: ['industryTiles', 'name'],
+        computed: {
+            ...mapGetters([
+                'phase'
+            ])
+        },
         methods: {
             ...mapActions([
                 'setGameState',
+                'selectOpponentName',
                 'selectIndustryTile'
             ]),
             maxTiles() {
@@ -31,7 +39,16 @@
                 }
                 return max
             },
-            selectPlayerIndustryTile(i) {
+            selectPlayerIndustryTile(i, name, phase) {
+                // in phase Clandestine Trading: select the tile and the opponent
+                // in phase Market Crash: select the tile
+                if (phase=2) {
+                    this.selectOpponentName(name)
+                    this.selectIndustryTile(i)
+                }
+                if (phase=4) {
+                    this.selectIndustryTile(i)
+                }
             },
             tileStyle(i) {
                 switch(i) {

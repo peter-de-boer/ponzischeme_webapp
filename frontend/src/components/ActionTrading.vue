@@ -3,10 +3,10 @@
         <h2>Trading</h2>
         <p>Please select an industry tile from and opponent and offer an amount of money, or pass</p>
         <p><button class="btn btn-default" 
-                @click="offerTrade(selectedIndustryTile, selectedOpponent.name, money)"> 
+                @click="offerTrade(selectedIndustryTile, selectedOpponentName, money)"> 
                     Offer Trade
            </button> 
-             {{tradeMoney}} {{selectedIndustryTile}} {{selectedOpponent.name}} </p>
+             {{tradeMoney}} {{selectedIndustryTile}} {{selectedOpponentName}} </p>
         <button class="btn btn-default" @click="passTrading()"> Pass </button> 
     </div>
 </template>
@@ -20,7 +20,7 @@
         computed: {
             ...mapGetters([
                 'currentPlayer',
-                'selectedOpponent',
+                'selectedOpponentName',
                 'selectedIndustryTile',
                 'tradeMoney'
             ])    
@@ -32,7 +32,8 @@
             offerTrade(tile, opponentName, money) {
                 console.log("in offerTrade")
                 if (this.currentPlayer && tile != null && money != null) {
-                    var json = {"money": money, "tile": tile, "opponentName": opponentName, "name": this.currentPlayer.name}
+                    var json = {"money": money, "tile": tile, "opponentName": opponentName,
+                                "name": this.currentPlayer.name}
                     console.log(json)
                     axios.put('/game/offerTrade', json)
                         .then( res => {

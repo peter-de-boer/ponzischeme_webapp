@@ -260,14 +260,14 @@ class Game(object):
             self.log.add("The winner is: " + self.standings[0].name)
         for place, player in enumerate(self.standings, start=1):
             self.log.add(str(place) + ": " + player.name + \
-                         "(points: "  + str(player.points) + \
+                         "(points: {:3.0f}".format(player.points) + \
                          "; most valuable card: " + \
                          str(player.maxCardValue) + ")")
         for index, player in enumerate(self.bankruptPlayers, ):
             self.log.add(str(len(self.standings) + index + 1) + \
                          ": " + player.name + \
                          " BANKRUPT " + \
-                         "(points: "  + str(player.points) + \
+                         "(points: {:3.0f}".format(player.points) + \
                          "; most valuable card: " + \
                          str(player.maxCardValue) + ")")
 

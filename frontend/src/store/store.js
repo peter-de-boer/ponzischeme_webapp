@@ -28,15 +28,15 @@ const selectItems = {
     state: {
         selectedFundCard: {},
         selectedIndustryTile: null,
-        selectedOpponent: {},
+        selectedOpponentName: null,
         tradeMoney: null
     },
     getters: {
         tradeMoney: state => {
             return state.tradeMoney;
         },
-        selectedOpponent: state => {
-            return state.selectedOpponent;
+        selectedOpponentName: state => {
+            return state.selectedOpponentName;
         },
         selectedIndustryTile: state => {
             return state.selectedIndustryTile;
@@ -49,8 +49,8 @@ const selectItems = {
         setTradeMoney: (state, payload) => {
             Vue.set(state, "setTradeMoney", payload);
         },    
-        selectOpponent: (state, payload) => {
-            Vue.set(state, "selectedOpponent", payload);
+        selectOpponentName: (state, payload) => {
+            Vue.set(state, "selectedOpponentName", payload);
         },    
         selectIndustryTile: (state, payload) => {
             Vue.set(state, "selectedIndustryTile", payload);
@@ -63,8 +63,8 @@ const selectItems = {
         setTradeMoney: ({ commit }, payload) => {
             commit('setTradeMoney', payload)
         },
-        selectOpponent: ({ commit }, payload) => {
-            commit('selectOpponent', payload)
+        selectOpponentName: ({ commit }, payload) => {
+            commit('selectOpponentName', payload)
         },
         selectIndustryTile: ({ commit }, payload) => {
             commit('selectIndustryTile', payload)

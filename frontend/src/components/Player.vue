@@ -1,6 +1,6 @@
 <template>
     <div>
-        <player-industry-tiles :industryTiles="player.industryTiles"></player-industry-tiles>
+        <player-industry-tiles :industryTiles="player.industryTiles" :name="player.name"></player-industry-tiles>
         <time-wheel :wheel="player.wheel"></time-wheel>
         <p>name:  {{player.name}} </p>
         <p>money: {{player.money}} </p>
