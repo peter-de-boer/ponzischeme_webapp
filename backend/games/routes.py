@@ -60,6 +60,36 @@ def passtrading():
     else:
         return readGameJSON()
 
+@games.route("/game/buyTrade", methods=['PUT'])
+def buytrade():
+    """
+       need input parameters:
+           selected card (value is unique)
+           (player, currentPlayer)
+    """
+    req = request.get_json()
+    name = req['name']
+    error = buyTrade(name)
+    if error:
+        return error
+    else:
+        return readGameJSON()
+
+@games.route("/game/sellTrade", methods=['PUT'])
+def selltrade():
+    """
+       need input parameters:
+           selected card (value is unique)
+           (player, currentPlayer)
+    """
+    req = request.get_json()
+    name = req['name']
+    error = sellTrade(name)
+    if error:
+        return error
+    else:
+        return readGameJSON()
+
 @games.route("/game/offerTrade", methods=['PUT'])
 def offertrade():
     """

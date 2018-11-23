@@ -85,6 +85,43 @@ export const store = new Vuex.Store({
         gameState: {}
     },
     getters: {
+        tileName: (state) => (tile) => {
+            switch(tile) {
+                case 0:
+                    return "transportation";
+                case 1:
+                    return "grain";
+                case 2:
+                    return "media";
+                case 3:
+                    return "real estate";
+                default:
+                    return "<unknown>";
+            }
+        },
+        playerName: (state) =>  (playerIndex) => {
+            if (state.gameStateLoaded) {
+                return state.gameState.players[playerIndex].name;
+            } else {
+                return null;
+            }
+        },
+        tradeOffer: (state, getters) => {
+            if (state.gameStateLoaded) {
+                if (state.gameState.status.tradeOffer) {
+                    return {
+                        tileName: getters.tileName(state.gameState.status.tradeOffer.tile),
+                        tradeMoney: (state.gameState.status.tradeOffer.money || "some money"),
+                        offeringPlayerName: getters.playerName(state.gameState.status.tradeOffer.offeringPlayerIndex),
+                        opponentName:       getters.playerName(state.gameState.status.tradeOffer.opponentIndex)
+                    }
+                } else {
+                    return null
+                }
+            } else {
+                return null;
+            }    
+        },
         log: state => {
             if (state.gameStateLoaded) {
                 return state.gameState.log.log;

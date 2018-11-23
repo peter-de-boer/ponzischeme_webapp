@@ -29,6 +29,24 @@ def passTrading(name):
         writeGame(game)
         return None
 
+def sellTrade(name):
+    game = readGame()
+    error = game.sellTrade(name)
+    if error:
+        return error
+    else:
+        writeGame(game)
+        return None
+
+def buyTrade(name):
+    game = readGame()
+    error = game.buyTrade(name)
+    if error:
+        return error
+    else:
+        writeGame(game)
+        return None
+
 def offerTrade(money, tile, opponentName, name):
     game = readGame()
     error = game.offerTrade(money, tile, opponentName, name)

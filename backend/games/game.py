@@ -145,6 +145,54 @@ class Game(object):
         self.autoFlow()
         return None
 
+    def sellTrade(self, name):
+        # TODO: check phase
+        if (self.status.tradeOffer is None):
+            return self.error("There is currently no trade offer")
+        active = self.status.active[0]
+        if (name!=self.players[active].name):
+            return self.error(name + " is not the active player")
+        # check if player is the opponent (who got the offer)
+        opponent =       self.players[self.status.tradeOffer.opponentIndex];
+        offeringPlayer = self.players[self.status.tradeOffer.offeringPlayerIndex];
+        tile =                        self.status.tradeOffer.tile
+        money =                       self.status.tradeOffer.money
+        if (name!=opponent.name):
+            return self.error(name + " is not the active player")
+        if opponent.industryTiles[tile]<=0:
+            return self.error(name + " has no tile " + str(tile))
+        self.log.add(name + " accepts the trade.")
+        offeringPlayer.buy(tile, money)
+        opponent.sell(tile, money)
+        self.status.phase2RemoveTrade()
+        self.status.next()
+        self.autoFlow()
+        return None
+
+    def buyTrade(self, name):
+        # TODO: check phase
+        if (self.status.tradeOffer is None):
+            return self.error("There is currently no trade offer")
+        active = self.status.active[0]
+        if (name!=self.players[active].name):
+            return self.error(name + " is not the active player")
+        # check if player is the opponent (who got the offer)
+        opponent =       self.players[self.status.tradeOffer.opponentIndex];
+        offeringPlayer = self.players[self.status.tradeOffer.offeringPlayerIndex];
+        tile =                        self.status.tradeOffer.tile
+        money =                       self.status.tradeOffer.money
+        if (name!=opponent.name):
+            return self.error(name + " is not the active player")
+        if opponent.money < money:
+            return self.error(name + " has not enough money for this trade")
+        self.log.add(name + " counter-offers the trade.")
+        offeringPlayer.sell(tile, money)
+        opponent.buy(tile, money)
+        self.status.phase2RemoveTrade()
+        self.status.next()
+        self.autoFlow()
+        return None
+
     def offerTrade(self, money, tile, opponentName, name):
         # TODO: check phase
         # check if player is active player
@@ -152,8 +200,9 @@ class Game(object):
         if (name!=self.players[active].name):
             return self.error(name + " is not the active player")
         opponent = None
-        for player in self.players:
+        for index, player in enumerate(self.players):
             if player.name==opponentName:
+                opponentIndex = index
                 opponent = player
         if opponent is None:
             return self.error(opponentName + "is not a player")
@@ -167,7 +216,7 @@ class Game(object):
             return self.error(name + " has not enough money for this trade")
         self.log.add(name + " offers a trade to " + opponentName + \
                      " involving a " + self.tileName(tile) + " tile")
-        self.status.phase2SetTrade(tile, money, opponentName)
+        self.status.phase2SetTrade(tile, money, active, opponentIndex)
         self.autoFlow()
         return None
 

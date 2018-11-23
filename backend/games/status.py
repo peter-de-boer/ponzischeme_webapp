@@ -1,3 +1,4 @@
+from backend.games.tradeOffer import TradeOffer
 
 class Status(object):
     def __init__(self, numPlayers, players, log):
@@ -10,6 +11,7 @@ class Status(object):
         self.round = 0
         self.endOfGame = False
         self.marketCrash = False
+        self.tradeOffer = None
         self.log = log
         self.phase1Start()
         """
@@ -43,26 +45,25 @@ class Status(object):
         self.round += 1
         self.phase = 1
         self.active = self.getPlayerOrder()
-        self.opponent = None
         self.log.add("*** Round " + str(self.round) + " ***")
 
     def phase2Start(self):
         self.phase = 2
         self.active = self.getPlayerOrder()
-        self.opponent = None
-        self.tradeOffered = False
+        self.tradeOffer = None
 
-    def phase2SetTrade(self, tile, money, opponentName):
-        self.tradeTile = tile
-        self.tradeMoney = money
-        self.opponentName = opponentName
-        self.tradeOffered = True
+    def phase2SetTrade(self, tile, money, offeringPlayerIndex, opponentIndex):
+        self.tradeOffer = TradeOffer(tile, money, offeringPlayerIndex, opponentIndex)
+        self.active.insert(0, opponentIndex)
+
+    def phase2RemoveTrade(self):
+        self.tradeOffer = None
+        del self.active[0]
 
     def phase3Start(self):
         self.phase = 3
         self.start = (self.start+1)%self.numPlayers
         self.active = [self.start]
-        self.opponent = None
         self.log.add(self.players[self.start] + " is the new start player.")
 
     def phase4Start(self):
