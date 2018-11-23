@@ -29,6 +29,15 @@ def passTrading(name):
         writeGame(game)
         return None
 
+def offerTrade(money, tile, opponentName, name):
+    game = readGame()
+    error = game.offerTrade(money, tile, opponentName, name)
+    if error:
+        return error
+    else:
+        writeGame(game)
+        return None
+
 def selectCardToDiscard(value, name):
     game = readGame()
     error = game.selectCardToDiscard(value, name)

@@ -3,11 +3,14 @@
         <h2>Trading</h2>
         <p>Please select an industry tile from and opponent and offer an amount of money, or pass</p>
         <p><button class="btn btn-default" 
-                @click="offerTrade(selectedIndustryTile, selectedOpponentName, money)"> 
+                @click="offerTrade(selectedIndustryTile, selectedOpponentName, tradeMoney)"> 
                     Offer Trade
            </button> 
              {{tradeMoney}} {{selectedIndustryTile}} {{selectedOpponentName}} </p>
         <button class="btn btn-default" @click="passTrading()"> Pass </button> 
+        <hr>
+        <vue-slider ref="slider" v-model="tradeMoney" v-bind="sliderOptions"></vue-slider>
+        <input v-model="tradeMoney">
     </div>
 </template>
 
@@ -15,15 +18,33 @@
     import axios from 'axios';
     import { mapGetters } from 'vuex';
     import { mapActions } from 'vuex';
+    import vueSlider from 'vue-slider-component';
 
     export default {
+        components: {
+            vueSlider
+        },
+        data() {
+            return {
+                tradeMoney: 1
+            }
+        },
         computed: {
             ...mapGetters([
                 'currentPlayer',
                 'selectedOpponentName',
-                'selectedIndustryTile',
-                'tradeMoney'
-            ])    
+                'selectedIndustryTile'
+            ]),
+            sliderOptions() {
+                var max = 1
+                if (this.currentPlayer) {
+                    max = this.currentPlayer.money
+                } 
+                return {
+                    min: 1,
+                    max: max
+                }
+            }
         },
         methods: {
             ...mapActions([

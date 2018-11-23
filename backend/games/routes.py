@@ -60,6 +60,24 @@ def passtrading():
     else:
         return readGameJSON()
 
+@games.route("/game/offerTrade", methods=['PUT'])
+def offertrade():
+    """
+       need input parameters:
+           selected card (value is unique)
+           (player, currentPlayer)
+    """
+    req = request.get_json()
+    tile = req['tile']
+    money = req['money']
+    opponentName = req['opponentName']
+    name = req['name']
+    error = offerTrade(money, tile, opponentName, name)
+    if error:
+        return error
+    else:
+        return readGameJSON()
+
 
 @games.route("/game/selectCardToDiscard", methods=['PUT'])
 def selectcardtodiscard():

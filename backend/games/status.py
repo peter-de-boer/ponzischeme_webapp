@@ -50,6 +50,13 @@ class Status(object):
         self.phase = 2
         self.active = self.getPlayerOrder()
         self.opponent = None
+        self.tradeOffered = False
+
+    def phase2SetTrade(self, tile, money, opponentName):
+        self.tradeTile = tile
+        self.tradeMoney = money
+        self.opponentName = opponentName
+        self.tradeOffered = True
 
     def phase3Start(self):
         self.phase = 3

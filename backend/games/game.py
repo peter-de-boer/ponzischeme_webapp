@@ -145,6 +145,32 @@ class Game(object):
         self.autoFlow()
         return None
 
+    def offerTrade(self, money, tile, opponentName, name):
+        # TODO: check phase
+        # check if player is active player
+        active = self.status.active[0]
+        if (name!=self.players[active].name):
+            return self.error(name + " is not the active player")
+        opponent = None
+        for player in self.players:
+            if player.name==opponentName:
+                opponent = player
+        if opponent is None:
+            return self.error(opponentName + "is not a player")
+        if opponentName==name:
+            return self.error("Opponent must be a different player")
+        if self.players[active].industryTiles[tile]<=0:
+            return self.error(name + " has no tile " + str(tile))
+        if opponent.industryTiles[tile]<=0:
+            return self.error(opponentName + " has no tile " + str(tile))
+        if self.players[active].money < money:
+            return self.error(name + " has not enough money for this trade")
+        self.log.add(name + " offers a trade to " + opponentName + \
+                     " involving a " + self.tileName(tile) + " tile")
+        self.status.phase2SetTrade(tile, money, opponentName)
+        self.autoFlow()
+        return None
+
     """
     Phase 3: Pass the Start Player Marker
     """
