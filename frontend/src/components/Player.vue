@@ -1,6 +1,15 @@
 <template>
     <div class="player" :class="hiLight(player.name, selectedPlayerAndTile)">
         <player-industry-tiles :industryTiles="player.industryTiles" :name="player.name"></player-industry-tiles>
+
+        <div class="row">
+            <div class="col-sm-3" v-for="(tile, i) in player.luxuryTiles" :key="i">
+                <div class="tile" >
+                    {{tile.value}} {{tile.points}}
+                </div>
+            </div>
+        </div>
+
         <time-wheel :wheel="player.wheel"></time-wheel>
         <p>name:  {{player.name}} money: {{player.money}} </p>
         <hr>
@@ -37,6 +46,13 @@
 </script>
 
 <style scoped>
+
+.tile {
+    border-style: inset;
+    border-width: 2px;
+    background-color: grey;
+    border-color: transparent;
+}
 
 .player {
     border-style: inset;

@@ -11,6 +11,13 @@
         <hr>
         <vue-slider ref="slider" v-model="tradeMoney" v-bind="sliderOptions"></vue-slider>
         <input v-model="tradeMoney">
+        <hr>
+        <p><button class="btn btn-default" 
+                   @click="buyLuxuryTile(selectedLuxuryTile)"> 
+                   Buy Luxury Tile 
+           </button> 
+           {{selectedLuxuryTile}}
+        </p>
     </div>
 </template>
 
@@ -32,6 +39,7 @@
         computed: {
             ...mapGetters([
                 'currentPlayer',
+                'selectedLuxuryTile',
                 'selectedPlayerAndTile'
             ]),
             sliderOptions() {
@@ -49,6 +57,24 @@
             ...mapActions([
                 'setGameState'
             ]),
+            buyLuxuryTile(tile) {
+                console.log("in buyLuxuryTile")
+                if (this.currentPlayer && tile!=null) {
+                    var json = {"tile": tile, "name": this.currentPlayer.name}
+                    console.log(json)
+                    axios.put('/game/buyLuxuryTile', json)
+                        .then( res => {
+                            console.log(res)
+                            if (res.data.error) {
+                                console.log(res.data.error)
+                            } else {
+                                this.setGameState(res.data)
+                            }
+                    }, error => {
+                        console.log(error)
+                    }); 
+                }
+            },
             offerTrade(playerAndTile, money) {
                 console.log("in offerTrade")
                 if (this.currentPlayer && playerAndTile && money != null) {

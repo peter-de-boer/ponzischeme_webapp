@@ -56,6 +56,15 @@ def offerTrade(money, tile, opponentName, name):
         writeGame(game)
         return None
 
+def buyLuxuryTile(tile, name):
+    game = readGame()
+    error = game.buyLuxuryTile(tile, name)
+    if error:
+        return error
+    else:
+        writeGame(game)
+        return None
+
 def selectCardToDiscard(value, name):
     game = readGame()
     error = game.selectCardToDiscard(value, name)

@@ -108,6 +108,22 @@ def offertrade():
     else:
         return readGameJSON()
 
+@games.route("/game/buyLuxuryTile", methods=['PUT'])
+def buyluxurytile():
+    """
+       need input parameters:
+           selected tile
+           (player, currentPlayer)
+    """
+    req = request.get_json()
+    tile = req['tile']
+    name = req['name']
+    error = buyLuxuryTile(tile, name)
+    if error:
+        return error
+    else:
+        return readGameJSON()
+
 
 @games.route("/game/selectCardToDiscard", methods=['PUT'])
 def selectcardtodiscard():

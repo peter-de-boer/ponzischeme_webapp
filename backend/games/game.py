@@ -238,7 +238,7 @@ class Game(object):
                      str(tile.value) + ", points: " + \
                      str(tile.points) + ")")
         self.players[active].buyLuxuryTile(tile)
-        del self.luxuryTile[tileIndex]
+        del self.luxuryTiles[tileIndex]
         self.status.next()
         self.autoFlow()
         return None
