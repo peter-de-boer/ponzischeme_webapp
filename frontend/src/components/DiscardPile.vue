@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>Discard Pile</h2>
-        <div class="row" v-for="card in discardPile">
+        <div class="row small-gutter" v-for="card in discardPile">
             <div class="col-sm-4">
                 <fund-card :card="card"></fund-card>
             </div>
@@ -28,4 +28,9 @@
 </script>
 
 <style scoped>
+.small-gutter > [class*='col-'] {
+    padding-right:2px;
+    padding-left:2px;
+    padding-top:4px;
+}
 </style>

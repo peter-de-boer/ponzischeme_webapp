@@ -1,7 +1,6 @@
 <template>
-    <div class="blue"
-         :class="fundType(card.fundtype)"
-         @click="selectFundCard(card)">
+    <div class="card"
+         :class="[fundType(card.fundtype), hiLight(card,selectedFundCard)]" >
             <p>value: {{card.value}}</p>
             <p>time: {{card.time}}</p>
             <p>interest:{{card.interest}}</p>
@@ -28,11 +27,19 @@
                 } else {
                     return "normal";
                 }    
+            },
+            hiLight(card, selected) {
+                if (card.value==selected.value) {
+                    return "hilight";
+                } else {
+                    return "nohilight";
+                }
             }
         },
         computed: {
             ...mapGetters([
                 'currentPlayer',
+                'selectedFundCard',
                 'gameStateLoaded'
             ])    
         }
@@ -40,6 +47,18 @@
 </script>
 
 <style scoped>
+
+.card {
+    border-style: inset;
+    border-width: 2px;
+}
+
+.hilight {
+}
+
+.nohilight {
+    border-color: transparent;
+}
 
 .bear {
     background-color: red;
