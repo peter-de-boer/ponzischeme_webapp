@@ -2,9 +2,10 @@
     <div>
         <h2>Funding Board</h2>
         <div class="row small-gutter" v-for="i in 3" :key="i">
-            <div class="col-sm-4" v-for="j in 3" :key=j>
+            <div class="col-sm-4" v-for="j in 3" :key="j+3*i">
                 <fund-card :card="fundingBoard[3*(i-1)+j-1]" 
-                 @click="selectFundCard(card)" ></fund-card>
+                           @click.native="selectFundCard(fundingBoard[3*(i-1)+j-1])">
+                </fund-card>
             </div>
         </div>
     </div>
@@ -16,6 +17,11 @@
     import FundCard from './FundCard.vue';
 
     export default {
+        data() {
+            return {
+                card: {}
+            }
+        },
         components: {
             FundCard
         },
@@ -23,6 +29,7 @@
             ...mapGetters([
                 'currentPlayer',
                 'fundingBoard',
+                'selectedFundCard',
                 'gameStateLoaded'
             ])    
         },
@@ -30,7 +37,7 @@
             ...mapActions([
                 'setGameState',
                 'selectFundCard'
-            ])    
+            ])
         }
     }    
 </script>
