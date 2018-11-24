@@ -1,12 +1,11 @@
 <template>
     <div>
-        {{maxTiles()}} {{industryTiles}}
         <div class="row" v-for="row in maxTiles()" :key="row + 'row'">
             <div class="col-sm-2" v-for="(tiles, i) in industryTiles" :key="i + 'x'">
-                <div :class="tileStyle(i)" 
+                <div 
                     v-if="row>(maxTiles()-tiles)" 
-                    @click="selectPlayerIndustryTile(i, name, phase)">
-                   <div class="bar"></div> 
+                    @click="selectPlayerIndustryTile(i, row, name, phase)">
+                   <div class="bar" :class="[tileStyle(i), hiLight(i, row, name, selectedPlayerAndTile)]" ></div>
                 </div>
             </div>
         </div>
@@ -21,12 +20,14 @@
         props: ['industryTiles', 'name'],
         computed: {
             ...mapGetters([
-                'phase'
+                'phase',
+                'selectedPlayerAndTile'
             ])
         },
         methods: {
             ...mapActions([
                 'setGameState',
+                'selectPlayerAndTile',
                 'selectOpponentName',
                 'selectIndustryTile'
             ]),
@@ -39,9 +40,16 @@
                 }
                 return max
             },
-            selectPlayerIndustryTile(i, name, phase) {
+            selectPlayerIndustryTile(tile, row, name, phase) {
                 // in phase Clandestine Trading: select the tile and the opponent
                 // in phase Market Crash: select the tile
+                var playerAndTile = {
+                    tile: tile,
+                    row: row,
+                    name: name
+                }
+                this.selectPlayerAndTile(playerAndTile)
+                /*
                 if (phase=2) {
                     this.selectOpponentName(name)
                     this.selectIndustryTile(i)
@@ -49,6 +57,7 @@
                 if (phase=4) {
                     this.selectIndustryTile(i)
                 }
+                */
             },
             tileStyle(i) {
                 switch(i) {
@@ -61,6 +70,13 @@
                     case 3:
                         return "realestate";
                 }
+            },
+            hiLight(tile,row,name,sel) {
+                if (sel && (tile==sel.tile) && (row==sel.row) && (name==sel.name)) {
+                    return "hilight";
+                } else {
+                    return "nohilight";
+                }
             }
         }
     }    
@@ -68,9 +84,18 @@
 
 <style scoped>
 
+.hilight {
+}
+
+.nohilight {
+    border-color: transparent;
+}
+
 .bar {
     height: 6px;
     margin-top:6px;
+    border-style: solid;
+    border-width: 2px;
 }
 
 .transport {
