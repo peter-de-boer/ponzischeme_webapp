@@ -92,6 +92,7 @@ class Player(object):
 
     def buyLuxuryTile(self, luxuryTile):
         self.luxuryTiles.append(luxuryTile)
+        self.money -= luxuryTile.value
 
     def cashPoints(self):
         if self.money < 30:

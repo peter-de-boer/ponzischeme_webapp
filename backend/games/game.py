@@ -230,7 +230,7 @@ class Game(object):
             return self.error(name + " is not the active player")
         # check if tile is available
         if (len(self.luxuryTiles)-1<tileIndex):
-            return self.error("tile " + str(tile) + " is not available")
+            return self.error("tile " + str(tileIndex) + " is not available")
         tile =  self.luxuryTiles[tileIndex]
         if (self.players[active].money <  tile.value):
             return self.error(name + " has not enough money")
