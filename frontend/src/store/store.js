@@ -29,6 +29,7 @@ const selectItems = {
         selectedFundCard: {},
         selectedPlayerAndTile: null,
         selectedIndustryTile: null,
+        selectedLuxuryTile: null,
         selectedOpponentName: null,
         tradeMoney: null
     },
@@ -44,6 +45,9 @@ const selectItems = {
         },
         selectedIndustryTile: state => {
             return state.selectedIndustryTile;
+        },
+        selectedLuxuryTile: state => {
+            return state.selectedLuxuryTile;
         },
         selectedFundCard: state => {
             return state.selectedFundCard;
@@ -62,6 +66,9 @@ const selectItems = {
         selectIndustryTile: (state, payload) => {
             Vue.set(state, "selectedIndustryTile", payload);
         },    
+        selectLuxuryTile: (state, payload) => {
+            Vue.set(state, "selectedLuxuryTile", payload);
+        },    
         selectFundCard: (state, payload) => {
             Vue.set(state, "selectedFundCard", payload);
         }    
@@ -78,6 +85,9 @@ const selectItems = {
         },
         selectIndustryTile: ({ commit }, payload) => {
             commit('selectIndustryTile', payload)
+        },
+        selectLuxuryTile: ({ commit }, payload) => {
+            commit('selectLuxuryTile', payload)
         },
         selectFundCard: ({ commit }, payload) => {
             commit('selectFundCard', payload)
@@ -163,6 +173,13 @@ export const store = new Vuex.Store({
         activePlayer: state => {
             if (state.gameStateLoaded && !state.gameState.status.endOfGame) {
                 return state.gameState.players[state.gameState.status.active[0]].name;
+            } else {
+                return null;
+            }    
+        },
+        luxuryTiles: state => {
+            if (state.gameStateLoaded) {
+                return state.gameState.luxuryTiles;
             } else {
                 return null;
             }    

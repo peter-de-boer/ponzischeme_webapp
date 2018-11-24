@@ -12,6 +12,7 @@
             <div class="col-sm-6">
                 <end-of-game v-if="gameStateLoaded && gameEnded"></end-of-game>
                 <action-box v-if="gameStateLoaded && !gameEnded"></action-box>
+                <luxury-tiles v-if="gameStateLoaded"></luxury-tiles>
                 <industry-tiles v-if="gameStateLoaded"></industry-tiles>
                 <funding-board v-if="gameStateLoaded"></funding-board>
                 <discard-pile v-if="gameStateLoaded"></discard-pile>
@@ -32,6 +33,7 @@
     import Deck from './Deck.vue';
     import DiscardPile from './DiscardPile.vue';
     import Player from './Player.vue';
+    import LuxuryTiles from './LuxuryTiles.vue';
     import IndustryTiles from './IndustryTiles.vue';
     import ActionBox from './ActionBox.vue';
     import EndOfGame from './EndOfGame.vue';
@@ -54,6 +56,7 @@
             log: Log,
             endOfGame: EndOfGame,
             actionBox: ActionBox,
+            luxuryTiles: LuxuryTiles,
             industryTiles: IndustryTiles,
             selectPlayer: SelectPlayer,
             fundingBoard: Board,

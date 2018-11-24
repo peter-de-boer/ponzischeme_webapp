@@ -1,4 +1,5 @@
 import json
+from backend.games.luxuryTile import LuxuryTile
 from backend.games.fundCard import FundCard
 from backend.games.fundingBoard import FundingBoard
 from backend.games.player import Player
@@ -24,6 +25,7 @@ class Game(object):
         self.advanced = advanced
         #self.fundCards = self.fundCardsTest()
         self.fundCards = self.fundCards()
+        self.luxuryTiles = self.luxuryTiles()
         self.fundingBoard = FundingBoard(self.fundCards[0:9])
         self.fundDeck = self.fundCards[9:]
         shuffle(self.fundDeck)
@@ -217,6 +219,27 @@ class Game(object):
         self.log.add(name + " offers a trade to " + opponentName + \
                      " involving a " + self.tileName(tile) + " tile")
         self.status.phase2SetTrade(tile, money, active, opponentIndex)
+        self.autoFlow()
+        return None
+
+    def buyLuxuryTile(self, tileIndex, name):
+        # TODO: check phase
+        # check if player is active player
+        active = self.status.active[0]
+        if (name!=self.players[active].name):
+            return self.error(name + " is not the active player")
+        # check if tile is available
+        if (len(self.luxuryTiles)-1<tileIndex):
+            return self.error("tile " + str(tile) + " is not available")
+        tile =  self.luxuryTiles[tileIndex]
+        if (self.players[active].money <  tile.value):
+            return self.error(name + " has not enough money")
+        self.log.add(name + " buys a Luxury Tile (price: " + \
+                     str(tile.value) + ", points: " + \
+                     str(tile.points) + ")")
+        self.players[active].buyLuxuryTile(tile)
+        del self.luxuryTile[tileIndex]
+        self.status.next()
         self.autoFlow()
         return None
 
@@ -502,5 +525,14 @@ class Game(object):
          FundCard(78, 3, 140, "Bear Fund Card"),
          FundCard(79, 3, 142, "Bear Fund Card"),
          FundCard(80, 3, 144, "Bear Fund Card")
+        ]
+
+    @staticmethod
+    def luxuryTiles():
+        return [
+         LuxuryTile(30, 1),
+         LuxuryTile(56, 2),
+         LuxuryTile(78, 3),
+         LuxuryTile(96, 4)
         ]
 

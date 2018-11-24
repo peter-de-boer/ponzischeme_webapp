@@ -8,6 +8,7 @@ class Player(object):
         self.wheel =  [[],[],[],[],[],[]]
         self.bankrupt = False
         self.industryTiles = [0]*4
+        self.luxuryTiles = []
         self.points = 0
         self.maxCardValue = 0
 
@@ -89,6 +90,9 @@ class Player(object):
                     discardable.append(index)
         return discardable
 
+    def buyLuxuryTile(self, luxuryTile):
+        self.luxuryTiles.append(luxuryTile)
+
     def cashPoints(self):
         if self.money < 30:
             return 0
@@ -101,12 +105,21 @@ class Player(object):
         else:
             return 4
 
+    def luxuryTilePoints(self):
+        points = 0
+        for tile in self.luxuryTiles:
+            points += tile.points
+        return points
+
     def tilePoints(self):
         points = 0
         for tiles in self.industryTiles:
             points += (tiles*(tiles+1))/2
         return points
 
-    def calculatePoints(self):
-        self.points = self.tilePoints() + self.cashPoints()
+    def calculatePoints(self, advanced=False):
+        if advanced:
+            self.points = self.tilePoints() + self.luxuryTilePoints()
+        else:
+            self.points = self.tilePoints() + self.cashPoints()
         self.maxCardValue = self.getMaxCardValue()

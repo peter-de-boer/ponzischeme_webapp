@@ -2,10 +2,7 @@
     <div class="player" :class="hiLight(player.name, selectedPlayerAndTile)">
         <player-industry-tiles :industryTiles="player.industryTiles" :name="player.name"></player-industry-tiles>
         <time-wheel :wheel="player.wheel"></time-wheel>
-        <p>name:  {{player.name}} </p>
-        <p>money: {{player.money}} </p>
-        <p>tiles: {{player.industryTiles}} </p>
-        <p>bankrupt: {{player.bankrupt}} </p>
+        <p>name:  {{player.name}} money: {{player.money}} </p>
         <hr>
     </div>
 </template>
