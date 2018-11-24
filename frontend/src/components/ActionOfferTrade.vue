@@ -3,10 +3,10 @@
         <h2>Trading</h2>
         <p>Please select an industry tile from and opponent and offer an amount of money, or pass</p>
         <p><button class="btn btn-default" 
-                @click="offerTrade(selectedIndustryTile, selectedOpponentName, tradeMoney)"> 
+                @click="offerTrade(selectedPlayerAndTile, tradeMoney)"> 
                     Offer Trade
            </button> 
-             {{tradeMoney}} {{selectedIndustryTile}} {{selectedOpponentName}} </p>
+             {{tradeMoney}} {{selectedPlayerAndTile.name}} {{selectedPlayerAndTile.tile}}</p>
         <button class="btn btn-default" @click="passTrading()"> Pass </button> 
         <hr>
         <vue-slider ref="slider" v-model="tradeMoney" v-bind="sliderOptions"></vue-slider>
@@ -32,8 +32,7 @@
         computed: {
             ...mapGetters([
                 'currentPlayer',
-                'selectedOpponentName',
-                'selectedIndustryTile'
+                'selectedPlayerAndTile'
             ]),
             sliderOptions() {
                 var max = 1
@@ -50,10 +49,10 @@
             ...mapActions([
                 'setGameState'
             ]),
-            offerTrade(tile, opponentName, money) {
+            offerTrade(playerAndTile, money) {
                 console.log("in offerTrade")
-                if (this.currentPlayer && tile != null && money != null) {
-                    var json = {"money": money, "tile": tile, "opponentName": opponentName,
+                if (this.currentPlayer && playerAndTile && money != null) {
+                    var json = {"money": money, "tile": playerAndTile.tile, "opponentName": playerAndTile.name,
                                 "name": this.currentPlayer.name}
                     console.log(json)
                     axios.put('/game/offerTrade', json)
