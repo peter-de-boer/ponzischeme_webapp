@@ -3,7 +3,8 @@
         <h2>Industry Tiles</h2>
         <div class="row">
             <div class="col-sm-2" v-for="(tiles, i) in industryTiles" :key="i">
-                <div :class="tileStyle(i)" @click="selectIndustryTile(i)">
+                <div class="tile" :class="[tileStyle(i), hiLight(i, selectedIndustryTile)]" 
+                     @click="selectIndustryTile(i)" >
                     {{tiles}}
                 </div>
             </div>
@@ -18,7 +19,8 @@
     export default {
         computed: {
             ...mapGetters([
-                'industryTiles'
+                'industryTiles',
+                'selectedIndustryTile'
             ])    
         },
         methods: {
@@ -37,12 +39,32 @@
                     case 3:
                         return "realestate";
                 }
+            },
+            hiLight(i, sel) {
+                if (sel==i) {
+                    return "hilight";
+                } else {
+                    return "nohilight";
+                }
             }
         }
     }    
 </script>
 
 <style scoped>
+
+.tile {
+    border-style: inset;
+    border-width: 2px;
+}
+
+.hilight {
+}
+
+.nohilight {
+    border-color: transparent;
+}
+
 .transport {
     background-color: blue
 }
