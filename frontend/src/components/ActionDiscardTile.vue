@@ -3,7 +3,7 @@
         <h2>Discard Tile</h2>
         <p>Please select an industry tile to discard</p>
         <p><button class="btn btn-default" 
-                @click="discardTile(selectedIndustryTile)"> 
+                @click="discardTile(selectedPlayerAndTile)"> 
                     Discard Tile
            </button> 
              {{selectedIndustryTile}}</p>
@@ -19,17 +19,18 @@
         computed: {
             ...mapGetters([
                 'currentPlayer',
-                'selectedIndustryTile'
+                'selectedPlayerAndTile'
             ])    
         },
         methods: {
             ...mapActions([
+                'clearSelections',
                 'setGameState'
             ]),
-            discardTile(tile) {
+            discardTile(playerAndTile) {
                 console.log("in discardTile")
-                if (this.currentPlayer) {
-                    var json = {"tile": tile, "name": this.currentPlayer.name}
+                if (this.currentPlayer && playerAndTile) {
+                    var json = {"tile": playerAndTile.tile, "name": playerAndTile.name}
                     console.log(json)
                     axios.put('/game/discardTile', json)
                         .then( res => {
@@ -38,6 +39,7 @@
                                 console.log(res.data.error)
                             } else {
                                 this.setGameState(res.data)
+                                //this.clearSelections()
                             }
                     }, error => {
                         console.log(error)

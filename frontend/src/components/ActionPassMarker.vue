@@ -24,6 +24,7 @@
         },
         methods: {
             ...mapActions([
+                'clearSelections',
                 'setGameState'
             ]),
             selectCardToDiscard(value) {
@@ -38,6 +39,7 @@
                                 console.log(res.data.error)
                             } else {
                                 this.setGameState(res.data)
+                                //this.clearSelections()
                             }
                     }, error => {
                         console.log(error)

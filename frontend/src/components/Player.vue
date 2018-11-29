@@ -1,5 +1,5 @@
 <template>
-    <div class="player" :class="hiLight(player.name, selectedPlayerAndTile)">
+    <div class="player" :class="hiLight(player.name, selectedPlayerAndTile, phase)">
         <player-industry-tiles :industryTiles="player.industryTiles" :name="player.name"></player-industry-tiles>
 
         <div class="row">
@@ -25,6 +25,7 @@
         props: ['player'],
         computed: {
             ...mapGetters([
+                'phase',
                 'selectedPlayerAndTile'
             ])
         },
@@ -33,8 +34,8 @@
             playerIndustryTiles: PlayerIndustryTiles
         },
         methods: {
-            hiLight(name, sel) {
-                if (sel && name==sel.name) {
+            hiLight(name, sel, phase) {
+                if (sel && name==sel.name && phase==2) {
                     return "hilight";
                 } else {
                     return "nohilight";

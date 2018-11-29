@@ -25,7 +25,8 @@
         },
         methods: {
             ...mapActions([
-                'setGameState'
+                'setGameState',
+                'clearSelections'
             ]),
             sellTrade() {
                 console.log("in sellTrade")
@@ -38,6 +39,7 @@
                                 console.log(res.data.error)
                             } else {
                                 this.setGameState(res.data)
+                                //this.clearSelections()
                             }
                         }, error => {
                             console.log(error)
@@ -56,6 +58,7 @@
                                 console.log(res.data.error)
                             } else {
                                 this.setGameState(res.data)
+                                //this.clearSelections()
                             }
                         }, error => {
                             console.log(error)

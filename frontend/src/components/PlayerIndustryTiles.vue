@@ -41,23 +41,12 @@
                 return max
             },
             selectPlayerIndustryTile(tile, row, name, phase) {
-                // in phase Clandestine Trading: select the tile and the opponent
-                // in phase Market Crash: select the tile
                 var playerAndTile = {
                     tile: tile,
                     row: row,
                     name: name
                 }
                 this.selectPlayerAndTile(playerAndTile)
-                /*
-                if (phase=2) {
-                    this.selectOpponentName(name)
-                    this.selectIndustryTile(i)
-                }
-                if (phase=4) {
-                    this.selectIndustryTile(i)
-                }
-                */
             },
             tileStyle(i) {
                 switch(i) {

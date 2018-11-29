@@ -54,6 +54,14 @@ const selectItems = {
         }
     },
     mutations: {
+        clearSelections: (state) => {
+            Vue.set(state, "selectedFundCard", {});
+            Vue.set(state, "selectedPlayerAndTile", null);
+            Vue.set(state, "selectedIndustryTile", null);
+            Vue.set(state, "selectedLuxuryTile", null);
+            Vue.set(state, "selectedOpponentName", null);
+            Vue.set(state, "tradeMoney", null);
+        },    
         setTradeMoney: (state, payload) => {
             Vue.set(state, "setTradeMoney", payload);
         },    
@@ -74,6 +82,9 @@ const selectItems = {
         }    
     },
     actions: {
+        clearSelections: ({ commit }) => {
+            commit('clearSelections')
+        },
         setTradeMoney: ({ commit }, payload) => {
             commit('setTradeMoney', payload)
         },
@@ -241,7 +252,8 @@ export const store = new Vuex.Store({
     },
     actions: {
         setGameState: ({ commit }, payload) => {
-            commit('setGameState', payload)
+            commit('setGameState', payload);
+            store.dispatch('clearSelections');
         }
     }    
 

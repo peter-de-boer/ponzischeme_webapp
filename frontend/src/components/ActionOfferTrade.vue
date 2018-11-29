@@ -6,12 +6,14 @@
                 @click="offerTrade(selectedPlayerAndTile, tradeMoney)"> 
                     Offer Trade
            </button> 
-             {{tradeMoney}} {{selectedPlayerAndTile.name}} {{selectedPlayerAndTile.tile}}</p>
+             {{tradeMoney}} {{selectedPlayer(selectedPlayerAndTile) }} {{selectedTile(selectedPlayerAndTile)}}</p>
         <button class="btn btn-default" @click="passTrading()"> Pass </button> 
         <hr>
-        <vue-slider ref="slider" v-model="tradeMoney" v-bind="sliderOptions"></vue-slider>
-        <input v-model="tradeMoney">
-        <hr>
+        <div v-if="sliderOptions.max>0">
+            <vue-slider ref="slider" v-model="tradeMoney" v-bind="sliderOptions"></vue-slider>
+            <input v-model="tradeMoney">
+            <hr>
+        </div>
         <p><button class="btn btn-default" 
                    @click="buyLuxuryTile(selectedLuxuryTile)"> 
                    Buy Luxury Tile 
@@ -43,20 +45,41 @@
                 'selectedPlayerAndTile'
             ]),
             sliderOptions() {
-                var max = 1
-                if (this.currentPlayer) {
+                // if currentplayer exists and it is the active player:
+                //      if no money: min=0, max=0
+                //      if money: min=1, max = money
+                // else : min=0, max=0
+                var min = 0
+                var max = 0
+                if (this.currentPlayer != null) {
                     max = this.currentPlayer.money
+                    min = 0 ? max==0 : 1
                 } 
                 return {
-                    min: 1,
+                    min: min,
                     max: max
                 }
             }
         },
         methods: {
             ...mapActions([
-                'setGameState'
+                'setGameState',
+                'clearSelections'
             ]),
+            selectedTile(sel) {
+                if (sel) {
+                    return sel.tile 
+                } else {
+                    return "no tile"
+                }
+            },
+            selectedPlayer(sel) {
+                if (sel) {
+                    return sel.name 
+                } else {
+                    return "no name"
+                }
+            },
             buyLuxuryTile(tile) {
                 console.log("in buyLuxuryTile")
                 if (this.currentPlayer && tile!=null) {
@@ -69,6 +92,7 @@
                                 console.log(res.data.error)
                             } else {
                                 this.setGameState(res.data)
+                                //this.clearSelections()
                             }
                     }, error => {
                         console.log(error)
@@ -88,6 +112,7 @@
                                 console.log(res.data.error)
                             } else {
                                 this.setGameState(res.data)
+                                //this.clearSelections()
                             }
                     }, error => {
                         console.log(error)
@@ -105,6 +130,7 @@
                                 console.log(res.data.error)
                             } else {
                                 this.setGameState(res.data)
+                                //this.clearSelections()
                             }
                         }, error => {
                             console.log(error)

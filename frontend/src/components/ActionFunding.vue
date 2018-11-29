@@ -27,7 +27,8 @@
         },
         methods: {
             ...mapActions([
-                'setGameState'
+                'setGameState',
+                'clearSelections'
             ]),
             selectTileAndCard(value,tile) {
                 console.log("in selectTileAndCard")
@@ -41,6 +42,7 @@
                                 console.log(res.data.error)
                             } else {
                                 this.setGameState(res.data)
+                //                this.clearSelections()
                             }
                     }, error => {
                         console.log(error)
