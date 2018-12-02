@@ -116,7 +116,7 @@ export const store = new Vuex.Store({
         gameState: {}
     },
     getters: {
-        tileName: (state) => (tile) => {
+        tileName: () => (tile) => {
             switch(tile) {
                 case 0:
                     return "transportation";
@@ -133,6 +133,14 @@ export const store = new Vuex.Store({
         playerName: (state) =>  (playerIndex) => {
             if (state.gameStateLoaded) {
                 return state.gameState.players[playerIndex].name;
+            } else {
+                return null;
+            }
+        },
+        currentIsActive: (state, getters) => {
+            if (state.gameStateLoaded && getters.activePlayerName && getters.currentPlayer && 
+                getters.activePlayerName == getters.currentPlayer.name ) {
+                return "True";
             } else {
                 return null;
             }
@@ -174,14 +182,14 @@ export const store = new Vuex.Store({
                 return null;
             }    
         },
-        startPlayer: state => {
+        startPlayerName: state => {
             if (state.gameStateLoaded) {
                 return state.gameState.players[state.gameState.status.start].name;
             } else {
                 return null;
             }    
         },
-        activePlayer: state => {
+        activePlayerName: state => {
             if (state.gameStateLoaded && !state.gameState.status.endOfGame) {
                 return state.gameState.players[state.gameState.status.active[0]].name;
             } else {

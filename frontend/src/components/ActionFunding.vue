@@ -1,13 +1,21 @@
 <template>
-    <div class="action">
-        <h2>Funding</h2>
-        <p>Please select an industry tile and a fund card, or pass</p>
-        <p><button class="btn btn-default" 
-                @click="selectTileAndCard(selectedFundCard.value,selectedIndustryTile)"> 
-                    Select Tile/Card 
-           </button> 
-             {{selectedFundCard.value}} {{selectedIndustryTile}}</p>
-        <button class="btn btn-default" @click="passFunding()"> Pass </button> 
+    <div>
+        <div class="action">
+            <h2>Funding</h2>
+            <div v-if="currentIsActive">
+                <p>Please select an industry tile and a fund card, or pass</p>
+                <p><button class="btn btn-default" 
+                        :class="enableButton(selectedFundCard, selectedIndustryTile, currentPlayer)"
+                        @click="selectTileAndCard(selectedFundCard, selectedIndustryTile)"> 
+                            Select Tile/Card 
+                   </button> 
+                     {{selectedFundCard.value}} {{selectedIndustryTile}}</p>
+                <button class="btn btn-default" @click="passFunding()"> Pass </button> 
+            </div>
+            <div v-else>
+                {{activePlayerName}} must select an industry tile and a fund card, or pass
+            </div>
+        </div>
     </div>
 </template>
 
@@ -19,6 +27,8 @@
     export default {
         computed: {
             ...mapGetters([
+                'currentIsActive',
+                'activePlayerName',
                 'currentPlayer',
                 'isPhase1',
                 'selectedFundCard',
@@ -30,10 +40,21 @@
                 'setGameState',
                 'clearSelections'
             ]),
-            selectTileAndCard(value,tile) {
+            correctSelection(card, tile, player) {
+                return (player && card!= null && tile!=null)
+            },
+            enableButton(card, tile, player) {
+                if (this.correctSelection(card, tile, player)) {
+                    return ""
+                } else {
+                    return "disabled"
+                }
+            },
+            selectTileAndCard(card,tile) {
                 console.log("in selectTileAndCard")
-                if (this.currentPlayer && value != null && tile != null) {
-                    var json = {"value": value, "tile": tile, "name": this.currentPlayer.name}
+                // if (this.currentPlayer && card != null && tile != null) {
+                if (this.correctSelection(card, tile, this.currentPlayer)) {
+                    var json = {"value": card.value, "tile": tile, "name": this.currentPlayer.name}
                     console.log(json)
                     axios.put('/game/selectTileAndCard', json)
                         .then( res => {

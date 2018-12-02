@@ -2,8 +2,8 @@
     <div class="container">
         <h1>Game</h1>
         {{round}}/{{phase}}
-        {{startPlayer}}
-        {{activePlayer}}
+        {{startPlayerName}}
+        {{activePlayerName}}
         <div class="row">
                 <select-player></select-player>
                 <hr>
@@ -68,8 +68,8 @@
             ...mapGetters([
                 'phase',
                 'round',
-                'startPlayer',
-                'activePlayer',
+                'startPlayerName',
+                'activePlayerName',
                 'fundingBoard',
                 'gameEnded',
                 'gameStateLoaded',
