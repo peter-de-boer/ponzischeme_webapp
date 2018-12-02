@@ -27,6 +27,7 @@
     export default {
         computed: {
             ...mapGetters([
+                'fundingBoard',
                 'currentIsActive',
                 'activePlayerName',
                 'currentPlayer',
@@ -40,8 +41,20 @@
                 'setGameState',
                 'clearSelections'
             ]),
+            getRow(myCard) {
+                var row = 0
+                if (this.fundingBoard) {
+                    for (const [index, card] of this.fundingBoard.entries()) {
+                        if (card.value == myCard.value) {
+                            row = Math.floor(index/3) + 1
+                        }
+                    }
+                } 
+                return row
+            },
             correctSelection(card, tile, player) {
-                return (player && card!= null && tile!=null)
+                return (player && card!= null && tile!=null && 
+                        player.industryTiles[tile]+1==this.getRow(card))
             },
             enableButton(card, tile, player) {
                 if (this.correctSelection(card, tile, player)) {
