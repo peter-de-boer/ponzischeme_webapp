@@ -1,25 +1,32 @@
 <template>
     <div class="action">
         <h2>Trading</h2>
-        <p>Please select an industry tile from and opponent and offer an amount of money, or pass</p>
-        <p><button class="btn btn-default" 
-                @click="offerTrade(selectedPlayerAndTile, tradeMoney)"> 
-                    Offer Trade
-           </button> 
-             {{tradeMoney}} {{selectedPlayer(selectedPlayerAndTile) }} {{selectedTile(selectedPlayerAndTile)}}</p>
-        <button class="btn btn-default" @click="passTrading()"> Pass </button> 
-        <hr>
-        <div v-if="sliderOptions.max>0">
-            <vue-slider ref="slider" v-model="tradeMoney" v-bind="sliderOptions"></vue-slider>
-            <input v-model="tradeMoney">
+        <div v-if="currentIsActive">
+            <p>Please select an industry tile from and opponent and offer an amount of money, or pass</p>
+            <p><button class="btn btn-default" 
+                    :class="enableButton(selectedPlayerAndTile, currentPlayer)"
+                    @click="offerTrade(selectedPlayerAndTile, tradeMoney)"> 
+                        Offer Trade
+               </button> 
+                 {{tradeMoney}} {{selectedPlayer(selectedPlayerAndTile) }} {{selectedTile(selectedPlayerAndTile)}}</p>
+            <button class="btn btn-default" @click="passTrading()"> Pass </button> 
             <hr>
+            <div v-if="sliderOptions.max>0">
+                <vue-slider ref="slider" v-model="tradeMoney" v-bind="sliderOptions"></vue-slider>
+                <input v-model="tradeMoney">
+                <hr>
+            </div>
+            <p><button class="btn btn-default" 
+                    :class="enableLuxuryButton(selectedLuxuryTile, currentPlayer)"
+                       @click="buyLuxuryTile(selectedLuxuryTile)"> 
+                       Buy Luxury Tile 
+               </button> 
+               {{selectedLuxuryTile}}
+            </p>
         </div>
-        <p><button class="btn btn-default" 
-                   @click="buyLuxuryTile(selectedLuxuryTile)"> 
-                   Buy Luxury Tile 
-           </button> 
-           {{selectedLuxuryTile}}
-        </p>
+        <div v-else>
+            <p> {{activePlayerName}} must offer a trade, or pass</p>
+        </div>
     </div>
 </template>
 
@@ -40,7 +47,10 @@
         },
         computed: {
             ...mapGetters([
+                'currentIsActive',
+                'activePlayerName',
                 'currentPlayer',
+                'luxuryTiles',
                 'selectedLuxuryTile',
                 'selectedPlayerAndTile'
             ]),
@@ -66,6 +76,35 @@
                 'setGameState',
                 'clearSelections'
             ]),
+            correctLuxurySelection(tile, player) {
+                if (tile!=null) {
+                    return player.money > this.luxuryTiles[tile].value
+                } else {
+                    return 0
+                }
+            },
+            enableLuxuryButton(luxuryTile, player) {
+                if (this.correctLuxurySelection(luxuryTile, player)) {
+                    return ""
+                } else {
+                    return "disabled"
+                }
+            },
+            correctSelection(playerAndTile, player) {
+                var tile = this.selectedTile(playerAndTile)
+                if (tile == "no tile") {
+                    return 0
+                } else {
+                    return player.industryTiles[tile] > 0
+                }
+            },
+            enableButton(playerAndTile, player) {
+                if (this.correctSelection(playerAndTile, player)) {
+                    return ""
+                } else {
+                    return "disabled"
+                }
+            },
             selectedTile(sel) {
                 if (sel) {
                     return sel.tile 
@@ -82,7 +121,8 @@
             },
             buyLuxuryTile(tile) {
                 console.log("in buyLuxuryTile")
-                if (this.currentPlayer && tile!=null) {
+                if (this.currentPlayer && tile!=null &&
+                    this.correctLuxurySelection(tile, this.currentPlayer)) {
                     var json = {"tile": tile, "name": this.currentPlayer.name}
                     console.log(json)
                     axios.put('/game/buyLuxuryTile', json)
@@ -101,7 +141,10 @@
             },
             offerTrade(playerAndTile, money) {
                 console.log("in offerTrade")
-                if (this.currentPlayer && playerAndTile && money != null) {
+                console.log(this.currentPlayer.name, playerAndTile.name, playerAndTile.tile, money)
+                console.log(this.correctSelection(playerAndTile, this.currentPlayer))
+                if (this.currentPlayer && playerAndTile && 
+                    money != null && this.correctSelection(playerAndTile, this.currentPlayer)) {
                     var json = {"money": money, "tile": playerAndTile.tile, "opponentName": playerAndTile.name,
                                 "name": this.currentPlayer.name}
                     console.log(json)

@@ -1,13 +1,22 @@
 <template>
     <div class="action">
         <h2>Trading</h2>
+        <div v-if="currentIsActive">
             <p> {{tradeOffer.offeringPlayerName}} offers 
                 {{tradeOffer.tradeMoney}} to
-                {{tradeOffer.opponentName}} for a 
+                you for a 
                 {{tradeOffer.tileName}} tile </p>
             <p>Please accept the trade offer (sell) or place an counter-offer (buy)</p>
             <p><button class="btn btn-default" @click="sellTrade()"> Sold! </button> </p>
             <p><button class="btn btn-default" @click="buyTrade()"> Counter Offer </button> </p>
+        </div>
+        <div v-else>
+            <p> {{tradeOffer.offeringPlayerName}} offers 
+                {{tradeOffer.tradeMoney}} to
+                {{tradeOffer.opponentName}} for a 
+                {{tradeOffer.tileName}} tile </p>
+            <p>{{tradeOffer.opponentName}} must accept the trade offer (sell) or place an counter-offer (buy)</p>
+        </div>
     </div>
 </template>
 
@@ -19,6 +28,7 @@
     export default {
         computed: {
             ...mapGetters([
+                'currentIsActive',
                 'currentPlayer',
                 'tradeOffer'
             ])
