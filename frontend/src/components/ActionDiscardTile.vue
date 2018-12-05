@@ -1,12 +1,17 @@
 <template>
     <div class="action">
         <h2>Discard Tile</h2>
-        <p>Please select an industry tile to discard</p>
-        <p><button class="btn btn-default" 
-                @click="discardTile(selectedPlayerAndTile)"> 
-                    Discard Tile
-           </button> 
-             {{selectedIndustryTile}}</p>
+        <div v-if="currentIsActive">
+            <p>Please select an industry tile to discard</p>
+            <p><button class="btn btn-default" 
+                    @click="discardTile(selectedPlayerAndTile)"> 
+                        Discard Tile
+               </button> 
+                 {{selectedPlayerAndTile ? selectedPlayerAndTile.tile : ""}}</p>
+        </div>
+        <div v-else>
+            <p>{{activePlayerName}} must select an industry tile to discard</p>
+        </div>
     </div>
 </template>
 
@@ -18,6 +23,8 @@
     export default {
         computed: {
             ...mapGetters([
+                'activePlayerName',
+                'currentIsActive',
                 'currentPlayer',
                 'selectedPlayerAndTile'
             ])    

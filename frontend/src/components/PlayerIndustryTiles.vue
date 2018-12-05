@@ -20,6 +20,8 @@
         props: ['industryTiles', 'name'],
         computed: {
             ...mapGetters([
+                'currentIsActive',
+                'activePlayerName',
                 'phase',
                 'selectedPlayerAndTile'
             ])
@@ -46,7 +48,10 @@
                     row: row,
                     name: name
                 }
-                this.selectPlayerAndTile(playerAndTile)
+                if (this.currentIsActive && ((this.activePlayerName != name && phase==2) ||
+                    (this.activePlayerName == name && phase==4)))  {
+                    this.selectPlayerAndTile(playerAndTile)
+                }
             },
             tileStyle(i) {
                 switch(i) {
