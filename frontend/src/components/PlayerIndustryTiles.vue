@@ -50,7 +50,14 @@
                 }
                 if (this.currentIsActive && ((this.activePlayerName != name && phase==2) ||
                     (this.activePlayerName == name && phase==4)))  {
-                    this.selectPlayerAndTile(playerAndTile)
+                    if (this.selectedPlayerAndTile!=null && 
+                        this.selectedPlayerAndTile.tile == tile &&
+                        this.selectedPlayerAndTile.row == row && 
+                        this.selectedPlayerAndTile.name == name) {
+                        this.selectPlayerAndTile(null)
+                    } else {
+                        this.selectPlayerAndTile(playerAndTile)
+                    }
                 }
             },
             tileStyle(i) {

@@ -26,7 +26,7 @@ const selectPlayer = {
 
 const selectItems = {
     state: {
-        selectedFundCard: {},
+        selectedFundCard: null,
         selectedPlayerAndTile: null,
         selectedIndustryTile: null,
         selectedLuxuryTile: null,

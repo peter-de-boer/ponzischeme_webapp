@@ -32,7 +32,11 @@
             ]),
             select(i) {
                 if (this.currentIsActive && this.phase==1) {
-                    this.selectIndustryTile(i)
+                    if (this.selectedIndustryTile==i) {
+                        this.selectIndustryTile(null)
+                    } else {
+                        this.selectIndustryTile(i)
+                    }
                 }
             },
             tileStyle(i) {

@@ -8,7 +8,7 @@
                     @click="selectCardToDiscard(selectedFundCard)"> 
                         Select Card 
                </button> 
-                 {{selectedFundCard.value}} </p>
+                 {{selectedFundCard ? selectedFundCard.value : ""}} </p>
         </div>
         <div v-else>
             <p>{{activePlayerName}} must select a fund card to discard (or remove, if blue)</p>

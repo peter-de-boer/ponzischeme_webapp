@@ -42,7 +42,11 @@
             ]),
             select(card) {
                 if (this.currentIsActive && (this.phase==1 || this.phase ==3)) {
-                    this.selectFundCard(card)
+                    if (this.selectedFundCard!=null && this.selectedFundCard.value==card.value) {
+                        this.selectFundCard(null)
+                    } else {
+                        this.selectFundCard(card)
+                    }
                 }
             }
         }

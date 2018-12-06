@@ -29,7 +29,7 @@
                 }    
             },
             hiLight(card, selected) {
-                if (card.value==selected.value) {
+                if (selected!=null && card.value==selected.value) {
                     return "hilight";
                 } else {
                     return "nohilight";

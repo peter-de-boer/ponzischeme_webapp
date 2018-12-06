@@ -32,7 +32,11 @@
             ]),
             select(i) {
                 if (this.phase==2 && this.currentIsActive) {
-                    this.selectLuxuryTile(i)
+                    if (this.selectedLuxuryTile==i) {
+                        this.selectLuxuryTile(null)
+                    } else {
+                        this.selectLuxuryTile(i)
+                    }
                 }
             },
             hiLight(i, sel) {

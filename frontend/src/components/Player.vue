@@ -1,5 +1,6 @@
 <template>
-    <div class="player" :class="hiLight(player.name, selectedPlayerAndTile, phase)">
+    <div class="player" 
+        :class="hiLight(player.name, selectedPlayerAndTile)">
         <player-industry-tiles :industryTiles="player.industryTiles" :name="player.name"></player-industry-tiles>
 
         <div class="row">
@@ -34,8 +35,8 @@
             playerIndustryTiles: PlayerIndustryTiles
         },
         methods: {
-            hiLight(name, sel, phase) {
-                if (sel && name==sel.name && phase==2) {
+            hiLight(name, sel) {
+                if (sel && name==sel.name && this.phase==2) {
                     return "hilight";
                 } else {
                     return "nohilight";

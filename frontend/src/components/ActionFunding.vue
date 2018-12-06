@@ -9,7 +9,7 @@
                         @click="selectTileAndCard(selectedFundCard, selectedIndustryTile)"> 
                             Select Tile/Card 
                    </button> 
-                     {{selectedFundCard.value}} {{selectedIndustryTile}}</p>
+                     {{selectedFundCard ? selectedFundCard.value : ""}} {{selectedIndustryTile}}</p>
                 <button class="btn btn-default" @click="passFunding()"> Pass </button> 
             </div>
             <div v-else>
