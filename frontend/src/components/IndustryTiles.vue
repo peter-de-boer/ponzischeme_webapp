@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-sm-2" v-for="(tiles, i) in industryTiles" :key="i">
                 <div class="tile" :class="[tileStyle(i), hiLight(i, selectedIndustryTile)]" 
-                     @click="selectIndustryTile(i)" >
+                     @click="select(i)" >
                     {{tiles}}
                 </div>
             </div>
@@ -19,6 +19,8 @@
     export default {
         computed: {
             ...mapGetters([
+                'currentIsActive',
+                'phase',
                 'industryTiles',
                 'selectedIndustryTile'
             ])    
@@ -28,6 +30,11 @@
                 'setGameState',
                 'selectIndustryTile'
             ]),
+            select(i) {
+                if (this.currentIsActive && this.phase==1) {
+                    this.selectIndustryTile(i)
+                }
+            },
             tileStyle(i) {
                 switch(i) {
                     case 0:

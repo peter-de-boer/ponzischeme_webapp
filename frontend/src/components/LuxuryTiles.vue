@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-sm-2" v-for="(tile, i) in luxuryTiles" :key="i">
                 <div class="tile" :class="hiLight(i, selectedLuxuryTile)" 
-                     @click="selectLuxuryTile(i)" >
+                     @click="select(i)" >
                     {{tile.value}} {{tile.points}}
                 </div>
             </div>
@@ -19,6 +19,8 @@
     export default {
         computed: {
             ...mapGetters([
+                'phase',
+                'currentIsActive',
                 'luxuryTiles',
                 'selectedLuxuryTile'
             ])    
@@ -28,6 +30,11 @@
                 'setGameState',
                 'selectLuxuryTile'
             ]),
+            select(i) {
+                if (this.phase==2 && this.currentIsActive) {
+                    this.selectLuxuryTile(i)
+                }
+            },
             hiLight(i, sel) {
                 if (sel==i) {
                     return "hilight";
