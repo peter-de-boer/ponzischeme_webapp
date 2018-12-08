@@ -8,7 +8,9 @@
                 {{tradeOffer.tileName}} tile </p>
             <p>Please accept the trade offer (sell) or place an counter-offer (buy)</p>
             <p><button class="btn btn-default" @click="sellTrade()"> Sold! </button> </p>
-            <p><button class="btn btn-default" @click="buyTrade()"> Counter Offer </button> </p>
+            <p><button class="btn btn-default" 
+                :class="enableButton()"
+                @click="buyTrade()"> Counter Offer </button> </p>
         </div>
         <div v-else>
             <p> {{tradeOffer.offeringPlayerName}} offers 
@@ -28,6 +30,7 @@
     export default {
         computed: {
             ...mapGetters([
+                'activePlayerName',
                 'currentIsActive',
                 'currentPlayer',
                 'tradeOffer'
@@ -38,6 +41,17 @@
                 'setGameState',
                 'clearSelections'
             ]),
+            counterOfferPossible() {
+                return (this.currentIsActive && 
+                        this.currentPlayer.money >= this.tradeOffer.tradeMoney)
+            },
+            enableButton() {
+                if (this.counterOfferPossible()) {
+                    return ""
+                } else {
+                    return "disabled"
+                }
+            },
             sellTrade() {
                 console.log("in sellTrade")
                 if (this.currentPlayer) {
@@ -59,7 +73,7 @@
             },
             buyTrade() {
                 console.log("in buyTrade")
-                if (this.currentPlayer) {
+                if (this.counterOfferPossible()) {
                     var json = {"name": this.currentPlayer.name}
                     axios.put('/game/buyTrade', json)
                         .then( res => {

@@ -19,6 +19,7 @@
     export default {
         computed: {
             ...mapGetters([
+                'tradeOffer',
                 'phase',
                 'currentIsActive',
                 'luxuryTiles',
@@ -31,7 +32,7 @@
                 'selectLuxuryTile'
             ]),
             select(i) {
-                if (this.phase==2 && this.currentIsActive) {
+                if (this.phase==2 && !this.tradeOffer && this.currentIsActive) {
                     if (this.selectedLuxuryTile==i) {
                         this.selectLuxuryTile(null)
                     } else {

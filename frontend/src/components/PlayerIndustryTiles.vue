@@ -4,7 +4,7 @@
             <div class="col-sm-2" v-for="(tiles, i) in industryTiles" :key="i + 'x'">
                 <div 
                     v-if="row>(maxTiles()-tiles)" 
-                    @click="selectPlayerIndustryTile(i, row, name, phase)">
+                    @click="selectPlayerIndustryTile(i, row, name)">
                    <div class="bar" :class="[tileStyle(i), hiLight(i, row, name, selectedPlayerAndTile)]" ></div>
                 </div>
             </div>
@@ -20,6 +20,7 @@
         props: ['industryTiles', 'name'],
         computed: {
             ...mapGetters([
+                'tradeOffer',
                 'currentIsActive',
                 'activePlayerName',
                 'phase',
@@ -42,14 +43,17 @@
                 }
                 return max
             },
-            selectPlayerIndustryTile(tile, row, name, phase) {
+            selectPlayerIndustryTile(tile, row, name) {
                 var playerAndTile = {
                     tile: tile,
                     row: row,
                     name: name
                 }
-                if (this.currentIsActive && ((this.activePlayerName != name && phase==2) ||
-                    (this.activePlayerName == name && phase==4)))  {
+                if (this.currentIsActive && 
+                    ((this.activePlayerName != name && 
+                      this.phase==2 && 
+                      !this.tradeOffer) ||
+                    (this.activePlayerName == name && this.phase==4)))  {
                     if (this.selectedPlayerAndTile!=null && 
                         this.selectedPlayerAndTile.tile == tile &&
                         this.selectedPlayerAndTile.row == row && 
