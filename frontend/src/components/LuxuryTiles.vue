@@ -2,7 +2,7 @@
     <div>
         <h2>Luxury Tiles</h2>
         <div class="row">
-            <div class="col-sm-2" v-for="(tile, i) in luxuryTiles" :key="i">
+            <div class="col-2" v-for="(tile, i) in luxuryTiles" :key="i">
                 <div class="tile" :class="hiLight(i, selectedLuxuryTile)" 
                      @click="select(i)" >
                     {{tile.value}} {{tile.points}}

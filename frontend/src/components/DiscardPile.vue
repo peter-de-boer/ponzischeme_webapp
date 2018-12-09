@@ -2,7 +2,7 @@
     <div>
         <h2>Discard Pile</h2>
         <div class="row small-gutter" v-for="card in discardPile">
-            <div class="col-sm-4">
+            <div class="col-4">
                 <fund-card :card="card"></fund-card>
             </div>
             

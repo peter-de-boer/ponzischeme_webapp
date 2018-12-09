@@ -1,15 +1,23 @@
 <template>
-    <div class="container">
+    <div>
+        <div class="row">
+            <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                abc
+            </div>
+            <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                def
+            </div>
+        </div>
+        <hr> 
+
         <h1>Game</h1>
         {{round}}/{{phase}}
         {{startPlayerName}}
         {{activePlayerName}}
-        <div class="row">
                 <select-player></select-player>
                 <hr>
-        </div>
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-6 col-sm-6">
                 <end-of-game v-if="gameStateLoaded && gameEnded"></end-of-game>
                 <action-box v-if="gameStateLoaded && !gameEnded"></action-box>
                 <luxury-tiles v-if="gameStateLoaded"></luxury-tiles>
@@ -18,7 +26,7 @@
                 <discard-pile v-if="gameStateLoaded"></discard-pile>
                 <deck v-if="gameStateLoaded"></deck>
             </div>
-            <div class="col-sm-offset-1 col-sm-5">
+            <div class="col-offset-1 col-5 col-sm-offset-1 col-sm-5">
                 <player v-if="gameStateLoaded" v-for="plr in players" :player="plr"></player>
                 <log></log>
             </div>
