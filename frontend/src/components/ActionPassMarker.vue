@@ -1,5 +1,5 @@
 <template>
-    <div class="action">
+    <div>
         <h2>Pass the Start Player Marker</h2>
         <div v-if="currentIsActive">
             <p>Please select a fund card to discard (or remove, if blue)</p>
@@ -79,7 +79,4 @@
 </script>
 
 <style scoped>
-.action {
-  border-style: solid;
-}
 </style>

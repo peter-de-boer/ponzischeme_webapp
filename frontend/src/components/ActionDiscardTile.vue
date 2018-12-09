@@ -1,5 +1,5 @@
 <template>
-    <div class="action">
+    <div>
         <h2>Discard Tile</h2>
         <div v-if="currentIsActive">
             <p>Please select an industry tile to discard</p>
@@ -58,7 +58,4 @@
 </script>
 
 <style scoped>
-.action {
-  border-style: solid;
-}
 </style>

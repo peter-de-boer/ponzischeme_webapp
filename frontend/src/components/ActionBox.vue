@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="action">
         <action-funding v-if="phase==1"></action-funding>
         <action-trading v-if="phase==2"></action-trading>
         <action-pass-marker v-if="phase==3"></action-pass-marker>
@@ -29,5 +29,9 @@
 </script>
 
 <style scoped>
+.action {
+  border-style: solid;
+  height: 350px
+}
 
 </style>

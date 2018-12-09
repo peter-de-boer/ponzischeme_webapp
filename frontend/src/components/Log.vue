@@ -26,7 +26,7 @@
 <style scoped>
 .log {
     border-style: solid;
-    height: 500px;
+    height: 350px;
     overflow: auto;
     display: flex;
     flex-direction: column-reverse;

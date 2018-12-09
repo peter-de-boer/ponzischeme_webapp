@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="action">
+        <div>
             <h2>Funding</h2>
             <div v-if="currentIsActive">
                 <p>Please select an industry tile and a fund card, or pass</p>
@@ -106,7 +106,4 @@
 </script>
 
 <style scoped>
-.action {
-  border-style: solid;
-}
 </style>

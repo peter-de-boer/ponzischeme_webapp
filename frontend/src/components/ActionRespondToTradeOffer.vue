@@ -1,5 +1,5 @@
 <template>
-    <div class="action">
+    <div>
         <h2>Trading</h2>
         <div v-if="currentIsActive">
             <p> {{tradeOffer.offeringPlayerName}} offers 
@@ -95,7 +95,4 @@
 </script>
 
 <style scoped>
-.action {
-  border-style: solid;
-}
 </style>

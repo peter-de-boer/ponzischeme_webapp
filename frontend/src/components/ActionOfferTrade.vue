@@ -1,5 +1,5 @@
 <template>
-    <div class="action">
+    <div>
         <h2>Trading</h2>
         <div v-if="currentIsActive">
             <p>Please select an industry tile from and opponent and offer an amount of money, or pass</p>
@@ -186,7 +186,4 @@
 </script>
 
 <style scoped>
-.action {
-  border-style: solid;
-}
 </style>
