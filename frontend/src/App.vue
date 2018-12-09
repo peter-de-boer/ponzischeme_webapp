@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
         <div class="row">
-            <div class="col-12">
+            <div class="col-xs-12">
                 <app-header></app-header>
             </div>
         </div>

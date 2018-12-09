@@ -6,7 +6,7 @@
         <time-wheel :wheel="player.wheel"></time-wheel>
         <p>name:  {{player.name}} money: {{player.money}} </p>
         <div class="row">
-            <div class="col-3" v-for="(tile, i) in player.luxuryTiles" :key="i">
+            <div class="col-xs-3" v-for="(tile, i) in player.luxuryTiles" :key="i">
                 <div class="tile" >
                     {{tile.value}} {{tile.points}}
                 </div>

@@ -2,7 +2,7 @@
     <div>
         <h2>Deck</h2>
         <div class="row" v-for="card in fundDeck">
-            <div class="col-4">
+            <div class="col-xs-4">
                 <fund-card :card="card"></fund-card>
             </div>
             

@@ -1,22 +1,22 @@
 <template>
     <div>
         <div class="row small-gutter">
-            <div v-for="(cards, index) in wheel" class="col-2" :key="index + 'top'">
+            <div v-for="(cards, index) in wheel" class="col-xs-2" :key="index + 'top'">
                 {{index}}
             </div>
         </div>
         <hr>
         <div class="row small-gutter">
-            <div v-for="(cards, index) in wheel" class="col-2" :key="index + 'tot'">
+            <div v-for="(cards, index) in wheel" class="col-xs-2" :key="index + 'tot'">
                 {{totalInterest(cards)}}
             </div>
         </div>
         <hr>
         <div v-for="row in maxLength()" class="row small-gutter" :key="row + 'row'">
-            <div v-for="(cards, index) in wheel" class="col-2" v-if="cardOnWheel(cards,row)" :key="index + row">
+            <div v-for="(cards, index) in wheel" class="col-xs-2" v-if="cardOnWheel(cards,row)" :key="index + row">
                 {{cards[row-1].interest}} ({{cards[row-1].time}})
             </div>
-            <div v-else class="col-2"></div>
+            <div v-else class="col-xs-2"></div>
         </div>
     </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="row" v-for="row in maxTiles()" :key="row + 'row'">
-            <div class="col-2" v-for="(tiles, i) in industryTiles" :key="i + 'x'">
+            <div class="col-xs-2" v-for="(tiles, i) in industryTiles" :key="i + 'x'">
                 <div 
                     v-if="row>(maxTiles()-tiles)" 
                     @click="selectPlayerIndustryTile(i, row, name)">
