@@ -2,7 +2,7 @@
     <div>
         <h2>Industry Tiles</h2>
         <div class="row">
-            <div class="col-xs-2" v-for="(tiles, i) in industryTiles" :key="i">
+            <div class="col-2" v-for="(tiles, i) in industryTiles" :key="i">
                 <div class="tile" :class="[tileStyle(i), hiLight(i, selectedIndustryTile)]" 
                      @click="select(i)" >
                     {{tiles}}

@@ -1,11 +1,11 @@
 <template>
     <div>
         <div class="row">
-            <div class="col-xs-2 col-lg-1 " v-for="plr in players" @click="selectCurrentPlayer(plr)" :key="plr.name">
+            <div class="col-2 col-lg-1 " v-for="plr in players" @click="selectCurrentPlayer(plr)" :key="plr.name">
                 <p :class="[{notcurrent: (!currentPlayer ||currentPlayer.name!=plr.name) }, 
                             {current: (currentPlayer && currentPlayer.name==plr.name) }]"> {{plr.name}} </p>
             </div>
-            <div class="col-xs-2 col-lg-1 " @click="selectCurrentPlayer(dummy)">
+            <div class="col-2 col-lg-1 " @click="selectCurrentPlayer(dummy)">
                 <p :class="[{notcurrent: (!currentPlayer ||currentPlayer.name!=dummy.name) }, 
                             {current: (currentPlayer && currentPlayer.name==dummy.name) }]"> {{dummy.name}} </p>
             </div>
