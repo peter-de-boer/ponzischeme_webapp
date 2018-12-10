@@ -1,15 +1,5 @@
 <template>
     <div>
-        <div class="row">
-            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                abc
-            </div>
-            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                def
-            </div>
-        </div>
-        <hr> 
-
         <h1>Game</h1>
         {{round}}/{{phase}}
         {{startPlayerName}}

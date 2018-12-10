@@ -20,4 +20,23 @@
 </script>
 
 <style>
+
+body {
+font-family: -apple-system, BlinkMacSystemFont, “Segoe UI”, Roboto, “Helvetica Neue”, Arial, sans-serif, “Apple Color Emoji”, “Segoe UI Emoji”, “Segoe UI Symbol”;
+/* default is 1rem or 16px */
+font-size: 14px;
+font-weight: 400;
+line-height: 1.3;
+}
+
+/* Increase all font sizes on mobile */
+@media (max-width: 767px) {
+
+body {
+/* default is 1rem or 16px */
+font-size: 14px;
+}
+
+}
+
 </style>
