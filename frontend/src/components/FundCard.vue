@@ -1,11 +1,20 @@
 <template>
     <div class="card"
          :class="[fundType(card.fundtype), hiLight(card,selectedFundCard)]" >
-            <p>value: {{card.value}}</p>
-            <p>time: {{card.time}}</p>
-            <p>interest:{{card.interest}}</p>
-            <!-- <p>fundtype:{{fundType(card.fundtype)}}</p> -->
-            <p>average: {{card.averageInterestPerc.toFixed(2)}}</p>
+            <p class="value">
+                ${{card.value}}
+            </p>
+            <div class="row">
+            <div class="col-6 time">
+                <{{card.time}}>
+            </div>
+            <div class="col-6 interest">
+                ${{card.interest}}
+            </div>
+            </div>
+            <p class="average">
+                {{card.averageInterestPerc.toFixed(2)}}
+            </p>
     </div>
 </template>
 
@@ -71,4 +80,22 @@
 .normal {
     background-color: lightgray;
 }    
+
+.value {
+    font-size: 2em;
+    text-align: center;
+}
+
+.time {
+    text-align: center;
+}
+
+.interest {
+    float: right;    
+}
+
+.average {
+    text-align: right;
+    font-size: 0.5em;
+}
 </style>
