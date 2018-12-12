@@ -27,6 +27,7 @@ font-family: -apple-system, BlinkMacSystemFont, “Segoe UI”, Roboto, “Helve
 font-size: 14px;
 font-weight: 400;
 line-height: 1.3;
+background-color: #D1B7AA;
 }
 
 /* Increase all font sizes on mobile */

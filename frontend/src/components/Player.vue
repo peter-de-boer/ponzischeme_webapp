@@ -1,10 +1,14 @@
 <template>
     <div class="player" 
         :class="hiLight(player.name, selectedPlayerAndTile)">
-        <player-industry-tiles :industryTiles="player.industryTiles" :name="player.name"></player-industry-tiles>
+        <p class="player-name">
+            {{player.name}}
+        </p>
+        <p class="money">
+            ${{player.money}}
+        </p>
+        <div style="clear: both;"></div>
 
-        <time-wheel :wheel="player.wheel"></time-wheel>
-        <p>name:  {{player.name}} money: {{player.money}} </p>
         <div class="row">
             <div class="col-3" v-for="(tile, i) in player.luxuryTiles" :key="i">
                 <div class="tile" >
@@ -13,7 +17,9 @@
             </div>
         </div>
 
+        <player-industry-tiles :industryTiles="player.industryTiles" :name="player.name"></player-industry-tiles>
         <hr>
+        <time-wheel :wheel="player.wheel"></time-wheel>
     </div>
 </template>
 
@@ -59,6 +65,20 @@
 .player {
     border-style: inset;
     border-width: 2px;
+    background-color: lightblue;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.player-name {
+    font-size: 2em;
+    font-weight: 1000;
+	float: left;
+}
+
+.money {
+    font-size: 1.5em;
+	float: right;
 }
 
 .hilight {

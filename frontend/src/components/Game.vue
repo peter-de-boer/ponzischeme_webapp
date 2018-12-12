@@ -22,7 +22,7 @@
                 <funding-board v-if="gameStateLoaded"></funding-board>
                 <discard-pile v-if="gameStateLoaded"></discard-pile>
             </div>
-            <div class="col-12 col-sm-offset-1 col-sm-5">
+            <div class="col-12 col-sm-6">
                 <player v-if="gameStateLoaded" v-for="plr in players" :player="plr"></player>
             </div>
         </div>
