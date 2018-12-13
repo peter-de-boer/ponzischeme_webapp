@@ -4,17 +4,19 @@
             <p class="value">
                 ${{card.value}}
             </p>
-            <div class="row">
-            <div class="col-6 time">
-                <{{card.time}}>
+            <div class="timeandinterest">
+                <div class="time">
+                    <{{card.time}}>
+                </div>
+                <div class="interest">
+                    ${{card.interest}}
+                </div>
             </div>
-            <div class="col-6 interest">
-                ${{card.interest}}
-            </div>
-            </div>
+            <!--
             <p class="average">
                 {{card.averageInterestPerc.toFixed(2)}}
             </p>
+            -->
     </div>
 </template>
 
@@ -60,6 +62,10 @@
 .card {
     border-style: inset;
     border-width: 2px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
 }
 
 .hilight {
@@ -83,15 +89,14 @@
 
 .value {
     font-size: 2em;
-    text-align: center;
 }
 
-.time {
-    text-align: center;
-}
-
-.interest {
-    float: right;    
+.timeandinterest {
+    display: flex;
+    flex: 1;
+    flex-direction: horizontal;
+    justify-content: space-evenly;
+    width: 100%;
 }
 
 .average {

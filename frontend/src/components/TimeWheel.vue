@@ -7,14 +7,14 @@
                         {{index}}
                     </p>
                     <div v-for="card in cards">
-                        <p class="interestline">
-                            <span class="interest"> 
-                                {{card.interest}} 
-                            </span>
-                            <span class="time">
+                        <div class="interestline row mb-1 mx-1 custom-gutter">
+                            <div class="col-6 time">
                                 <{{card.time}}> 
-                            </span>
-                        </p> 
+                            </div>
+                            <div class="col-5 interest"> 
+                                ${{card.interest}} 
+                            </div>
+                        </div> 
                     </div>
                 </div>
             </div>
@@ -101,16 +101,17 @@
 }
 
 .interestline {
-    text-align: right;
-    line-height: 0.1em;
+    line-height: 1.0em;
+    background-color: lightgrey;
+    font-size: 0.8em; 
 }
 
 .interest {
-    font-size: 1.0em; 
+    text-align: right;
 }
 
 .time {
-    font-size: 0.8em; 
+    text-align: center;
 }
 
 </style>

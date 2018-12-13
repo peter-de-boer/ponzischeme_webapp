@@ -7,27 +7,27 @@
                 <select-player></select-player>
                 <hr>
         <div class="row">
-            <div class="col-12 col-sm-6">
+            <div class="col-12 col-sm-5">
                 <end-of-game v-if="gameStateLoaded && gameEnded"></end-of-game>
                 <action-box v-if="gameStateLoaded && !gameEnded"></action-box>
             </div>
-            <div class="col-12 col-sm-6">
+            <div class="col-12 col-sm-7">
                 <log></log>
             </div>
         </div>
         <div class="row">
-            <div class="col-12 col-sm-6">
+            <div class="col-12 col-sm-5">
                 <luxury-tiles v-if="gameStateLoaded"></luxury-tiles>
                 <industry-tiles v-if="gameStateLoaded"></industry-tiles>
                 <funding-board v-if="gameStateLoaded"></funding-board>
                 <discard-pile v-if="gameStateLoaded"></discard-pile>
             </div>
-            <div class="col-12 col-sm-6">
+            <div class="col-12 col-sm-7">
                 <player v-if="gameStateLoaded" v-for="plr in players" :player="plr"></player>
             </div>
         </div>
         <div class="row">
-            <div class="col-12 col-sm-6">
+            <div class="col-12 col-sm-5">
                 <deck v-if="gameStateLoaded"></deck>
             </div>
         </div>
