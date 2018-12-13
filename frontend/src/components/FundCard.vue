@@ -61,7 +61,7 @@
 
 .card {
     border-style: inset;
-    border-width: 2px;
+    border-width: 0px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -69,6 +69,7 @@
 }
 
 .hilight {
+    box-shadow: 5px 5px 5px grey;
 }
 
 .nohilight {
@@ -76,15 +77,15 @@
 }
 
 .bear {
-    background-color: red;
+    background-image: linear-gradient(to right, #FAED95, #D46993);
 }    
 
 .start {
-    background-color: lightblue;
+    background-image: linear-gradient(to right, #FAED95, lightblue);
 }    
 
 .normal {
-    background-color: lightgray;
+    background-color: #FAED95;
 }    
 
 .value {
