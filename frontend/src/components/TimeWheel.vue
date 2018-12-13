@@ -1,13 +1,17 @@
 <template>
     <div>
-        <div class="row custom-gutter">
+        <div class="row row-eq-height mb-1 custom-gutter">
             <div v-for="(cards, index) in wheel" class="col-2" :key="index + 'top'">
-                <div class="timestep footer-widget" >
-                    <p class="index" :class="index==0 ? 'first' : ''">
-                        {{index}}
-                    </p>
+                <div class="timestep h-100">
+                    <div class="row custom-gutter">
+                        <div class="col-6 offset-2">
+                            <div class="index mt-1 mb-2" :class="index==0 ? 'first' : ''">
+                                {{index}}
+                            </div>
+                        </div>
+                    </div>
                     <div v-for="card in cards">
-                        <div class="interestline row mb-1 mx-1 custom-gutter">
+                        <div class="interestline row my-1 mx-1 custom-gutter">
                             <div class="col-6 time">
                                 <{{card.time}}> 
                             </div>
@@ -81,13 +85,8 @@
     margin-right: 0;
 }
 
-.footer-widget {
-    height: 100%;
-    width: 100%;
-}
-
 .timestep {
-    background-color: yellow;
+    background-color: #1F3642;
 }
 
 .first {
@@ -98,6 +97,7 @@
     text-align: center;
     font-size: 1.5em; 
     font-weight: 1000;
+    background-color: white;
 }
 
 .interestline {
