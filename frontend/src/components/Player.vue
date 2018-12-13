@@ -65,7 +65,7 @@
 .player {
     border-style: inset;
     border-width: 2px;
-    background-color: lightblue;
+    background-color: lightgrey;
     margin-bottom: 5px;
     margin-top: 5px;
 }

@@ -2,10 +2,10 @@
     <div>
         <h2>Luxury Tiles</h2>
         <div class="row">
-            <div class="col-2" v-for="(tile, i) in luxuryTiles" :key="i">
+            <div class="col-3" v-for="(tile, i) in luxuryTiles" :key="i">
                 <div class="tile" :class="hiLight(i, selectedLuxuryTile)" 
                      @click="select(i)" >
-                    {{tile.value}} {{tile.points}}
+                    ${{tile.value}} {{tile.points}}
                 </div>
             </div>
         </div>
@@ -56,7 +56,10 @@
 .tile {
     border-style: inset;
     border-width: 2px;
-    background-color: grey;
+    background-color: darkblue;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white;
 }
 
 .hilight {
