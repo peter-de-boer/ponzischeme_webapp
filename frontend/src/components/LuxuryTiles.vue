@@ -3,9 +3,11 @@
         <h2>Luxury Tiles</h2>
         <div class="row">
             <div class="col-3" v-for="(tile, i) in luxuryTiles" :key="i">
-                <div class="tile" :class="hiLight(i, selectedLuxuryTile)" 
-                     @click="select(i)" >
-                    ${{tile.value}} {{tile.points}}
+                    <luxury-tile 
+                        :value="tile.value" 
+                        :points="tile.points" 
+                        @click.native="select(i)">
+                    </luxury-tile>
                 </div>
             </div>
         </div>
@@ -15,8 +17,12 @@
 <script>
     import {mapGetters} from 'vuex';
     import {mapActions} from 'vuex';
+    import LuxuryTile from './LuxuryTile.vue';
 
     export default {
+        components: {
+            luxuryTile: LuxuryTile
+        },
         computed: {
             ...mapGetters([
                 'tradeOffer',
@@ -28,7 +34,6 @@
         },
         methods: {
             ...mapActions([
-                'setGameState',
                 'selectLuxuryTile'
             ]),
             select(i) {
@@ -39,35 +44,10 @@
                         this.selectLuxuryTile(i)
                     }
                 }
-            },
-            hiLight(i, sel) {
-                if (sel==i) {
-                    return "hilight";
-                } else {
-                    return "nohilight";
-                }
             }
         }
     }    
 </script>
 
 <style scoped>
-
-.tile {
-    border-style: inset;
-    border-width: 2px;
-    background-color: darkblue;
-    font-size: 1.5em;
-    font-weight: bold;
-    text-align: center;
-    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
-}
-
-.hilight {
-}
-
-.nohilight {
-    border-color: transparent;
-}
-
 </style>
