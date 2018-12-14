@@ -11,9 +11,7 @@
 
         <div class="row">
             <div class="col-3" v-for="(tile, i) in player.luxuryTiles" :key="i">
-                <div class="tile" >
-                    {{tile.value}} {{tile.points}}
-                </div>
+                <luxury-tile :value="tile.value" :points="tile.points"></luxury-tile>
             </div>
         </div>
 
@@ -27,6 +25,7 @@
     import {mapGetters} from 'vuex';
     import TimeWheel from './TimeWheel.vue'
     import PlayerIndustryTiles from './PlayerIndustryTiles.vue'
+    import LuxuryTile from './LuxuryTile.vue'
 
     export default {
         props: ['player'],
@@ -37,6 +36,7 @@
             ])
         },
         components: {
+            luxuryTile: LuxuryTile,
             timeWheel: TimeWheel,
             playerIndustryTiles: PlayerIndustryTiles
         },
@@ -54,13 +54,6 @@
 </script>
 
 <style scoped>
-
-.tile {
-    border-style: inset;
-    border-width: 2px;
-    background-color: grey;
-    border-color: transparent;
-}
 
 .player {
     border-style: inset;

@@ -30,20 +30,19 @@
 <style scoped>
 
 .tile {
-    border-style: inset;
-    border-width: 2px;
     background-color: darkblue;
     font-size: 1.2em;
     font-weight: bold;
     text-align: center;
     text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+    width: 70px;
 }
 
 .hilight {
+    box-shadow: 4px 4px 4px grey;
 }
 
 .nohilight {
-    border-color: transparent;
 }
 
 </style>
