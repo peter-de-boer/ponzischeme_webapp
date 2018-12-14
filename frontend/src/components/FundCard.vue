@@ -90,6 +90,8 @@
 
 .value {
     font-size: 2em;
+    font-weight: bold;
+    text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white;
 }
 
 .timeandinterest {
@@ -98,6 +100,11 @@
     flex-direction: horizontal;
     justify-content: space-evenly;
     width: 100%;
+    font-weight: bold;
+}
+
+.interest {
+    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
 
 .average {

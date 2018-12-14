@@ -70,6 +70,8 @@
     box-shadow: 5px -5px, 10px -10px;
     text-align: center;
     font-weight: bold;
+    width: 60px;
+    height: 20px;
 }
 
 .hilight {
@@ -80,19 +82,19 @@
 }
 
 .transport {
-    background-color: blue
+    background-color: #5F7F9D;
 }
 
 .grain {
-    background-color: yellow
+    background-color: #E1C908;
 }
 
 .medix {
-    background-color: green
+    background-color: #50A492;
 }
 
 .realestate {
-    background-color: red
+    background-color: #A70909;
 }
 
 </style>

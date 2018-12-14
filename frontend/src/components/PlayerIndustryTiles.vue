@@ -101,22 +101,23 @@
     margin-top:6px;
     border-style: solid;
     border-width: 2px;
+    width: 60px;
+    height: 20px;
 }
 
 .transport {
-    background-color: blue
+    background-color: #5F7F9D;
 }
 
 .grain {
-    background-color: yellow
+    background-color: #E1C908;
 }
 
 .medix {
-    background-color: green
+    background-color: #50A492;
 }
 
 .realestate {
-    background-color: red
+    background-color: #A70909;
 }
-
 </style>

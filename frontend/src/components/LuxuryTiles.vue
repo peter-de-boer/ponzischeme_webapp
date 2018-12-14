@@ -57,9 +57,10 @@
     border-style: inset;
     border-width: 2px;
     background-color: darkblue;
+    font-size: 1.5em;
     font-weight: bold;
     text-align: center;
-    text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white;
+    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
 
 .hilight {
