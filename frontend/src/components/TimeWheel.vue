@@ -4,21 +4,21 @@
             <div v-for="(cards, index) in wheel" class="col-2" :key="index + 'top'">
                 <div class="timestep h-100">
                     <div class="row custom-gutter">
-                        <div class="col-6 offset-2">
+                        <div class="col-6 offset-3">
                             <div class="index mt-1 mb-2" :class="index==0 ? 'first' : ''">
                                 {{index}}
                             </div>
                         </div>
-                    </div>
-                    <div v-for="card in cards">
-                        <div class="interestline row my-1 mx-1 custom-gutter">
-                            <div class="col-6 time">
-                                <{{card.time}}> 
-                            </div>
-                            <div class="col-5 interest"> 
-                                ${{card.interest}} 
-                            </div>
-                        </div> 
+                        <div v-for="card in cards" class="col-12">
+                            <div class="timeandinterest normal my-1 mx-auto">
+                                <div class="time">
+                                    <{{card.time}}> 
+                                </div>
+                                <div class="interest"> 
+                                    ${{card.interest}} 
+                                </div>
+                            </div> 
+                        </div>
                     </div>
                 </div>
             </div>
@@ -106,12 +106,21 @@
     font-size: 0.8em; 
 }
 
-.interest {
-    text-align: right;
+.timeandinterest {
+    display: flex;
+    flex: 1;
+    flex-direction: horizontal;
+    justify-content: space-evenly;
+    width: 100%;
+    font-weight: bold;
 }
 
-.time {
-    text-align: center;
+.normal {
+    background-color: #FAED95;
+}    
+
+.interest {
+    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
 
 </style>
