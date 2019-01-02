@@ -10,11 +10,13 @@ import json
 
 users = Blueprint('users', __name__)
 
-def valid_email(email):
-    return True
+def exists_email(email):
+    user = User.query.filter_by(email=email).first()
+    return user
 
-def valid_username(username):
-    return True
+def exists_username(username):
+    user = User.query.filter_by(username=username).first()
+    return user
 
 @users.route("/user/signup", methods=['POST'])
 def signup():
@@ -23,19 +25,22 @@ def signup():
     email = req['email']
     password = req['password']
     username = req['username']
-    if valid_email(email) & valid_username(username):
+    data = {}
+    if exists_email(email):
+        data['error'] = 'email_exists'
+    elif exists_username(username):
+        data['error'] = 'username_exists'
+    else:
         hashed_password = generate_password_hash(password)
         user = User(username=username, email=email, password=hashed_password)
         db.session.add(user)
         db.session.commit()
-
-    data = {}
-    data['idToken'] = 'myIdToken'
-    data['expiresIn'] = 3600
-    data['username'] = 'this_username'
-    data['userId'] = 'this_iserId'
+        data['idToken'] = 'myIdToken'
+        data['expiresIn'] = 3600
+        data['username'] = username
+        data['hashed_password'] = hashed_password
+        data['userId'] = 'this_iserId'
     json_data = json.dumps(data)
-    print(json_data)
     return json_data
 
 
