@@ -16,7 +16,7 @@ db = SQLAlchemy()
 #mail = Mail()
 
 
-def create_app(config_class=Config):
+def create_app(config_class=Config, createdb=False):
     """
     in production, we need to specify the template folder
     it only contains index.html
@@ -45,6 +45,9 @@ def create_app(config_class=Config):
 
     from backend.games.routes import games
     app.register_blueprint(games)
+    if (not createdb):
+        from backend.users.routes import users
+        app.register_blueprint(users)
     """
     from backend.users.routes import users
     from backend.posts.routes import posts

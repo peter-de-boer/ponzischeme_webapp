@@ -2,31 +2,45 @@ from flask import render_template, url_for, flash, redirect, request, Blueprint
 from flask_login import login_user, current_user, logout_user, login_required
 from backend import db # , bcrypt
 from werkzeug.security import generate_password_hash, check_password_hash
-from backend.models import User, Post
-from backend.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
-                                   RequestResetForm, ResetPasswordForm)
-from backend.users.utils import save_picture, send_reset_email
+from backend.models import User #, Post
+#from backend.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
+#                                   RequestResetForm, ResetPasswordForm)
+#from backend.users.utils import save_picture, send_reset_email
+import json
 
 users = Blueprint('users', __name__)
 
+def valid_email(email):
+    return True
 
-@users.route("/register", methods=['GET', 'POST'])
-def register():
-    if current_user.is_authenticated:
-        return redirect(url_for('main.home'))
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        #hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        hashed_password = generate_password_hash(form.password.data)
-        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+def valid_username(username):
+    return True
+
+@users.route("/user/signup", methods=['POST'])
+def signup():
+    print("in python signup")
+    req = request.get_json()
+    email = req['email']
+    password = req['password']
+    username = req['username']
+    if valid_email(email) & valid_username(username):
+        hashed_password = generate_password_hash(password)
+        user = User(username=username, email=email, password=hashed_password)
         db.session.add(user)
         db.session.commit()
-        flash('Your account has been created! You are now able to log in', 'success')
-        return redirect(url_for('users.login'))
-    return render_template('register.html', title='Register', form=form)
+
+    data = {}
+    data['idToken'] = 'myIdToken'
+    data['expiresIn'] = 3600
+    data['username'] = 'this_username'
+    data['userId'] = 'this_iserId'
+    json_data = json.dumps(data)
+    print(json_data)
+    return json_data
 
 
-@users.route("/login", methods=['GET', 'POST'])
+
+@users.route("/user/login", methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('main.home'))
@@ -43,13 +57,13 @@ def login():
     return render_template('login.html', title='Login', form=form)
 
 
-@users.route("/logout")
+@users.route("/user/logout")
 def logout():
     logout_user()
     return redirect(url_for('main.home'))
 
 
-@users.route("/account", methods=['GET', 'POST'])
+@users.route("/user/account", methods=['GET', 'POST'])
 @login_required
 def account():
     form = UpdateAccountForm()
@@ -80,7 +94,7 @@ def user_posts(username):
     return render_template('user_posts.html', posts=posts, user=user)
 
 
-@users.route("/reset_password", methods=['GET', 'POST'])
+@users.route("/user/reset_password", methods=['GET', 'POST'])
 def reset_request():
     if current_user.is_authenticated:
         return redirect(url_for('main.home'))
@@ -93,7 +107,7 @@ def reset_request():
     return render_template('reset_request.html', title='Reset Password', form=form)
 
 
-@users.route("/reset_password/<token>", methods=['GET', 'POST'])
+@users.route("/user/reset_password/<token>", methods=['GET', 'POST'])
 def reset_token(token):
     if current_user.is_authenticated:
         return redirect(url_for('main.home'))
