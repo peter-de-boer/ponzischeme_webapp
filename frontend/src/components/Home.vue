@@ -1,9 +1,6 @@
 <template>
   <div>
-    <h1>Home</h1>
-    <p>
-       This the home component
-    </p>
+            <li class="nav-item mx-2"><router-link to="/urlgame">Game</router-link></li>
   </div>
 </template>
 

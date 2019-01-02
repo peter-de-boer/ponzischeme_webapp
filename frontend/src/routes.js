@@ -1,11 +1,26 @@
 import Game from './components/Game.vue'
 import Home from './components/Home.vue'
 import NotFound from './components/NotFound.vue'
-import OtherRoute from './components/OtherRoute.vue'
+import DashboardPage from './components/dashboard/dashboard.vue'
+import SignupPage from './components/auth/signup.vue'
+import SigninPage from './components/auth/signin.vue'
 
 export const routes = [
     { path: '', component:  Home },
     { path: '/urlgame', component:  Game },
-    { path: '/otherroute', component:  OtherRoute },
+    { path: '/signup', component: SignupPage },
+    { path: '/signin', component: SigninPage },
+    {
+      path: '/dashboard',
+      component: DashboardPage,
+      beforeEnter (to, from, next) {
+        if (store.state.idToken) {
+          next()
+        } else {
+          next('/signin')
+        }
+      }
+    },
     { path: '*', component: NotFound }
 ]
+
