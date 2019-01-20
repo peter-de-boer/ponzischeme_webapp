@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint
 from flask_login import login_user, current_user, logout_user, login_required
-from backend import db # , bcrypt
+from backend import Session # db # , bcrypt
 from werkzeug.security import generate_password_hash, check_password_hash
 from backend.models import User #, Post
 #from backend.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
@@ -11,16 +11,17 @@ import json
 users = Blueprint('users', __name__)
 
 def exists_email(email):
-    user = User.query.filter_by(email=email).first()
+    user = Session.query(User).filter_by(email=email).first()
     return user
 
 def exists_username(username):
-    user = User.query.filter_by(username=username).first()
+    user = Session.query(User).filter_by(username=username).first()
     return user
 
 @users.route("/user/signup", methods=['POST'])
 def signup():
     print("in python signup")
+    session = Session()
     req = request.get_json()
     email = req['email']
     password = req['password']
@@ -33,8 +34,8 @@ def signup():
     else:
         hashed_password = generate_password_hash(password)
         user = User(username=username, email=email, password=hashed_password)
-        db.session.add(user)
-        db.session.commit()
+        session.add(user)
+        session.commit()
         data['idToken'] = 'myIdToken'
         data['expiresIn'] = 3600
         data['username'] = username

@@ -1,11 +1,12 @@
 from datetime import datetime
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
-from backend import db, create_app
+from backend.db import Base, db
 #from flask_login import UserMixin
 
 
-class User(db.Model): #, UserMixin):
+class User(Base): #, UserMixin):
+    __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -28,7 +29,7 @@ class User(db.Model): #, UserMixin):
         return User.query.get(user_id)
 
     def __repr__(self):
-        return f"User('{self.username}', '{self.email}')"
+        return f"User('{self.id}', '{self.username}', '{self.email}', '{self.password}')"
 
 
 '''

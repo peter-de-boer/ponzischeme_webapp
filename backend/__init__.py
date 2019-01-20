@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 from flask_cors import CORS
-from flask_sqlalchemy import SQLAlchemy
+#from flask_sqlalchemy import SQLAlchemy
+from .db import Session
 # from flask_bcrypt import Bcrypt
 #from flask_login import LoginManager
 #from flask_mail import Mail
@@ -8,7 +9,7 @@ from backend.config import Config
 import requests
 
 
-db = SQLAlchemy()
+#db = SQLAlchemy()
 #bcrypt = Bcrypt()
 #login_manager = LoginManager()
 #login_manager.login_view = 'users.login'
@@ -33,7 +34,7 @@ def create_app(config_class=Config, createdb=False):
 
     app.config.from_object(Config)
 
-    db.init_app(app)
+    #db.init_app(app)
     #bcrypt.init_app(app)
     #login_manager.init_app(app)
     #mail.init_app(app)
@@ -48,6 +49,10 @@ def create_app(config_class=Config, createdb=False):
     if (not createdb):
         from backend.users.routes import users
         app.register_blueprint(users)
+
+    @app.teardown_appcontext
+    def cleanup(resp_or_exc):
+        Session.remove()
     """
     from backend.users.routes import users
     from backend.posts.routes import posts
