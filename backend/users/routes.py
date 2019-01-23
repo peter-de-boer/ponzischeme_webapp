@@ -39,14 +39,13 @@ def signup():
         data['idToken'] = 'myIdToken'
         data['expiresIn'] = 3600
         data['username'] = username
-        data['hashed_password'] = hashed_password
-        data['userId'] = 'this_iserId'
+        data['userId'] = 'this_userId'
     json_data = json.dumps(data)
     return json_data
 
 
 
-@users.route("/user/login", methods=['GET', 'POST'])
+@users.route("/user/sigin", methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('main.home'))

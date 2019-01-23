@@ -58,8 +58,8 @@ const auth = {
         .catch(error => console.log(error))
     },
     login ({commit, dispatch}, authData) {
-      axios.post('/verifyPassword?key=AIzaSyCXlVPPWknVGhfc60mt7Jkv0Xzrho7_mwc', {
-        email: authData.email,
+      axios.post('/user/signin', {
+        username: authData.username,
         password: authData.password,
         returnSecureToken: true
       })

@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
 from backend.db import Base, db
@@ -7,13 +7,21 @@ from backend.db import Base, db
 
 class User(Base): #, UserMixin):
     __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     #image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
+    registered_on = db.Column(db.DateTime, nullable=False ,default=datetime.datetime.utcnow)
+    admin = db.Column(db.Boolean, nullable=False, default=False)
     #posts = db.relationship('Post', backref='author', lazy=True)
     #games = db.relationship('Game', backref='author', lazy=True)
+
+    def __init(self, email, password, admin=False):
+        self.email = email
+        self.password = password
+        self.registered_on = datetime.datetime.now()
+        self.admin = admin
 
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
@@ -29,7 +37,8 @@ class User(Base): #, UserMixin):
         return User.query.get(user_id)
 
     def __repr__(self):
-        return f"User('{self.id}', '{self.username}', '{self.email}', '{self.password}')"
+        return f"User('{self.id}', '{self.username}', '{self.email}', " \
+               f"'{self.password}', '{self.admin}', '{self.registered_on}')"
 
 
 '''
