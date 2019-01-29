@@ -1,7 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint
 from flask_login import login_user, current_user, logout_user, login_required
 from backend import Session # db # , bcrypt
-from werkzeug.security import generate_password_hash, check_password_hash
 from backend.models import User #, Post
 #from backend.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
 #                                   RequestResetForm, ResetPasswordForm)
@@ -28,18 +27,14 @@ def signup():
     username = req['username']
     data = {}
     if exists_email(email):
-        data['error'] = 'email_exists'
+        data['status'] = 'email_exists'
     elif exists_username(username):
-        data['error'] = 'username_exists'
+        data['status'] = 'username_exists'
     else:
-        hashed_password = generate_password_hash(password)
-        user = User(username=username, email=email, password=hashed_password)
+        user = User(username=username, email=email, password=password)
         session.add(user)
         session.commit()
-        data['idToken'] = 'myIdToken'
-        data['expiresIn'] = 3600
-        data['username'] = username
-        data['userId'] = 'this_userId'
+        data['status'] = 'success'
     json_data = json.dumps(data)
     return json_data
 

@@ -1,6 +1,6 @@
 <template>
-  <div id="signin">
-    <div class="signin-form">
+  <div id="login">
+    <div class="login-form">
       <form @submit.prevent="onSubmit">
         <div class="input">
           <label for="username">Username</label>
@@ -48,7 +48,7 @@
 </script>
 
 <style scoped>
-  .signin-form {
+  .login-form {
     width: 400px;
     margin: 30px auto;
     border: 1px solid #eee;

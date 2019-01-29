@@ -3,13 +3,13 @@ import Home from './components/Home.vue'
 import NotFound from './components/NotFound.vue'
 import DashboardPage from './components/dashboard/dashboard.vue'
 import SignupPage from './components/auth/signup.vue'
-import SigninPage from './components/auth/signin.vue'
+import SigninPage from './components/auth/login.vue'
 
 export const routes = [
     { path: '', component:  Home },
     { path: '/urlgame', component:  Game },
     { path: '/signup', component: SignupPage },
-    { path: '/signin', component: SigninPage },
+    { path: '/login', component: SigninPage },
     {
       path: '/dashboard',
       component: DashboardPage,
@@ -17,7 +17,7 @@ export const routes = [
         if (store.state.idToken) {
           next()
         } else {
-          next('/signin')
+          next('/login')
         }
       }
     },

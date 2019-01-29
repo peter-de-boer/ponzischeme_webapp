@@ -9,7 +9,7 @@
           <router-link to="/signup">Sign Up</router-link>
         </li>
         <li v-if="!auth">
-          <router-link to="/signin">Sign In</router-link>
+          <router-link to="/login">Login</router-link>
         </li>
         <li v-if="auth">
           <router-link to="/dashboard">Dashboard</router-link>

@@ -2,6 +2,7 @@ import datetime
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
 from backend.db import Base, db
+from werkzeug.security import generate_password_hash, check_password_hash
 #from flask_login import UserMixin
 
 
@@ -17,9 +18,12 @@ class User(Base): #, UserMixin):
     #posts = db.relationship('Post', backref='author', lazy=True)
     #games = db.relationship('Game', backref='author', lazy=True)
 
-    def __init(self, email, password, admin=False):
+    def __init__(self, email, username, password, admin=False):
         self.email = email
-        self.password = password
+        self.username = username
+        hashed_password = generate_password_hash(password)
+        #if user and check_password_hash(user.password, form.password.data):
+        self.password = hashed_password
         self.registered_on = datetime.datetime.now()
         self.admin = admin
 
@@ -53,34 +57,3 @@ class Game(db.Model):
         return f"Post('{self.id}')"
 '''
 
-
-def init_db():
-    '''
-    from flask import Flask
-    from flask_sqlalchemy import SQLAlchemy
-    import os
-    app = Flask(__name__)
-
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI')
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    db = SQLAlchemy(app)
-
-    # See important note below
-    from backend.models import User
-    '''
-    app=create_app(createdb=True)
-
-    with app.app_context():
-        db.create_all()
-        db.session.commit()
-
-        admin = User(username='admin', email='admin@example.com', password='123')
-        guest = User(username='guest', email='guest@example.com', password='abc')
-        db.session.add(admin)
-        db.session.add(guest)
-        db.session.commit()
-        users = User.query.all()
-        print(users)
-
-if __name__ == '__main__':
-    init_db()

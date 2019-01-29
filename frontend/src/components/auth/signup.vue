@@ -1,5 +1,6 @@
 <template>
   <div id="signup">
+    <div> {{signupStatus}} </div>
     <div class="signup-form">
       <form @submit.prevent="onSubmit">
         <div class="input">
@@ -42,31 +43,36 @@
     import { mapGetters } from 'vuex';
     import { mapActions } from 'vuex';
 
-  export default {
-    data () {
-      return {
-        email: '',
-        username: '',
-        password: '',
-        confirmPassword: '',
-      }
-    },
-    methods: {
+    export default {
+        data () {
+            return {
+                email: '',
+                username: '',
+                password: '',
+                confirmPassword: '',
+            }
+        },
+        computed: {
+            ...mapGetters([
+                'signupStatus'
+            ])    
+        },
+        methods: {
             ...mapActions([
                 'signup'
             ]),
-      onSubmit () {
-        const formData = {
-          email: this.email,
-          username: this.username,
-          password: this.password,
-          confirmPassword: this.confirmPassword,
+            onSubmit () {
+                const formData = {
+                    email: this.email,
+                    username: this.username,
+                    password: this.password,
+                    confirmPassword: this.confirmPassword,
+                }
+                console.log(formData)
+                this.signup(formData)
+            }
         }
-        console.log(formData)
-        this.signup(formData)
-      }
     }
-  }
 </script>
 
 <style scoped>
