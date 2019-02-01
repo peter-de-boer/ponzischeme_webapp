@@ -21,6 +21,10 @@ class Player(object):
                (self.points==other.points and \
                 self.maxCardValue < other.maxCardValue)
 
+    def identical(self, player):
+        # returns true if player name and id is identical to self
+        return (player and self.name==player['name'] and self.id==player['id'])
+
     def getMaxCardValue(self):
         maxValue = 0
         for cards in self.wheel:

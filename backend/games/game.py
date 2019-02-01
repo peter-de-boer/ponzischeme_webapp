@@ -34,6 +34,31 @@ class Game(object):
         self.standings = []
         self.bankruptPlayers = []
 
+    def removeHiddenInfo(self, playerInfo):
+        '''
+        playerInfo: dictionary of 'name' and 'id'
+        remove the information that is hidden to player
+        hidden information is:
+            player's money: hidden to all others
+            bid from player A to player B: money involved hidden to all other's
+            deck: hidden to everyone
+        if player is None or not a player in this game, all this information is hidden
+        if player is in this game, it's money and money involved in a bid he is
+        involved in is not hidden
+        '''
+        for player in self.players:
+            if not player.identical(playerInfo):
+                player.money = None
+        self.fundDeck = None
+        # set self.status.tradeOffer.money to None if playerInfo not involved
+        if self.status.tradeOffer:
+            offeringPlayer = self.players[self.status.tradeOffer.offeringPlayerIndex];
+            opponent =       self.players[self.status.tradeOffer.opponentIndex];
+            if (not offeringPlayer.identical(playerInfo) and
+                not opponent.identical(playerInfo)):
+                self.status.tradeOffer.money = None
+
+
     def addCardFromDeckToBoard(self):
         card = self.fundDeck.pop(0)
         self.log.add("Funding Card " + str(card.value) + " enters the board.")
