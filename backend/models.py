@@ -27,12 +27,16 @@ class User(Base): #, UserMixin):
         self.registered_on = datetime.datetime.now()
         self.admin = admin
 
-    def get_reset_token(self, expires_sec=1800):
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
+
+
+    def get_token(self, expires_sec=60): #259200sec=30days
         s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
         return s.dumps({'user_id': self.id}).decode('utf-8')
 
     @staticmethod
-    def verify_reset_token(token):
+    def verify_token(token):
         s = Serializer(current_app.config['SECRET_KEY'])
         try:
             user_id = s.loads(token)['user_id']

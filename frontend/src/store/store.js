@@ -7,18 +7,20 @@ Vue.use(Vuex);
 const auth = {
     state: {
         idToken: null,
-        userId: null,
         user: null,
         username: null,
+        loginStatus: null,
         signupStatus: null
     },
     mutations: {
+        loginStatus(state, loginStatus) {
+            state.loginStatus = loginStatus.status
+        },
         signupStatus(state, signupStatus) {
             state.signupStatus = signupStatus.status
         },
     authUser (state, userData) {
         state.idToken = userData.idToken
-        state.userId = userData.userId
         state.username = userData.username
     },
     storeUser (state, user) {
@@ -69,19 +71,17 @@ const auth = {
                 returnSecureToken: true
             })
             .then(res => {
+                console.log("login then")
                 console.log(res)
-                const now = new Date()
-                const expirationDate = new Date(now.getTime() + res.data.expiresIn * 1000)
+                console.log(res.data.idToken)
+                console.log(res.data.username)
+                commit('loginStatus', res.data)
                 localStorage.setItem('token', res.data.idToken)
-                localStorage.setItem('userId', res.data.userId)
                 localStorage.setItem('username', res.data.username)
-                localStorage.setItem('expirationDate', expirationDate)
                 commit('authUser', {
                     idToken: res.data.idToken,
-                    userId: res.data.userId,
                     username: res.data.username
                 })
-                //dispatch('setLogoutTimer', res.data.expiresIn)
               })
               .catch(error => console.log(error))
         },
@@ -103,9 +103,8 @@ const auth = {
         },
         logout ({commit}) {
             commit('clearAuthData')
-            localStorage.removeItem('expirationDate')
             localStorage.removeItem('token')
-            localStorage.removeItem('userId')
+            localStorage.removeItem('username')
             router.replace('/signin')
         },
         storeUser ({commit, state}, userData) {
@@ -142,6 +141,9 @@ const auth = {
         },
         isAuthenticated (state) {
             return state.idToken !== null
+        },
+        loginStatus(state) {
+            return state.loginStatus
         },
         signupStatus(state) {
             return state.signupStatus

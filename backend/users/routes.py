@@ -19,7 +19,6 @@ def exists_username(username):
 
 @users.route("/user/signup", methods=['POST'])
 def signup():
-    print("in python signup")
     session = Session()
     req = request.get_json()
     email = req['email']
@@ -40,21 +39,22 @@ def signup():
 
 
 
-@users.route("/user/sigin", methods=['GET', 'POST'])
+@users.route("/user/login", methods=['GET', 'POST'])
 def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('main.home'))
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        #if user and bcrypt.check_password_hash(user.password, form.password.data):
-        if user and check_password_hash(user.password, form.password.data):
-            login_user(user, remember=form.remember.data)
-            next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('main.home'))
-        else:
-            flash('Login Unsuccessful. Please check email and password', 'danger')
-    return render_template('login.html', title='Login', form=form)
+    session = Session()
+    req = request.get_json()
+    password = req['password']
+    username = req['username']
+    data = {}
+    user = session.query(User).filter_by(username=username).first()
+    if (user and user.check_password(password)):
+        data['status'] = 'authenticated'
+        data['idToken'] = user.get_token()
+        data['username'] = username
+    else:
+        data['status'] = 'failed'
+    json_data = json.dumps(data)
+    return json_data
 
 
 @users.route("/user/logout")

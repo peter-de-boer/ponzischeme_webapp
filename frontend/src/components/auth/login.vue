@@ -1,5 +1,6 @@
 <template>
   <div id="login">
+    <div> {{loginStatus}}</div>
     <div class="login-form">
       <form @submit.prevent="onSubmit">
         <div class="input">
@@ -27,21 +28,31 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        username: '',
-        password: ''
-      }
-    },
-    methods: {
-      onSubmit () {
-        const formData = {
-          username: this.username,
-          password: this.password,
-        }
-        console.log(formData)
-        this.$store.dispatch('login', formData)
+    import { mapGetters } from 'vuex';
+    import { mapActions } from 'vuex';
+    export default {
+        data () {
+            return {
+                username: '',
+                password: ''
+            }
+        },
+        computed: {
+            ...mapGetters([
+                'loginStatus'
+            ])    
+        },
+        methods: {
+            ...mapActions([
+                'login'
+            ]),
+          onSubmit () {
+              const formData = {
+                  username: this.username,
+                  password: this.password,
+              }
+            console.log(formData)
+            this.login(formData)
       }
     }
   }
