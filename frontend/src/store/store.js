@@ -147,6 +147,9 @@ const auth = {
         },
         signupStatus(state) {
             return state.signupStatus
+        },
+        token(state) {
+            return localStorage.getItem('token')
         }
     }
 }

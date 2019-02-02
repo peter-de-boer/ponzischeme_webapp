@@ -2,13 +2,22 @@ from flask import jsonify, Blueprint, request
 from backend.games.gameIO import readGameJSON
 from backend.games.gameActions import *
 
+from backend import Session
+from backend.models import User
 
 
 games = Blueprint('games', __name__)
 
 
-@games.route("/game", methods=['GET'])
+@games.route("/game", methods=['GET','PUT'])
 def get_game():
+    req = request.get_json()
+    print(req)
+    token = req['token']
+    print(token)
+    session = Session()
+    user=User.verify_token(token)
+    print(user)
     return readGameJSON()
     """
     return jsonify(game_id=1,

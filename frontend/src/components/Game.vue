@@ -52,7 +52,10 @@
     export default {
         name: 'Game',
         created() {
-            axios.get('/game')
+            var json = {"token": this.token}
+            console.log(json)
+            // need to do put instead of get request, else json arg is not working somehow
+            axios.put('/game', json)
                 .then( res => {
                     console.log(res)
                     this.setGameState(res.data)
@@ -74,6 +77,7 @@
         },
         computed: {
             ...mapGetters([
+                'token',
                 'phase',
                 'round',
                 'startPlayerName',

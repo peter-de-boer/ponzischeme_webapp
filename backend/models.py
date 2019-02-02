@@ -2,6 +2,7 @@ import datetime
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
 from backend.db import Base, db
+from backend import Session 
 from werkzeug.security import generate_password_hash, check_password_hash
 #from flask_login import UserMixin
 
@@ -31,7 +32,7 @@ class User(Base): #, UserMixin):
         return check_password_hash(self.password, password)
 
 
-    def get_token(self, expires_sec=60): #259200sec=30days
+    def get_token(self, expires_sec=259200): #259200sec=30days
         s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
         return s.dumps({'user_id': self.id}).decode('utf-8')
 
@@ -42,7 +43,7 @@ class User(Base): #, UserMixin):
             user_id = s.loads(token)['user_id']
         except:
             return None
-        return User.query.get(user_id)
+        return Session.query(User).get(user_id)
 
     def __repr__(self):
         return f"User('{self.id}', '{self.username}', '{self.email}', " \
