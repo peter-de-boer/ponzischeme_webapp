@@ -12,13 +12,15 @@ games = Blueprint('games', __name__)
 @games.route("/game", methods=['GET','PUT'])
 def get_game():
     req = request.get_json()
-    print(req)
-    token = req['token']
-    print(token)
+    token = None
+    if 'token' in req:
+        token = req['token']
     session = Session()
     user=User.verify_token(token)
-    print(user)
-    return readGameJSON()
+    userData = None
+    if user:
+        userData = {"name": user.username, "id": user.id}
+    return readGameJSON(userData=userData)
     """
     return jsonify(game_id=1,
                    player1 = "peter")
