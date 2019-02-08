@@ -2,10 +2,10 @@
     <div>
         <div>
             <h2>Funding</h2>
-            <div v-if="currentIsActive">
+            <div v-if="userIsActive">
                 <p>Please select an industry tile and a fund card, or pass</p>
                 <p><button class="btn btn-default" 
-                        :class="enableButton(selectedFundCard, selectedIndustryTile, currentPlayer)"
+                        :class="enableButton(selectedFundCard, selectedIndustryTile, username)"
                         @click="selectTileAndCard(selectedFundCard, selectedIndustryTile)"> 
                             Select Tile/Card 
                    </button> 
@@ -28,9 +28,9 @@
         computed: {
             ...mapGetters([
                 'fundingBoard',
-                'currentIsActive',
+                'userIsActive',
                 'activePlayerName',
-                'currentPlayer',
+                'username',
                 'isPhase1',
                 'selectedFundCard',
                 'selectedIndustryTile'
@@ -65,9 +65,9 @@
             },
             selectTileAndCard(card,tile) {
                 console.log("in selectTileAndCard")
-                // if (this.currentPlayer && card != null && tile != null) {
-                if (this.correctSelection(card, tile, this.currentPlayer)) {
-                    var json = {"value": card.value, "tile": tile, "name": this.currentPlayer.name}
+                // if (this.username && card != null && tile != null) {
+                if (this.correctSelection(card, tile, this.username)) {
+                    var json = {"value": card.value, "tile": tile, "name": this.username}
                     console.log(json)
                     axios.put('/game/selectTileAndCard', json)
                         .then( res => {
@@ -85,8 +85,8 @@
             },
             passFunding() {
                 console.log("in passFunding")
-                if (this.currentPlayer) {
-                    var json = {"name": this.currentPlayer.name}
+                if (this.username) {
+                    var json = {"name": this.username}
                     axios.put('/game/passFunding', json)
                         .then( res => {
                             console.log(res)

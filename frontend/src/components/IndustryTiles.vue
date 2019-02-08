@@ -19,7 +19,7 @@
     export default {
         computed: {
             ...mapGetters([
-                'currentIsActive',
+                'userIsActive',
                 'phase',
                 'industryTiles',
                 'selectedIndustryTile'
@@ -31,7 +31,7 @@
                 'selectIndustryTile'
             ]),
             select(i) {
-                if (this.currentIsActive && this.phase==1) {
+                if (this.userIsActive && this.phase==1) {
                     if (this.selectedIndustryTile==i) {
                         this.selectIndustryTile(null)
                     } else {

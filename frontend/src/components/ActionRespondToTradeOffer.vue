@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>Trading</h2>
-        <div v-if="currentIsActive">
+        <div v-if="userIsActive">
             <p> {{tradeOffer.offeringPlayerName}} offers 
                 {{tradeOffer.tradeMoney}} to
                 you for a 
@@ -30,9 +30,10 @@
     export default {
         computed: {
             ...mapGetters([
+                'activePlayer',
                 'activePlayerName',
-                'currentIsActive',
-                'currentPlayer',
+                'userIsActive',
+                'username',
                 'tradeOffer'
             ])
         },
@@ -42,8 +43,8 @@
                 'clearSelections'
             ]),
             counterOfferPossible() {
-                return (this.currentIsActive && 
-                        this.currentPlayer.money >= this.tradeOffer.tradeMoney)
+                return (this.userIsActive && 
+                        activePlayer.money >= this.tradeOffer.tradeMoney)
             },
             enableButton() {
                 if (this.counterOfferPossible()) {
@@ -54,8 +55,8 @@
             },
             sellTrade() {
                 console.log("in sellTrade")
-                if (this.currentPlayer) {
-                    var json = {"name": this.currentPlayer.name}
+                if (this.username) {
+                    var json = {"name": this.username}
                     axios.put('/game/sellTrade', json)
                         .then( res => {
                             console.log(res)
@@ -74,7 +75,7 @@
             buyTrade() {
                 console.log("in buyTrade")
                 if (this.counterOfferPossible()) {
-                    var json = {"name": this.currentPlayer.name}
+                    var json = {"name": this.username}
                     axios.put('/game/buyTrade', json)
                         .then( res => {
                             console.log(res)

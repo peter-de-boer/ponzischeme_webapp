@@ -1,10 +1,10 @@
 <template>
     <div>
         <h2>Trading</h2>
-        <div v-if="currentIsActive">
+        <div v-if="userIsActive">
             <p>Please select an industry tile from and opponent and offer an amount of money, or pass</p>
             <p><button class="btn btn-default" 
-                    :class="enableButton(selectedPlayerAndTile, currentPlayer)"
+                    :class="enableButton(selectedPlayerAndTile, username)"
                     @click="offerTrade(selectedPlayerAndTile, tradeMoney)"> 
                         Offer Trade
                </button> 
@@ -17,7 +17,7 @@
                 <hr>
             </div>
             <p><button class="btn btn-default" 
-                    :class="enableLuxuryButton(selectedLuxuryTile, currentPlayer)"
+                    :class="enableLuxuryButton(selectedLuxuryTile, username)"
                        @click="buyLuxuryTile(selectedLuxuryTile)"> 
                        Buy Luxury Tile 
                </button> 
@@ -47,22 +47,25 @@
         },
         computed: {
             ...mapGetters([
-                'currentIsActive',
+                'userIsActive',
+                'activePlayer',
                 'activePlayerName',
-                'currentPlayer',
+                'username',
                 'luxuryTiles',
                 'selectedLuxuryTile',
                 'selectedPlayerAndTile'
             ]),
             sliderOptions() {
-                // if currentplayer exists and it is the active player:
+                // we know that the user is the active player:
                 //      if no money: min=0, max=0
                 //      if money: min=1, max = money
-                // else : min=0, max=0
+                // just in case user does not exist 
+                // (should not happen here):
+                //       min=0, max=0
                 var min = 0
                 var max = 0
-                if (this.currentPlayer != null) {
-                    max = this.currentPlayer.money
+                if (this.username != null) {
+                    max = this.activePlayer.money
                     min = 0 ? max==0 : 1
                 } 
                 return {
@@ -121,9 +124,9 @@
             },
             buyLuxuryTile(tile) {
                 console.log("in buyLuxuryTile")
-                if (this.currentPlayer && tile!=null &&
-                    this.correctLuxurySelection(tile, this.currentPlayer)) {
-                    var json = {"tile": tile, "name": this.currentPlayer.name}
+                if (this.username && tile!=null &&
+                    this.correctLuxurySelection(tile, activePlayer)) {
+                    var json = {"tile": tile, "name": this.username}
                     console.log(json)
                     axios.put('/game/buyLuxuryTile', json)
                         .then( res => {
@@ -141,12 +144,12 @@
             },
             offerTrade(playerAndTile, money) {
                 console.log("in offerTrade")
-                console.log(this.currentPlayer.name, playerAndTile.name, playerAndTile.tile, money)
-                console.log(this.correctSelection(playerAndTile, this.currentPlayer))
-                if (this.currentPlayer && playerAndTile && 
-                    money != null && this.correctSelection(playerAndTile, this.currentPlayer)) {
+                console.log(this.username, playerAndTile.name, playerAndTile.tile, money)
+                console.log(this.correctSelection(playerAndTile, this.username))
+                if (this.username && playerAndTile && 
+                    money != null && this.correctSelection(playerAndTile, activePlayer)) {
                     var json = {"money": money, "tile": playerAndTile.tile, "opponentName": playerAndTile.name,
-                                "name": this.currentPlayer.name}
+                                "name": this.username}
                     console.log(json)
                     axios.put('/game/offerTrade', json)
                         .then( res => {
@@ -164,8 +167,8 @@
             },
             passTrading() {
                 console.log("in passTrade")
-                if (this.currentPlayer) {
-                    var json = {"name": this.currentPlayer.name}
+                if (this.username) {
+                    var json = {"name": this.username}
                     axios.put('/game/passTrading', json)
                         .then( res => {
                             console.log(res)

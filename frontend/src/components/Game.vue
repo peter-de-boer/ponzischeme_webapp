@@ -4,8 +4,6 @@
         {{round}}/{{phase}}
         {{startPlayerName}}
         {{activePlayerName}}
-                <select-player></select-player>
-                <hr>
         <div class="row">
             <div class="col-12 col-sm-4">
                 <end-of-game v-if="gameStateLoaded && gameEnded"></end-of-game>
@@ -35,7 +33,6 @@
 </template>
 
 <script>
-    import SelectPlayer from './SelectPlayer.vue';
     import axios from 'axios';
     import Board from './FundingBoard.vue';
     import Deck from './Deck.vue';
@@ -69,7 +66,6 @@
             actionBox: ActionBox,
             luxuryTiles: LuxuryTiles,
             industryTiles: IndustryTiles,
-            selectPlayer: SelectPlayer,
             fundingBoard: Board,
             deck: Deck,
             discardPile: DiscardPile,

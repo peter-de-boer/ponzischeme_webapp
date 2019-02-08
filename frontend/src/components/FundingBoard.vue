@@ -28,8 +28,7 @@
         computed: {
             ...mapGetters([
                 'phase',
-                'currentIsActive',
-                'currentPlayer',
+                'userIsActive',
                 'fundingBoard',
                 'selectedFundCard',
                 'gameStateLoaded'
@@ -41,7 +40,7 @@
                 'selectFundCard'
             ]),
             select(card) {
-                if (this.currentIsActive && (this.phase==1 || this.phase ==3)) {
+                if (this.userIsActive && (this.phase==1 || this.phase ==3)) {
                     if (this.selectedFundCard!=null && this.selectedFundCard.value==card.value) {
                         this.selectFundCard(null)
                     } else {

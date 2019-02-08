@@ -49,7 +49,6 @@
         },
         computed: {
             ...mapGetters([
-                'currentPlayer',
                 'selectedFundCard',
                 'gameStateLoaded'
             ])    

@@ -12,7 +12,7 @@
           <router-link to="/login">Login</router-link>
         </li>
         <li v-if="auth">
-          <router-link to="/dashboard">Dashboard</router-link>
+          <router-link to="/dashboard">{{username}}</router-link>
         </li>
         <li v-if="auth">
           <button @click="onLogout" class="logout">Logout</button>
@@ -23,11 +23,16 @@
 </template>
 
 <script>
-  export default {
-    computed: {
-      auth () {
-        return this.$store.getters.isAuthenticated
-      }
+    import { mapGetters } from 'vuex';
+    export default {
+        computed: {
+            ...mapGetters([
+                'isAuthenticated',
+                'username'
+            ]),   
+        auth () {
+            return this.isAuthenticated
+        }
     },
     methods: {
       onLogout() {

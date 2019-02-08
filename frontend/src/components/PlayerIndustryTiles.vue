@@ -21,7 +21,7 @@
         computed: {
             ...mapGetters([
                 'tradeOffer',
-                'currentIsActive',
+                'userIsActive',
                 'activePlayerName',
                 'phase',
                 'selectedPlayerAndTile'
@@ -49,7 +49,7 @@
                     row: row,
                     name: name
                 }
-                if (this.currentIsActive && 
+                if (this.userIsActive && 
                     ((this.activePlayerName != name && 
                       this.phase==2 && 
                       !this.tradeOffer) ||

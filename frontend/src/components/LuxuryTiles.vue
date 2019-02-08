@@ -27,7 +27,7 @@
             ...mapGetters([
                 'tradeOffer',
                 'phase',
-                'currentIsActive',
+                'userIsActive',
                 'luxuryTiles',
                 'selectedLuxuryTile'
             ])    
@@ -37,7 +37,7 @@
                 'selectLuxuryTile'
             ]),
             select(i) {
-                if (this.phase==2 && !this.tradeOffer && this.currentIsActive) {
+                if (this.phase==2 && !this.tradeOffer && this.userIsActive) {
                     if (this.selectedLuxuryTile==i) {
                         this.selectLuxuryTile(null)
                     } else {

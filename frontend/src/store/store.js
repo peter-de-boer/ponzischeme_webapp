@@ -7,29 +7,25 @@ Vue.use(Vuex);
 const auth = {
     state: {
         idToken: null,
-        user: null,
         username: null,
         loginStatus: null,
         signupStatus: null
     },
     mutations: {
         loginStatus(state, loginStatus) {
-            state.loginStatus = loginStatus.status
+            Vue.set(state, "loginStatus", loginStatus.status);
         },
         signupStatus(state, signupStatus) {
-            state.signupStatus = signupStatus.status
+            Vue.set(state, "signupStatus", signupStatus.status);
         },
-    authUser (state, userData) {
-        state.idToken = userData.idToken
-        state.username = userData.username
-    },
-    storeUser (state, user) {
-        state.user = user
-    },
-    clearAuthData (state) {
-        state.idToken = null
-        state.userId = null
-    }
+        authUser (state, userData) {
+            Vue.set(state, "idToken", userData.idToken);
+            Vue.set(state, "username", userData.username);
+        },
+        clearAuthData (state) {
+            Vue.set(state, "idToken", null);
+            Vue.set(state, "username", null);
+        }
     },
     actions: {
         setLogoutTimer ({commit}, expirationTime) {
@@ -136,9 +132,6 @@ const auth = {
         }
     },
     getters: {
-        user (state) {
-            return state.user
-        },
         isAuthenticated (state) {
             return state.idToken !== null
         },
@@ -147,6 +140,9 @@ const auth = {
         },
         signupStatus(state) {
             return state.signupStatus
+        },
+        username(state) {
+            return state.username
         },
         token(state) {
             return localStorage.getItem('token')
@@ -289,9 +285,9 @@ export const store = new Vuex.Store({
                 return null;
             }
         },
-        currentIsActive: (state, getters) => {
-            if (state.gameStateLoaded && getters.activePlayerName && getters.currentPlayer && 
-                getters.activePlayerName == getters.currentPlayer.name ) {
+        userIsActive: (state, getters) => {
+            if (state.gameStateLoaded && getters.activePlayerName && getters.username && 
+                getters.activePlayerName == getters.username ) {
                 return "True";
             } else {
                 return null;
@@ -337,6 +333,13 @@ export const store = new Vuex.Store({
         startPlayerName: state => {
             if (state.gameStateLoaded) {
                 return state.gameState.players[state.gameState.status.start].name;
+            } else {
+                return null;
+            }    
+        },
+        activePlayer: state => {
+            if (state.gameStateLoaded && !state.gameState.status.endOfGame) {
+                return state.gameState.players[state.gameState.status.active[0]];
             } else {
                 return null;
             }    

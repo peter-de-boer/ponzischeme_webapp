@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>Discard Tile</h2>
-        <div v-if="currentIsActive">
+        <div v-if="userIsActive">
             <p>Please select an industry tile to discard</p>
             <p><button class="btn btn-default" 
                     @click="discardTile(selectedPlayerAndTile)"> 
@@ -24,8 +24,8 @@
         computed: {
             ...mapGetters([
                 'activePlayerName',
-                'currentIsActive',
-                'currentPlayer',
+                'userIsActive',
+                'username',
                 'selectedPlayerAndTile'
             ])    
         },
@@ -36,7 +36,7 @@
             ]),
             discardTile(playerAndTile) {
                 console.log("in discardTile")
-                if (this.currentPlayer && playerAndTile) {
+                if (this.username && playerAndTile) {
                     var json = {"tile": playerAndTile.tile, "name": playerAndTile.name}
                     console.log(json)
                     axios.put('/game/discardTile', json)

@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>Pass the Start Player Marker</h2>
-        <div v-if="currentIsActive">
+        <div v-if="userIsActive">
             <p>Please select a fund card to discard (or remove, if blue)</p>
             <p><button class="btn btn-default" 
                     :class="enableButton(selectedFundCard)"
@@ -25,9 +25,9 @@
         computed: {
             ...mapGetters([
                 'fundingBoard',
-                'currentIsActive',
+                'userIsActive',
                 'activePlayerName',
-                'currentPlayer',
+                'username',
                 'selectedFundCard'
             ])    
         },
@@ -57,8 +57,8 @@
             },
             selectCardToDiscard(card) {
                 console.log("in selectCardToDiscard")
-                if (this.currentPlayer && this.correctSelection(card)) {
-                    var json = {"value": card.value, "name": this.currentPlayer.name}
+                if (this.username && this.correctSelection(card)) {
+                    var json = {"value": card.value, "name": this.username}
                     console.log(json)
                     axios.put('/game/selectCardToDiscard', json)
                         .then( res => {
