@@ -9,9 +9,9 @@ from random import shuffle
 import sys
 
 class Game(object):
-    def __init__(self, players=[{'name': "Alice",   'id': 1},  \
-                                {'name': "Bob",     'id': 2},  \
-                                {'name': "Charlie", 'id': 3}], \
+    def __init__(self, players=[{'name': "Alice",   'id': 2},  \
+                                {'name': "Bob",     'id': 3},  \
+                                {'name': "Charlie", 'id': 4}], \
                 advanced=False, id=None):
         self.id = id
         self.numPlayers = len(players)

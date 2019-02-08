@@ -21,10 +21,6 @@ def get_game():
     if user:
         userData = {"name": user.username, "id": user.id}
     return readGameJSON(userData=userData)
-    """
-    return jsonify(game_id=1,
-                   player1 = "peter")
-    """
 
 @games.route("/game/selectTileAndCard", methods=['PUT'])
 def selecttileandcard():
@@ -37,11 +33,22 @@ def selecttileandcard():
     value = req['value']
     tile = req['tile']
     name = req['name']
+
+    token = None
+    if 'token' in req:
+        token = req['token']
+    session = Session()
+    user=User.verify_token(token)
+    userData = None
+    if user:
+        name = user.username
+        userData = {"name": user.username, "id": user.id}
+
     error = selectTileAndCard(value, tile, name)
     if error:
         return error
     else:
-        return readGameJSON()
+        return readGameJSON(userData=userData)
 
 @games.route("/game/passFunding", methods=['PUT'])
 def passfunding():
