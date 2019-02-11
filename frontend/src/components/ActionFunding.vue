@@ -5,7 +5,7 @@
             <div v-if="userIsActive">
                 <p>Please select an industry tile and a fund card, or pass</p>
                 <p><button class="btn btn-default" 
-                        :class="enableButton(selectedFundCard, selectedIndustryTile, username)"
+                        :class="enableButton(selectedFundCard, selectedIndustryTile)"
                         @click="selectTileAndCard(selectedFundCard, selectedIndustryTile)"> 
                             Select Tile/Card 
                    </button> 
@@ -13,7 +13,7 @@
                 <button class="btn btn-default" @click="passFunding()"> Pass </button> 
             </div>
             <div v-else>
-                {{activePlayerName}} must select an industry tile and a fund card, or pass
+                {{activePlayer.name}} must select an industry tile and a fund card, or pass
             </div>
         </div>
     </div>
@@ -29,7 +29,7 @@
             ...mapGetters([
                 'fundingBoard',
                 'userIsActive',
-                'activePlayerName',
+                'activePlayer',
                 'username',
                 'isPhase1',
                 'selectedFundCard',
@@ -52,12 +52,12 @@
                 } 
                 return row
             },
-            correctSelection(card, tile, player) {
-                return (player && card!= null && tile!=null && 
-                        player.industryTiles[tile]+1==this.getRow(card))
+            correctSelection(card, tile) {
+                return (this.activePlayer && card!= null && tile!=null && 
+                        this.activePlayer.industryTiles[tile]+1==this.getRow(card))
             },
-            enableButton(card, tile, player) {
-                if (this.correctSelection(card, tile, player)) {
+            enableButton(card, tile) {
+                if (this.correctSelection(card, tile)) {
                     return ""
                 } else {
                     return "disabled"
