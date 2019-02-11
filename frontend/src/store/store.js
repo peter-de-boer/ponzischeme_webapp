@@ -67,10 +67,6 @@ const auth = {
                 returnSecureToken: true
             })
             .then(res => {
-                console.log("login then")
-                console.log(res)
-                console.log(res.data.idToken)
-                console.log(res.data.username)
                 commit('loginStatus', res.data)
                 localStorage.setItem('token', res.data.idToken)
                 localStorage.setItem('username', res.data.username)
@@ -86,15 +82,15 @@ const auth = {
             if (!token) {
                 return
             }
-            const expirationDate = localStorage.getItem('expirationDate')
-            const now = new Date()
-            if (now >= expirationDate) {
-                return
-            }
-            const userId = localStorage.getItem('userId')
+            //const expirationDate = localStorage.getItem('expirationDate')
+            //const now = new Date()
+            //if (now >= expirationDate) {
+            //    return
+           // }
+            const username = localStorage.getItem('username')
             commit('authUser', {
-                token: token,
-                userId: userId
+                idToken: token,
+                username: username
             })
         },
         logout ({commit}) {

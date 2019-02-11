@@ -12,10 +12,19 @@
 <script>
     //import Header from './components/Header.vue'
     import Header from './components/header/header.vue'
+    import { mapActions } from 'vuex';
 
     export default {
         components: {
             appHeader: Header
+        },
+        methods: {
+            ...mapActions([
+                'tryAutoLogin'
+            ]),
+        },
+        mounted() {
+            this.tryAutoLogin()
         }
     }
 </script>
