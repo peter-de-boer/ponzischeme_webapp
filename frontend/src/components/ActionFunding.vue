@@ -29,6 +29,7 @@
             ...mapGetters([
                 'fundingBoard',
                 'userIsActive',
+                'token',
                 'activePlayer',
                 'username',
                 'isPhase1',
@@ -66,8 +67,8 @@
             selectTileAndCard(card,tile) {
                 console.log("in selectTileAndCard")
                 // if (this.username && card != null && tile != null) {
-                if (this.correctSelection(card, tile, this.username)) {
-                    var json = {"value": card.value, "tile": tile, "name": this.username}
+                if (this.correctSelection(card, tile)) {
+                    var json = {"value": card.value, "tile": tile, "token": this.token}
                     console.log(json)
                     axios.put('/game/selectTileAndCard', json)
                         .then( res => {
@@ -85,8 +86,8 @@
             },
             passFunding() {
                 console.log("in passFunding")
-                if (this.username) {
-                    var json = {"name": this.username}
+                if (this.token) {
+                    var json = {"token": this.token}
                     axios.put('/game/passFunding', json)
                         .then( res => {
                             console.log(res)

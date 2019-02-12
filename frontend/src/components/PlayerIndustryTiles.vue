@@ -22,7 +22,7 @@
             ...mapGetters([
                 'tradeOffer',
                 'userIsActive',
-                'activePlayerName',
+                'activePlayer',
                 'phase',
                 'selectedPlayerAndTile'
             ])
@@ -50,10 +50,10 @@
                     name: name
                 }
                 if (this.userIsActive && 
-                    ((this.activePlayerName != name && 
+                    ((this.activePlayer.name != name && 
                       this.phase==2 && 
                       !this.tradeOffer) ||
-                    (this.activePlayerName == name && this.phase==4)))  {
+                    (this.activePlayer.name == name && this.phase==4)))  {
                     if (this.selectedPlayerAndTile!=null && 
                         this.selectedPlayerAndTile.tile == tile &&
                         this.selectedPlayerAndTile.row == row && 

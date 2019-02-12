@@ -341,13 +341,6 @@ export const store = new Vuex.Store({
                 return null;
             }    
         },
-        activePlayerName: state => {
-            if (state.gameStateLoaded && !state.gameState.status.endOfGame) {
-                return state.gameState.players[state.gameState.status.active[0]].name;
-            } else {
-                return null;
-            }    
-        },
         luxuryTiles: state => {
             if (state.gameStateLoaded) {
                 return state.gameState.luxuryTiles;

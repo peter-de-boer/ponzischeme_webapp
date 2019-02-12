@@ -8,18 +8,22 @@ from backend.models import User
 
 games = Blueprint('games', __name__)
 
-
-@games.route("/game", methods=['GET','PUT'])
-def get_game():
-    req = request.get_json()
+def getUserData(req):
     token = None
     if 'token' in req:
         token = req['token']
     session = Session()
     user=User.verify_token(token)
-    userData = None
+    userData = {"name": None, "id": None }
     if user:
         userData = {"name": user.username, "id": user.id}
+    return userData
+
+
+@games.route("/game", methods=['GET','PUT'])
+def get_game():
+    req = request.get_json()
+    userData = getUserData(req)
     return readGameJSON(userData=userData)
 
 @games.route("/game/selectTileAndCard", methods=['PUT'])
@@ -32,19 +36,8 @@ def selecttileandcard():
     req = request.get_json()
     value = req['value']
     tile = req['tile']
-    name = req['name']
-
-    token = None
-    if 'token' in req:
-        token = req['token']
-    session = Session()
-    user=User.verify_token(token)
-    userData = None
-    if user:
-        name = user.username
-        userData = {"name": user.username, "id": user.id}
-
-    error = selectTileAndCard(value, tile, name)
+    userData = getUserData(req)
+    error = selectTileAndCard(value, tile, userData['name'])
     if error:
         return error
     else:
@@ -57,12 +50,12 @@ def passfunding():
            (player, currentPlayer)
     """
     req = request.get_json()
-    name = req['name']
-    error = passFunding(name)
+    userData = getUserData(req)
+    error = passFunding(userData['name'])
     if error:
         return error
     else:
-        return readGameJSON()
+        return readGameJSON(userData=userData)
 
 @games.route("/game/passTrading", methods=['PUT'])
 def passtrading():
@@ -71,12 +64,12 @@ def passtrading():
            (player, currentPlayer)
     """
     req = request.get_json()
-    name = req['name']
-    error = passTrading(name)
+    userData = getUserData(req)
+    error = passTrading(userData['name'])
     if error:
         return error
     else:
-        return readGameJSON()
+        return readGameJSON(userData=userData)
 
 @games.route("/game/buyTrade", methods=['PUT'])
 def buytrade():
@@ -86,12 +79,12 @@ def buytrade():
            (player, currentPlayer)
     """
     req = request.get_json()
-    name = req['name']
-    error = buyTrade(name)
+    userData = getUserData(req)
+    error = buyTrade(userData['name'])
     if error:
         return error
     else:
-        return readGameJSON()
+        return readGameJSON(userData=userData)
 
 @games.route("/game/sellTrade", methods=['PUT'])
 def selltrade():
@@ -101,12 +94,12 @@ def selltrade():
            (player, currentPlayer)
     """
     req = request.get_json()
-    name = req['name']
-    error = sellTrade(name)
+    userData = getUserData(req)
+    error = sellTrade(userData['name'])
     if error:
         return error
     else:
-        return readGameJSON()
+        return readGameJSON(userData=userData)
 
 @games.route("/game/offerTrade", methods=['PUT'])
 def offertrade():
@@ -116,15 +109,15 @@ def offertrade():
            (player, currentPlayer)
     """
     req = request.get_json()
+    userData = getUserData(req)
     tile = req['tile']
     money = req['money']
     opponentName = req['opponentName']
-    name = req['name']
-    error = offerTrade(money, tile, opponentName, name)
+    error = offerTrade(money, tile, opponentName, userData['name'])
     if error:
         return error
     else:
-        return readGameJSON()
+        return readGameJSON(userData=userData)
 
 @games.route("/game/buyLuxuryTile", methods=['PUT'])
 def buyluxurytile():
@@ -135,12 +128,12 @@ def buyluxurytile():
     """
     req = request.get_json()
     tile = req['tile']
-    name = req['name']
-    error = buyLuxuryTile(tile, name)
+    userData = getUserData(req)
+    error = buyLuxuryTile(tile, userData['name'])
     if error:
         return error
     else:
-        return readGameJSON()
+        return readGameJSON(userData=userData)
 
 
 @games.route("/game/selectCardToDiscard", methods=['PUT'])
@@ -152,12 +145,12 @@ def selectcardtodiscard():
     """
     req = request.get_json()
     value = req['value']
-    name = req['name']
-    error = selectCardToDiscard(value, name)
+    userData = getUserData(req)
+    error = selectCardToDiscard(value, userData['name'])
     if error:
         return error
     else:
-        return readGameJSON()
+        return readGameJSON(userData=userData)
 
 @games.route("/game/discardTile", methods=['PUT'])
 def discardtile():
@@ -168,9 +161,9 @@ def discardtile():
     """
     req = request.get_json()
     tile = req['tile']
-    name = req['name']
-    error = discardTile(tile, name)
+    userData = getUserData(req)
+    error = discardTile(tile, userData['name'])
     if error:
         return error
     else:
-        return readGameJSON()
+        return readGameJSON(userData=userData)

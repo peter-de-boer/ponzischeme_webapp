@@ -31,8 +31,8 @@
         computed: {
             ...mapGetters([
                 'activePlayer',
-                'activePlayerName',
                 'userIsActive',
+                'token',
                 'username',
                 'tradeOffer'
             ])
@@ -44,7 +44,7 @@
             ]),
             counterOfferPossible() {
                 return (this.userIsActive && 
-                        activePlayer.money >= this.tradeOffer.tradeMoney)
+                        this.activePlayer.money >= this.tradeOffer.tradeMoney)
             },
             enableButton() {
                 if (this.counterOfferPossible()) {
@@ -55,8 +55,8 @@
             },
             sellTrade() {
                 console.log("in sellTrade")
-                if (this.username) {
-                    var json = {"name": this.username}
+                if (this.token) {
+                    var json = {"token": this.token}
                     axios.put('/game/sellTrade', json)
                         .then( res => {
                             console.log(res)
@@ -75,7 +75,7 @@
             buyTrade() {
                 console.log("in buyTrade")
                 if (this.counterOfferPossible()) {
-                    var json = {"name": this.username}
+                    var json = {"token": this.token}
                     axios.put('/game/buyTrade', json)
                         .then( res => {
                             console.log(res)

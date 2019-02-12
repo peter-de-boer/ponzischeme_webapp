@@ -10,7 +10,7 @@
                  {{selectedPlayerAndTile ? selectedPlayerAndTile.tile : ""}}</p>
         </div>
         <div v-else>
-            <p>{{activePlayerName}} must select an industry tile to discard</p>
+            <p>{{activePlayer.name}} must select an industry tile to discard</p>
         </div>
     </div>
 </template>
@@ -23,8 +23,9 @@
     export default {
         computed: {
             ...mapGetters([
-                'activePlayerName',
+                'activePlayer',
                 'userIsActive',
+                'token',
                 'username',
                 'selectedPlayerAndTile'
             ])    
@@ -36,8 +37,8 @@
             ]),
             discardTile(playerAndTile) {
                 console.log("in discardTile")
-                if (this.username && playerAndTile) {
-                    var json = {"tile": playerAndTile.tile, "name": playerAndTile.name}
+                if (this.token && playerAndTile && playerAndTile.name==this.activePlayer.name) {
+                    var json = {"tile": playerAndTile.tile, "token": this.token}
                     console.log(json)
                     axios.put('/game/discardTile', json)
                         .then( res => {

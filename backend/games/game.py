@@ -114,6 +114,8 @@ class Game(object):
     def selectTileAndCard(self, value, tile, name):
         # TODO: check phase
         # check if player is active player
+        if (name is None):
+            return self.error("Not a player")
         active = self.status.active[0]
         if (name!=self.players[active].name):
             return self.error(name + " is not the active player")
@@ -142,6 +144,8 @@ class Game(object):
     def passFunding(self, name):
         # TODO: check phase
         # check if player is active player
+        if (name is None):
+            return self.error("Not a player")
         active = self.status.active[0]
         if (name!=self.players[active].name):
             return self.error(name + " is not the active player")
@@ -164,6 +168,8 @@ class Game(object):
     def passTrading(self, name):
         # TODO: check phase
         # check if player is active player
+        if (name is None):
+            return self.error("Not a player")
         active = self.status.active[0]
         if (name!=self.players[active].name):
             return self.error(name + " is not the active player")
@@ -174,6 +180,8 @@ class Game(object):
 
     def sellTrade(self, name):
         # TODO: check phase
+        if (name is None):
+            return self.error("Not a player")
         if (self.status.tradeOffer is None):
             return self.error("There is currently no trade offer")
         active = self.status.active[0]
@@ -198,6 +206,8 @@ class Game(object):
 
     def buyTrade(self, name):
         # TODO: check phase
+        if (name is None):
+            return self.error("Not a player")
         if (self.status.tradeOffer is None):
             return self.error("There is currently no trade offer")
         active = self.status.active[0]
@@ -223,6 +233,8 @@ class Game(object):
     def offerTrade(self, money, tile, opponentName, name):
         # TODO: check phase
         # check if player is active player
+        if (name is None):
+            return self.error("Not a player")
         active = self.status.active[0]
         if (name!=self.players[active].name):
             return self.error(name + " is not the active player")
@@ -250,6 +262,8 @@ class Game(object):
     def buyLuxuryTile(self, tileIndex, name):
         # TODO: check phase
         # check if player is active player
+        if (name is None):
+            return self.error("Not a player")
         active = self.status.active[0]
         if (name!=self.players[active].name):
             return self.error(name + " is not the active player")
@@ -274,6 +288,8 @@ class Game(object):
     def selectCardToDiscard(self, value, name):
         # TODO: check phase
         # check if player is active player
+        if (name is None):
+            return self.error("Not a player")
         active = self.status.active[0]
         if (name!=self.players[active].name):
             return self.error(name + " is not the active player")
@@ -297,6 +313,8 @@ class Game(object):
     def discardTile(self, tile, name):
         # TODO: check phase
         # check if player is active player
+        if (name is None):
+            return self.error("Not a player")
         active = self.status.active[0]
         if (name!=self.players[active].name):
             return self.error(name + " is not the active player")

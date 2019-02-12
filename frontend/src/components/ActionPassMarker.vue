@@ -11,7 +11,7 @@
                  {{selectedFundCard ? selectedFundCard.value : ""}} </p>
         </div>
         <div v-else>
-            <p>{{activePlayerName}} must select a fund card to discard (or remove, if blue)</p>
+            <p>{{activePlayer.name}} must select a fund card to discard (or remove, if blue)</p>
         </div>
     </div>
 </template>
@@ -26,7 +26,8 @@
             ...mapGetters([
                 'fundingBoard',
                 'userIsActive',
-                'activePlayerName',
+                'token',
+                'activePlayer',
                 'username',
                 'selectedFundCard'
             ])    
@@ -48,7 +49,7 @@
                 return correct
 
             },
-            enableButton(card, player) {
+            enableButton(card) {
                 if (this.correctSelection(card)) {
                     return ""
                 } else {
@@ -57,8 +58,8 @@
             },
             selectCardToDiscard(card) {
                 console.log("in selectCardToDiscard")
-                if (this.username && this.correctSelection(card)) {
-                    var json = {"value": card.value, "name": this.username}
+                if (this.token && this.correctSelection(card)) {
+                    var json = {"value": card.value, "token": this.token}
                     console.log(json)
                     axios.put('/game/selectCardToDiscard', json)
                         .then( res => {

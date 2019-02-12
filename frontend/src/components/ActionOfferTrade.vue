@@ -4,7 +4,7 @@
         <div v-if="userIsActive">
             <p>Please select an industry tile from and opponent and offer an amount of money, or pass</p>
             <p><button class="btn btn-default" 
-                    :class="enableButton(selectedPlayerAndTile, username)"
+                    :class="enableButton(selectedPlayerAndTile)"
                     @click="offerTrade(selectedPlayerAndTile, tradeMoney)"> 
                         Offer Trade
                </button> 
@@ -17,7 +17,7 @@
                 <hr>
             </div>
             <p><button class="btn btn-default" 
-                    :class="enableLuxuryButton(selectedLuxuryTile, username)"
+                    :class="enableLuxuryButton(selectedLuxuryTile)"
                        @click="buyLuxuryTile(selectedLuxuryTile)"> 
                        Buy Luxury Tile 
                </button> 
@@ -25,7 +25,7 @@
             </p>
         </div>
         <div v-else>
-            <p> {{activePlayerName}} must offer a trade, or pass</p>
+            <p> {{activePlayer.name}} must offer a trade, or pass</p>
         </div>
     </div>
 </template>
@@ -49,7 +49,7 @@
             ...mapGetters([
                 'userIsActive',
                 'activePlayer',
-                'activePlayerName',
+                'token',
                 'username',
                 'luxuryTiles',
                 'selectedLuxuryTile',
@@ -79,30 +79,30 @@
                 'setGameState',
                 'clearSelections'
             ]),
-            correctLuxurySelection(tile, player) {
+            correctLuxurySelection(tile) {
                 if (tile!=null) {
-                    return player.money > this.luxuryTiles[tile].value
+                    return this.activePlayer.money > this.luxuryTiles[tile].value
                 } else {
                     return 0
                 }
             },
-            enableLuxuryButton(luxuryTile, player) {
-                if (this.correctLuxurySelection(luxuryTile, player)) {
+            enableLuxuryButton(luxuryTile) {
+                if (this.correctLuxurySelection(luxuryTile)) {
                     return ""
                 } else {
                     return "disabled"
                 }
             },
-            correctSelection(playerAndTile, player) {
+            correctSelection(playerAndTile) {
                 var tile = this.selectedTile(playerAndTile)
                 if (tile == "no tile") {
                     return 0
                 } else {
-                    return player.industryTiles[tile] > 0
+                    return this.activePlayer.industryTiles[tile] > 0
                 }
             },
-            enableButton(playerAndTile, player) {
-                if (this.correctSelection(playerAndTile, player)) {
+            enableButton(playerAndTile) {
+                if (this.correctSelection(playerAndTile)) {
                     return ""
                 } else {
                     return "disabled"
@@ -124,9 +124,9 @@
             },
             buyLuxuryTile(tile) {
                 console.log("in buyLuxuryTile")
-                if (this.username && tile!=null &&
-                    this.correctLuxurySelection(tile, activePlayer)) {
-                    var json = {"tile": tile, "name": this.username}
+                if (this.token && tile!=null &&
+                    this.correctLuxurySelection(tile)) {
+                    var json = {"tile": tile, "token": this.token}
                     console.log(json)
                     axios.put('/game/buyLuxuryTile', json)
                         .then( res => {
@@ -145,11 +145,11 @@
             offerTrade(playerAndTile, money) {
                 console.log("in offerTrade")
                 console.log(this.username, playerAndTile.name, playerAndTile.tile, money)
-                console.log(this.correctSelection(playerAndTile, this.username))
-                if (this.username && playerAndTile && 
-                    money != null && this.correctSelection(playerAndTile, activePlayer)) {
+                console.log(this.correctSelection(playerAndTile))
+                if (this.token && playerAndTile && 
+                    money != null && this.correctSelection(playerAndTile)) {
                     var json = {"money": money, "tile": playerAndTile.tile, "opponentName": playerAndTile.name,
-                                "name": this.username}
+                                "token": this.token}
                     console.log(json)
                     axios.put('/game/offerTrade', json)
                         .then( res => {
@@ -167,8 +167,8 @@
             },
             passTrading() {
                 console.log("in passTrade")
-                if (this.username) {
-                    var json = {"name": this.username}
+                if (this.token) {
+                    var json = {"token": this.token}
                     axios.put('/game/passTrading', json)
                         .then( res => {
                             console.log(res)
