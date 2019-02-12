@@ -3,7 +3,7 @@
         <h1>Game</h1>
         {{round}}/{{phase}}
         {{startPlayerName}}
-        {{activePlayer.name}}
+        {{activePlayer ? activePlayer.name : ""}}
         <div class="row">
             <div class="col-12 col-sm-4">
                 <end-of-game v-if="gameStateLoaded && gameEnded"></end-of-game>
