@@ -24,6 +24,8 @@
 
 <script>
     import { mapGetters } from 'vuex';
+    import { mapActions } from 'vuex';
+
     export default {
         computed: {
             ...mapGetters([
@@ -35,9 +37,12 @@
         }
     },
     methods: {
-      onLogout() {
-        this.$store.dispatch('logout')
-      }
+        ...mapActions([
+            'logout'
+        ]),
+        onLogout() {
+            this.logout()
+        }
     }
   }
 </script>

@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
+import router  from '../routes';
 
 Vue.use(Vuex);
 
@@ -97,7 +98,7 @@ const auth = {
             commit('clearAuthData')
             localStorage.removeItem('token')
             localStorage.removeItem('username')
-            router.replace('/signin')
+            router.replace({name: 'login'})
         },
         storeUser ({commit, state}, userData) {
             if (!state.idToken) {
