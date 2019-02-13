@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Game from './components/Game.vue'
+import Game from './components/game/Game.vue'
 import Home from './components/Home.vue'
 import NotFound from './components/NotFound.vue'
 import DashboardPage from './components/dashboard/dashboard.vue'
