@@ -26,3 +26,8 @@ def readGameJSON(userData = None):
     gamejs_expand = jsonpickle.encode(gm, unpicklable=False)
     return gamejs_expand
 
+def createGame():
+    data = {}
+    data['key'] = 'value'
+    json_data = json.dumps(data)
+    return json_data

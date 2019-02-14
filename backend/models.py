@@ -1,3 +1,4 @@
+
 import datetime
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
@@ -50,15 +51,20 @@ class User(Base): #, UserMixin):
                f"'{self.password}', '{self.admin}', '{self.registered_on}')"
 
 
-'''
-class Game(db.Model):
+class Game(Base):
+    __tablename__ = 'games'
     id = db.Column(db.Integer, primary_key=True)
+    advanced = db.Column(db.Boolean, nullable=False, default=False)
+    nplayers = db.Column(db.Integer, nullable=False)
     #title = db.Column(db.String(100), nullable=False)
     #date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     #content = db.Column(db.Text, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    #user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    def __init__(self, advanced, nplayers):
+        self.advanced = advanced
+        self.nplayers = nplayers
 
     def __repr__(self):
         return f"Post('{self.id}')"
-'''
 

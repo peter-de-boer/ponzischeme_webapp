@@ -10,6 +10,7 @@
 </template>
 
 <script>
+    import axios from 'axios';
     import { mapGetters } from 'vuex';
     export default {
         data: function() {
@@ -28,12 +29,12 @@
             createGame(nplayers,advanced) {
                 if (this.token) {
                     var json = {"nplayers": nplayers, "advanced": advanced, "token": this.token}
-                    //axios.put('/creategame', json)
-                    //    .then( res => {
-                    //        console.log(res)
-                    //}, error => {
-                    //    console.log(error)
-                    //}); 
+                    axios.put('/createGame', json)
+                        .then( res => {
+                            console.log(res)
+                    }, error => {
+                        console.log(error)
+                    }); 
                 }
                 else {
                     console.log("no token")

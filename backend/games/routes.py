@@ -1,5 +1,5 @@
 from flask import jsonify, Blueprint, request
-from backend.games.gameIO import readGameJSON
+from backend.games.gameIO import readGameJSON, createGame
 from backend.games.gameActions import *
 
 from backend import Session
@@ -18,6 +18,18 @@ def getUserData(req):
     if user:
         userData = {"name": user.username, "id": user.id}
     return userData
+
+@games.route("/createGame", methods=['PUT'])
+def creategame():
+    req = request.get_json()
+    userData = getUserData(req)
+    nplayers = req['nplayers']
+    advanced = req['advanced']
+    print("user: ", userData['name'])
+    print("nplayers: ", nplayers)
+    print("advanced: ", advanced)
+    return createGame()
+
 
 
 @games.route("/game", methods=['GET','PUT'])
