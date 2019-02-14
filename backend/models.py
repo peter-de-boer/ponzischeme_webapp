@@ -3,9 +3,16 @@ import datetime
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
 from backend.db import Base, db
-from backend import Session 
+from backend import Session
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy.orm import relationship
 #from flask_login import UserMixin
+
+games_players_association = db.Table(
+    'games_players', Base.metadata,
+    db.Column('game_id', db.Integer, db.ForeignKey('games.id')),
+    db.Column('player_id', db.Integer, db.ForeignKey('users.id'))
+)
 
 
 class User(Base): #, UserMixin):
@@ -56,15 +63,19 @@ class Game(Base):
     id = db.Column(db.Integer, primary_key=True)
     advanced = db.Column(db.Boolean, nullable=False, default=False)
     nplayers = db.Column(db.Integer, nullable=False)
+    players = relationship("User", secondary=games_players_association)
+    owner_id = db.Column(db.Integer, db. ForeignKey('users.id'))
+    owner = relationship("User", backref="game")
     #title = db.Column(db.String(100), nullable=False)
     #date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     #content = db.Column(db.Text, nullable=False)
     #user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
-    def __init__(self, advanced, nplayers):
+    def __init__(self, advanced, nplayers, owner):
         self.advanced = advanced
         self.nplayers = nplayers
+        self.owner = owner
 
     def __repr__(self):
-        return f"Post('{self.id}')"
+        return f"Game('{self.id}')"
 
