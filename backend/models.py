@@ -26,6 +26,10 @@ class User(Base): #, UserMixin):
     admin = db.Column(db.Boolean, nullable=False, default=False)
     #posts = db.relationship('Post', backref='author', lazy=True)
     #games = db.relationship('Game', backref='author', lazy=True)
+    own_games = relationship("Game", back_populates="owner",
+                             foreign_keys="[Game.owner_id]")
+    active_games = relationship("Game", back_populates="active",
+                                foreign_keys="[Game.active_id]")
 
     def __init__(self, email, username, password, admin=False):
         self.email = email
@@ -63,13 +67,18 @@ class Game(Base):
     id = db.Column(db.Integer, primary_key=True)
     advanced = db.Column(db.Boolean, nullable=False, default=False)
     nplayers = db.Column(db.Integer, nullable=False)
-    players = relationship("User", secondary=games_players_association)
+    # backref="games" establishes that we can refer to User.games automatically
+    players = relationship("User", secondary=games_players_association,
+                           backref="games")
+    # for the owner and active player I use the back_populates argument on both
+    # side of the relationship, instead of backref on one
     owner_id = db.Column(db.Integer, db. ForeignKey('users.id'))
-    owner = relationship("User", backref="game")
-    #title = db.Column(db.String(100), nullable=False)
-    #date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    #content = db.Column(db.Text, nullable=False)
-    #user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    owner = relationship("User",  foreign_keys=[owner_id],
+                         back_populates="own_games")
+    active_id = db.Column(db.Integer, db. ForeignKey('users.id'))
+    active = relationship("User",  foreign_keys=[active_id],
+                          back_populates="active_games")
+    game = db.Column(db.PickleType)
 
     def __init__(self, advanced, nplayers, owner):
         self.advanced = advanced
