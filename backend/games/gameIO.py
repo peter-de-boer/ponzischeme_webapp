@@ -1,5 +1,7 @@
 import json, jsonpickle
 from backend.games.game import Game
+from backend.models import GameModel
+from backend import Session
 
 def writeGame(game):
 
@@ -26,8 +28,36 @@ def readGameJSON(userData = None):
     gamejs_expand = jsonpickle.encode(gm, unpicklable=False)
     return gamejs_expand
 
-def createGame():
-    data = {}
-    data['key'] = 'value'
-    json_data = json.dumps(data)
+def createGame(user, nplayers, advanced):
+    session = Session()
+    newgame = GameModel(advanced=advanced, nplayers=nplayers, owner=user)
+    newgame.players= [user]
+    session.add(newgame)
+    session.commit()
+    session.close()
+    json_data = json.dumps(listOfGames())
     return json_data
+
+def dbToDict(objects):
+    dct = []
+    for obj in objects:
+        dct.append(obj.dict())
+    return dct
+
+def listOfGames():
+    session = Session()
+    newgames = session.query(GameModel) \
+            .filter(GameModel.status=="new").all()
+    runninggames = session.query(GameModel) \
+            .filter(GameModel.status=="running").all()
+    finishedgames = session.query(GameModel) \
+            .filter(GameModel.status=="finished").all()
+    lst = {}
+    lst['new'] = dbToDict(newgames)
+    lst['running'] = dbToDict(runninggames)
+    lst['finished'] = dbToDict(finishedgames)
+    session.close()
+    return lst
+
+
+

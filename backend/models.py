@@ -25,11 +25,11 @@ class User(Base): #, UserMixin):
     registered_on = db.Column(db.DateTime, nullable=False ,default=datetime.datetime.utcnow)
     admin = db.Column(db.Boolean, nullable=False, default=False)
     #posts = db.relationship('Post', backref='author', lazy=True)
-    #games = db.relationship('Game', backref='author', lazy=True)
-    own_games = relationship("Game", back_populates="owner",
-                             foreign_keys="[Game.owner_id]")
-    active_games = relationship("Game", back_populates="active",
-                                foreign_keys="[Game.active_id]")
+    #games = db.relationship('GameModel', backref='author', lazy=True)
+    own_games = relationship("GameModel", back_populates="owner",
+                             foreign_keys="[GameModel.owner_id]")
+    active_games = relationship("GameModel", back_populates="active",
+                                foreign_keys="[GameModel.active_id]")
 
     def __init__(self, email, username, password, admin=False):
         self.email = email
@@ -57,12 +57,19 @@ class User(Base): #, UserMixin):
             return None
         return Session.query(User).get(user_id)
 
+    def dict(self, includeGames=False):
+        # return the user in dict format
+        user = {}
+        user['username'] = self.username
+        user['id'] = self.id
+        return user
+
     def __repr__(self):
         return f"User('{self.id}', '{self.username}', '{self.email}', " \
                f"'{self.password}', '{self.admin}', '{self.registered_on}')"
 
 
-class Game(Base):
+class GameModel(Base):
     __tablename__ = 'games'
     id = db.Column(db.Integer, primary_key=True)
     advanced = db.Column(db.Boolean, nullable=False, default=False)
@@ -79,12 +86,29 @@ class Game(Base):
     active = relationship("User",  foreign_keys=[active_id],
                           back_populates="active_games")
     game = db.Column(db.PickleType)
+    status = db.Column(db.String)
+    # status can be: "new", "running", "finished"
 
     def __init__(self, advanced, nplayers, owner):
         self.advanced = advanced
         self.nplayers = nplayers
         self.owner = owner
+        self.status = "new"
+
+    def dict(self):
+        # return the game in dict format
+        game = {}
+        game['id'] = self.id
+        game['advanced'] = self.advanced
+        game['nplayers'] = self.nplayers
+        game['owner'] = self.owner.dict()
+        game['active'] = self.active.dict() if self.active else None
+        game['status'] = self.status
+        game['players'] = []
+        for plr in self.players:
+            game['players'].append(plr.dict())
+        return game
 
     def __repr__(self):
-        return f"Game('{self.id}')"
+        return f"GameModel({self.id}, {self.status}, {self.advanced}, {self.nplayers})"
 

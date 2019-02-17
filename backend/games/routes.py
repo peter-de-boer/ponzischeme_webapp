@@ -8,13 +8,17 @@ from backend.models import User
 
 games = Blueprint('games', __name__)
 
-def getUserData(req):
+def getUser(req):
     token = None
     if 'token' in req:
         token = req['token']
     session = Session()
     user=User.verify_token(token)
+    return user
+
+def getUserData(req):
     userData = {"name": None, "id": None }
+    user = getUser(req)
     if user:
         userData = {"name": user.username, "id": user.id}
     return userData
@@ -22,13 +26,10 @@ def getUserData(req):
 @games.route("/createGame", methods=['PUT'])
 def creategame():
     req = request.get_json()
-    userData = getUserData(req)
+    user = getUser(req)
     nplayers = req['nplayers']
     advanced = req['advanced']
-    print("user: ", userData['name'])
-    print("nplayers: ", nplayers)
-    print("advanced: ", advanced)
-    return createGame()
+    return createGame(user,nplayers,advanced)
 
 
 

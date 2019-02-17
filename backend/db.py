@@ -8,6 +8,7 @@ uri = os.environ.get('SQLALCHEMY_DATABASE_URI')
 if not uri:
     print("SQLALCHEMY_DATABASE_URI not defined")
 else:
+    print("SQLALCHEMY_DATABASE_URI is defined!!!")
     engine = create_engine(uri, echo=True)
     Base = declarative_base()
 
