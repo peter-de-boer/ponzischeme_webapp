@@ -38,6 +38,41 @@ def createGame(user, nplayers, advanced):
         session.close()
     return gameList()
 
+def deleteGame(user, gameid):
+    if user:
+        session = Session()
+        game = session.query(GameModel) \
+                .filter(GameModel.id==gameid).first()
+        if game.owner==user and game.status=="new":
+            session.delete(game)
+        session.commit()
+        session.close()
+    return gameList()
+
+def joinGame(user, gameid):
+    if user:
+        session = Session()
+        game = session.query(GameModel) \
+                .filter(GameModel.id==gameid).first()
+        if ((user not in game.players) and
+           (len(game.players)<game.nplayers) and
+           game.status=="new"):
+            game.players.append(user)
+        session.commit()
+        session.close()
+    return gameList()
+
+def leaveGame(user, gameid):
+    if user:
+        session = Session()
+        game = session.query(GameModel) \
+                .filter(GameModel.id==gameid).first()
+        if (user!=game.owner) and (user in game.players) and game.status=="new":
+            game.players.remove(user)
+        session.commit()
+        session.close()
+    return gameList()
+
 def dbToDict(objects):
     dct = []
     for obj in objects:

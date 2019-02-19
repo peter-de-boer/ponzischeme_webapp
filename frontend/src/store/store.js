@@ -142,7 +142,8 @@ const auth = {
             return state.username
         },
         token(state) {
-            return localStorage.getItem('token')
+            return state.idToken
+            //return localStorage.getItem('token')
         }
     }
 }

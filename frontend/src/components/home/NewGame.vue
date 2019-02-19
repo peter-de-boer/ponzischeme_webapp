@@ -7,16 +7,18 @@
         <div v-for="(player, index) in game.players" :key="index">
             {{player.username}} 
                 <button v-if="username==player.username &&
-                              username!=game.owner.username"> X </button>
+                              username!=game.owner.username"
+                        @click="leaveGame(game.id)"  > X </button>
         </div>
         <div v-if="game.players.length < game.nplayers">
-            <button :disabled="canNotJoin(game.players)"> join </button>
-            <div v-for="i in (game.nplayers-game.players.length)">  
+            <button :disabled="canNotJoin(game.players)"
+                    @click="joinGame(game.id)"> join </button>
+            <div v-for="i in (game.nplayers-game.players.length-1)">  
                 <button disabled> join </button>
             </div>
         </div>
         <div v-if="game.owner.username==username">
-            <button> delete game</button>
+            <button @click="deleteGame(game.id)"> delete game</button>
             <button v-if="game.nplayers==game.players.length"> start </button>
         </div>
         <div v-else-if="game.nplayers==game.players.length">
@@ -26,18 +28,70 @@
 </template>
 
 <script>
+    import axios from 'axios';
     import { mapGetters } from 'vuex';
+    import { mapActions } from 'vuex';
 
     export default {
         props: ['game'],
         computed: {
             ...mapGetters([
-                'username'
+                'username',
+                'token'
             ])    
         },
         methods: {
+            ...mapActions([
+                'setGameList',
+            ])    ,
             canNotJoin(players) {
                 return !this.username || players.some(player => player.username==this.username)
+            },
+            deleteGame(id) {
+                if (this.token) {
+                    var json = {"id": id, "token": this.token}
+                    axios.put('/deleteGame', json)
+                        .then( res => {
+                            this.setGameList(res.data)
+                            console.log(res)
+                    }, error => {
+                        console.log(error)
+                    }); 
+                }
+                else {
+                    console.log("no token")
+                }
+            },
+            joinGame(id) {
+                if (this.token) {
+                    console.log(this.token)
+                    var json = {"id": id, "token": this.token}
+                    axios.put('/joinGame', json)
+                        .then( res => {
+                            this.setGameList(res.data)
+                            console.log(res)
+                    }, error => {
+                        console.log(error)
+                    }); 
+                }
+                else {
+                    console.log("no token")
+                }
+            },
+            leaveGame(id) {
+                if (this.token) {
+                    var json = {"id": id, "token": this.token}
+                    axios.put('/leaveGame', json)
+                        .then( res => {
+                            this.setGameList(res.data)
+                            console.log(res)
+                    }, error => {
+                        console.log(error)
+                    }); 
+                }
+                else {
+                    console.log("no token")
+                }
             }
         }
 
