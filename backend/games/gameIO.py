@@ -1,6 +1,6 @@
 import json, jsonpickle
 from backend.games.game import Game
-from backend.models import GameModel
+from backend.models import GameModel, User
 from backend import Session
 
 def writeGame(game):
@@ -69,6 +69,27 @@ def leaveGame(user, gameid):
                 .filter(GameModel.id==gameid).first()
         if (user!=game.owner) and (user in game.players) and game.status=="new":
             game.players.remove(user)
+        session.commit()
+        session.close()
+    return gameList()
+
+def startGame(user, gameid):
+    if user:
+        session = Session()
+        game = session.query(GameModel) \
+                .filter(GameModel.id==gameid).first()
+        if ((user==game.owner) and (user in game.players) and 
+            game.status=="new" and (len(game.players)==game.nplayers)):
+            players = []
+            for player in game.players:
+                players.append({'name': player.username, 'id': player.id})
+            newgame = Game(players, game.advanced, game.id)
+            activePlayer = newgame.getActivePlayer()
+            active = session.query(User) \
+                    .filter(User.id==activePlayer.id).first()
+            game.active = active
+            game.status="running"
+            game.game = jsonpickle.encode(newgame)
         session.commit()
         session.close()
     return gameList()

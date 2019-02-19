@@ -56,6 +56,13 @@ def leavegame():
     gameid = req['id']
     return leaveGame(user,gameid)
 
+@games.route("/startGame", methods=['PUT'])
+def startgame():
+    req = request.get_json()
+    user = getUser(req)
+    gameid = req['id']
+    return startGame(user,gameid)
+
 
 
 

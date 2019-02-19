@@ -34,6 +34,13 @@ class Game(object):
         self.standings = []
         self.bankruptPlayers = []
 
+    def getActivePlayer(self):
+        activePlayer = None
+        if (len(self.status.active)>0):
+            active = self.status.active[0]
+            activePlayer = self.players[active]
+        return activePlayer
+
     def removeHiddenInfo(self, playerInfo):
         '''
         playerInfo: dictionary of 'name' and 'id'

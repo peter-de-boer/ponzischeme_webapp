@@ -19,7 +19,8 @@
         </div>
         <div v-if="game.owner.username==username">
             <button @click="deleteGame(game.id)"> delete game</button>
-            <button v-if="game.nplayers==game.players.length"> start </button>
+            <button v-if="game.nplayers==game.players.length"
+                    @click="startGame(game.id)"> start </button>
         </div>
         <div v-else-if="game.nplayers==game.players.length">
             Waiting for owner to start
@@ -82,6 +83,21 @@
                 if (this.token) {
                     var json = {"id": id, "token": this.token}
                     axios.put('/leaveGame', json)
+                        .then( res => {
+                            this.setGameList(res.data)
+                            console.log(res)
+                    }, error => {
+                        console.log(error)
+                    }); 
+                }
+                else {
+                    console.log("no token")
+                }
+            },
+            startGame(id) {
+                if (this.token) {
+                    var json = {"id": id, "token": this.token}
+                    axios.put('/startGame', json)
                         .then( res => {
                             this.setGameList(res.data)
                             console.log(res)
