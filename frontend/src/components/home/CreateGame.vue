@@ -12,6 +12,8 @@
 <script>
     import axios from 'axios';
     import { mapGetters } from 'vuex';
+    import { mapActions } from 'vuex';
+
     export default {
         data: function() {
             return {
@@ -26,11 +28,15 @@
             ])    
         },
         methods: {
+            ...mapActions([
+                'setGameList'
+            ]),
             createGame(nplayers,advanced) {
                 if (this.token) {
                     var json = {"nplayers": nplayers, "advanced": advanced, "token": this.token}
                     axios.put('/createGame', json)
                         .then( res => {
+                            this.setGameList(res.data)
                             console.log(res)
                     }, error => {
                         console.log(error)

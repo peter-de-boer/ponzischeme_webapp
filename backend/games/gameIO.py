@@ -29,20 +29,24 @@ def readGameJSON(userData = None):
     return gamejs_expand
 
 def createGame(user, nplayers, advanced):
-    session = Session()
-    newgame = GameModel(advanced=advanced, nplayers=nplayers, owner=user)
-    newgame.players= [user]
-    session.add(newgame)
-    session.commit()
-    session.close()
-    json_data = json.dumps(listOfGames())
-    return json_data
+    if user:
+        session = Session()
+        newgame = GameModel(advanced=advanced, nplayers=nplayers, owner=user)
+        newgame.players= [user]
+        session.add(newgame)
+        session.commit()
+        session.close()
+    return gameList()
 
 def dbToDict(objects):
     dct = []
     for obj in objects:
         dct.append(obj.dict())
     return dct
+
+def gameList():
+    json_data = json.dumps(listOfGames())
+    return json_data
 
 def listOfGames():
     session = Session()

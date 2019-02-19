@@ -3,22 +3,43 @@
         <li class="nav-item mx-2"><router-link to="/urlgame">Game</router-link></li>
         <hr>
         <create-game v-if="isAuthenticated"></create-game>
+        <hr>
+        <new-games></new-games>
     </div>
 </template>
 
 <script>
+    import axios from 'axios';
     import { mapGetters } from 'vuex';
+    import { mapActions } from 'vuex';
     import CreateGame from './CreateGame.vue';
+    import NewGames from './NewGames.vue';
 
     export default {
         name: 'Home',
+        created() {
+            axios.get('/gameList')
+                .then( res => {
+                    console.log(res)
+                    this.setGameList(res.data)
+                }, error => {
+                    console.log(error)
+                }); 
+        },
         computed: {
             ...mapGetters([
-                'isAuthenticated'
+                'isAuthenticated',
+                'token'
+            ]),   
+        },
+        methods: {
+            ...mapActions([
+                'setGameList'
             ]),   
         },
         components: {
-            createGame: CreateGame
+            createGame: CreateGame,
+            newGames: NewGames
         }
     }
 </script>

@@ -250,8 +250,46 @@ const selectItems = {
     }    
 }
 
+const games = {
+    state: {
+        newGames: null,
+        runningGames: null,
+        finishedGames: null
+    },
+    getters: {
+        newGames: state => {
+            return state.newGames;
+        },
+        runningGames: state => {
+            return state.runningGames;
+        },
+        finishedGames: state => {
+            return state.finishedGames;
+        }
+    },
+    mutations: {
+        setNewGames: (state, payload) => {
+            Vue.set(state, "newGames", payload);
+        },    
+        setRunningGames: (state, payload) => {
+            Vue.set(state, "runningGames", payload);
+        },    
+        setFinishedGames: (state, payload) => {
+            Vue.set(state, "finishedGames", payload);
+        }
+    },
+    actions: {
+        setGameList: ({ commit }, games) => {
+            commit('setNewGames', games['new']);
+            commit('setRunningGames', games['running']);
+            commit('setFinishedGames', games['finished']);
+        }
+    }    
+}
+
 export const store = new Vuex.Store({
     modules: {
+        games,
         auth,
         selectPlayer,
         selectItems
