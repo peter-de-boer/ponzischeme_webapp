@@ -28,6 +28,18 @@ def readGameJSON(userData = None):
     gamejs_expand = jsonpickle.encode(gm, unpicklable=False)
     return gamejs_expand
 
+def getGame(userData = None, id = None):
+
+    session = Session()
+    game = session.query(GameModel) \
+            .filter(GameModel.id==id).first()
+    gm = jsonpickle.decode(game.game)
+    session.commit()
+    session.close()
+    gm.removeHiddenInfo(userData)
+    gamejs_expand = jsonpickle.encode(gm, unpicklable=False)
+    return gamejs_expand
+
 def createGame(user, nplayers, advanced):
     if user:
         session = Session()

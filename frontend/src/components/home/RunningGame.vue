@@ -1,7 +1,11 @@
 <template>
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2 col-xl-2" >
-            <button @click="changeviewtothisgame()"> Game id: {{game.id}} </button><br>
+            <router-link
+                tag="button"
+                :to="{name: 'game', params: {id: game.id}}">
+                    Game id: {{game.id}} 
+            </router-link>
             {{game.advanced ? "adv" : ""}} <br>
             {{game.nplayers}} players <br>
             <div v-for="(player, index) in game.players" :key="index">

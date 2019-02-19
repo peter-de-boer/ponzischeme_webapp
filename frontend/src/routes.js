@@ -12,7 +12,8 @@ Vue.use(VueRouter)
 
 const routes = [
     { path: '', component:  Home },
-    { path: '/urlgame', component:  Game },
+    //{ path: '/urlgame', component:  Game },
+    { path: '/game/:id', name:'game', component:  Game, props: true },
     { path: '/signup', component: SignupPage },
     { path: '/login', name: 'login', component: SigninPage },
     {

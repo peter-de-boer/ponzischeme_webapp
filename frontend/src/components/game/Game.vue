@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Game</h1>
+        <h1>Game {{id}}</h1>
         {{round}}/{{phase}}
         {{startPlayerName}}
         {{activePlayer ? activePlayer.name : ""}}
@@ -48,8 +48,9 @@
 
     export default {
         name: 'Game',
+        props: ['id'],
         created() {
-            var json = {"token": this.token}
+            var json = {"token": this.token, "id": this.id}
             console.log(json)
             // need to do put instead of get request, else json arg is not working somehow
             axios.put('/game', json)

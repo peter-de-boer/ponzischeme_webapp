@@ -70,7 +70,8 @@ def startgame():
 def get_game():
     req = request.get_json()
     userData = getUserData(req)
-    return readGameJSON(userData=userData)
+    id = req['id']
+    return getGame(userData=userData, id=id)
 
 @games.route("/game/selectTileAndCard", methods=['PUT'])
 def selecttileandcard():
