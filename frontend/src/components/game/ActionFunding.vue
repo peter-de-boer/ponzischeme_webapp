@@ -27,6 +27,7 @@
     export default {
         computed: {
             ...mapGetters([
+                'id',
                 'fundingBoard',
                 'userIsActive',
                 'token',
@@ -68,7 +69,7 @@
                 console.log("in selectTileAndCard")
                 // if (this.username && card != null && tile != null) {
                 if (this.correctSelection(card, tile)) {
-                    var json = {"value": card.value, "tile": tile, "token": this.token}
+                    var json = {"value": card.value, "tile": tile, "token": this.token, "id": this.id}
                     console.log(json)
                     axios.put('/game/selectTileAndCard', json)
                         .then( res => {
@@ -87,7 +88,7 @@
             passFunding() {
                 console.log("in passFunding")
                 if (this.token) {
-                    var json = {"token": this.token}
+                    var json = {"token": this.token, "id": this.id}
                     axios.put('/game/passFunding', json)
                         .then( res => {
                             console.log(res)

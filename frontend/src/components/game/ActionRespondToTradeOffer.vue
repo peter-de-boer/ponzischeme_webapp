@@ -30,6 +30,7 @@
     export default {
         computed: {
             ...mapGetters([
+                'id',
                 'activePlayer',
                 'userIsActive',
                 'token',
@@ -56,7 +57,7 @@
             sellTrade() {
                 console.log("in sellTrade")
                 if (this.token) {
-                    var json = {"token": this.token}
+                    var json = {"token": this.token, "id": this.id}
                     axios.put('/game/sellTrade', json)
                         .then( res => {
                             console.log(res)
@@ -75,7 +76,7 @@
             buyTrade() {
                 console.log("in buyTrade")
                 if (this.counterOfferPossible()) {
-                    var json = {"token": this.token}
+                    var json = {"token": this.token, "id": this.id}
                     axios.put('/game/buyTrade', json)
                         .then( res => {
                             console.log(res)

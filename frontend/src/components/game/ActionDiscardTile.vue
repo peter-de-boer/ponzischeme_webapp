@@ -23,6 +23,7 @@
     export default {
         computed: {
             ...mapGetters([
+                'id',
                 'activePlayer',
                 'userIsActive',
                 'token',
@@ -38,7 +39,7 @@
             discardTile(playerAndTile) {
                 console.log("in discardTile")
                 if (this.token && playerAndTile && playerAndTile.name==this.activePlayer.name) {
-                    var json = {"tile": playerAndTile.tile, "token": this.token}
+                    var json = {"tile": playerAndTile.tile, "token": this.token, "id": this.id}
                     console.log(json)
                     axios.put('/game/discardTile', json)
                         .then( res => {

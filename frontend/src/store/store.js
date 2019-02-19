@@ -345,6 +345,13 @@ export const store = new Vuex.Store({
                 return null;
             }    
         },
+        id: state => {
+            if (state.gameStateLoaded) {
+                return state.gameState.id;
+            } else {
+                return null;
+            }    
+        },
         log: state => {
             if (state.gameStateLoaded) {
                 return state.gameState.log.log;

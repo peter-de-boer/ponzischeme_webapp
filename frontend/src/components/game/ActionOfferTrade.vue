@@ -2,7 +2,7 @@
     <div>
         <h2>Trading</h2>
         <div v-if="userIsActive">
-            <p>Please select an industry tile from and opponent and offer an amount of money, or pass</p>
+            <p>Please select an industry tile from an opponent and offer an amount of money, or pass</p>
             <p><button class="btn btn-default" 
                     :class="enableButton(selectedPlayerAndTile)"
                     @click="offerTrade(selectedPlayerAndTile, tradeMoney)"> 
@@ -47,6 +47,7 @@
         },
         computed: {
             ...mapGetters([
+                'id',
                 'userIsActive',
                 'activePlayer',
                 'token',
@@ -126,7 +127,7 @@
                 console.log("in buyLuxuryTile")
                 if (this.token && tile!=null &&
                     this.correctLuxurySelection(tile)) {
-                    var json = {"tile": tile, "token": this.token}
+                    var json = {"tile": tile, "token": this.token, "id": this.id}
                     console.log(json)
                     axios.put('/game/buyLuxuryTile', json)
                         .then( res => {
@@ -149,7 +150,7 @@
                 if (this.token && playerAndTile && 
                     money != null && this.correctSelection(playerAndTile)) {
                     var json = {"money": money, "tile": playerAndTile.tile, "opponentName": playerAndTile.name,
-                                "token": this.token}
+                                "token": this.token, "id": this.id}
                     console.log(json)
                     axios.put('/game/offerTrade', json)
                         .then( res => {
@@ -168,7 +169,7 @@
             passTrading() {
                 console.log("in passTrade")
                 if (this.token) {
-                    var json = {"token": this.token}
+                    var json = {"token": this.token, "id": this.id}
                     axios.put('/game/passTrading', json)
                         .then( res => {
                             console.log(res)
