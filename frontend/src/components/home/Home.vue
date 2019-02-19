@@ -5,6 +5,8 @@
         <create-game v-if="isAuthenticated"></create-game>
         <hr>
         <new-games></new-games>
+        <hr>
+        <running-games></running-games>
     </div>
 </template>
 
@@ -14,6 +16,7 @@
     import { mapActions } from 'vuex';
     import CreateGame from './CreateGame.vue';
     import NewGames from './NewGames.vue';
+    import RunningGames from './RunningGames.vue';
 
     export default {
         name: 'Home',
@@ -39,6 +42,7 @@
         },
         components: {
             createGame: CreateGame,
+            runningGames: RunningGames,
             newGames: NewGames
         }
     }
