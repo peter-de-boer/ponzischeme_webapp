@@ -1,6 +1,7 @@
 from flask import jsonify, Blueprint, request
 from backend.games.gameIO import *
 from backend.games.gameActions import *
+from backend.games.game import Game
 
 from backend import Session
 from backend.models import User
@@ -70,6 +71,7 @@ def startgame():
 def get_game():
     req = request.get_json()
     userData = getUserData(req)
+    print("get_game userData: ", userData)
     id = req['id']
     return getGame(userData=userData, id=id)
 
@@ -85,7 +87,11 @@ def selecttileandcard():
     value = req['value']
     tile = req['tile']
     userData = getUserData(req)
-    error = selectTileAndCard(id, value, tile, userData['name'])
+    print(req)
+    print("userdata: ", userData)
+    #error = selectTileAndCard(id, value, tile, userData['name'])
+    kwargs = {'value': value, 'tile': tile, 'name': userData['name']}
+    error = executeAction("selectTileAndCard", id, **kwargs)
     if error:
         return error
     else:
@@ -100,7 +106,9 @@ def passfunding():
     req = request.get_json()
     id = req['id']
     userData = getUserData(req)
-    error = passFunding(id, userData['name'])
+    #error = passFunding(id, userData['name'])
+    kwargs = {'name': userData['name']}
+    error = executeAction("passFunding", id, **kwargs)
     if error:
         return error
     else:
@@ -115,7 +123,9 @@ def passtrading():
     req = request.get_json()
     id = req['id']
     userData = getUserData(req)
-    error = passTrading(id, userData['name'])
+    #error = passTrading(id, userData['name'])
+    kwargs = {'name': userData['name']}
+    error = executeAction("passTrading", id, **kwargs)
     if error:
         return error
     else:
@@ -131,7 +141,9 @@ def buytrade():
     req = request.get_json()
     id = req['id']
     userData = getUserData(req)
-    error = buyTrade(id, userData['name'])
+    #error = buyTrade(id, userData['name'])
+    kwargs = {'name': userData['name']}
+    error = executeAction("buyTrade", id, **kwargs)
     if error:
         return error
     else:
@@ -147,7 +159,9 @@ def selltrade():
     req = request.get_json()
     id = req['id']
     userData = getUserData(req)
-    error = sellTrade(id, userData['name'])
+    #error = sellTrade(id, userData['name'])
+    kwargs = {'name': userData['name']}
+    error = executeAction("sellTrade", id, **kwargs)
     if error:
         return error
     else:
@@ -166,7 +180,9 @@ def offertrade():
     tile = req['tile']
     money = req['money']
     opponentName = req['opponentName']
-    error = offerTrade(id, money, tile, opponentName, userData['name'])
+    #error = offerTrade(id, money, tile, opponentName, userData['name'])
+    kwargs = {'money': money, 'tile': tile, 'opponentName': opponentName, 'name': userData['name']}
+    error = executeAction("offerTrade", id, **kwargs)
     if error:
         return error
     else:
@@ -183,7 +199,9 @@ def buyluxurytile():
     id = req['id']
     tile = req['tile']
     userData = getUserData(req)
-    error = buyLuxuryTile(id, tile, userData['name'])
+    #error = buyLuxuryTile(id, tile, userData['name'])
+    kwargs = {'tileIndex': tile, 'name': userData['name']}
+    error = executeAction("buyLuxuryTile", id, **kwargs)
     if error:
         return error
     else:
@@ -201,7 +219,9 @@ def selectcardtodiscard():
     id = req['id']
     value = req['value']
     userData = getUserData(req)
-    error = selectCardToDiscard(id, value, userData['name'])
+    #error = selectCardToDiscard(id, value, userData['name'])
+    kwargs = {'value': value, 'name': userData['name']}
+    error = executeAction("selectCardToDiscard", id, **kwargs)
     if error:
         return error
     else:
@@ -218,7 +238,9 @@ def discardtile():
     id = req['id']
     tile = req['tile']
     userData = getUserData(req)
-    error = discardTile(id, tile, userData['name'])
+    #error = discardTile(id, tile, userData['name'])
+    kwargs = {'tile': tile, 'name': userData['name']}
+    error = executeAction("discardTile", id, **kwargs)
     if error:
         return error
     else:

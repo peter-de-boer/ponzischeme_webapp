@@ -51,6 +51,11 @@ class User(Base): #, UserMixin):
     @staticmethod
     def verify_token(token):
         s = Serializer(current_app.config['SECRET_KEY'])
+        """
+        print("try: ")
+        stoken = s.loads(token)
+        user_id = stoken['user_id']
+        """
         try:
             user_id = s.loads(token)['user_id']
         except:
