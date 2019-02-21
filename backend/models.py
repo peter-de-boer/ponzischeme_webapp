@@ -44,7 +44,7 @@ class User(Base): #, UserMixin):
         return check_password_hash(self.password, password)
 
 
-    def get_token(self, expires_sec=259200): #259200sec=30days
+    def get_token(self, expires_sec=259200): #259200sec=3days
         s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
         return s.dumps({'user_id': self.id}).decode('utf-8')
 

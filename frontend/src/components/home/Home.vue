@@ -7,6 +7,8 @@
         <new-games></new-games>
         <hr>
         <running-games></running-games>
+        <hr>
+        <finished-games></finished-games>
     </div>
 </template>
 
@@ -17,6 +19,7 @@
     import CreateGame from './CreateGame.vue';
     import NewGames from './NewGames.vue';
     import RunningGames from './RunningGames.vue';
+    import FinishedGames from './FinishedGames.vue';
 
     export default {
         name: 'Home',
@@ -43,6 +46,7 @@
         components: {
             createGame: CreateGame,
             runningGames: RunningGames,
+            finishedGames: FinishedGames,
             newGames: NewGames
         }
     }
