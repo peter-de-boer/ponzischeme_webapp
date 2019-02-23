@@ -15,10 +15,10 @@
         </div>
         <div class="row">
             <div class="col-12 col-sm-4">
-                <luxury-tiles v-if="gameStateLoaded"></luxury-tiles>
+                <luxury-tiles v-if="gameStateLoaded && advanced"></luxury-tiles>
                 <industry-tiles v-if="gameStateLoaded"></industry-tiles>
                 <funding-board v-if="gameStateLoaded"></funding-board>
-                <discard-pile v-if="gameStateLoaded"></discard-pile>
+                <!-- <discard-pile v-if="gameStateLoaded"></discard-pile> -->
             </div>
             <div class="col-12 col-sm-8">
                 <player v-if="gameStateLoaded" v-for="plr in players" :player="plr"></player>
@@ -26,7 +26,7 @@
         </div>
         <div class="row">
             <div class="col-12 col-sm-4">
-                <deck v-if="gameStateLoaded"></deck>
+                <!-- <deck v-if="gameStateLoaded"></deck> -->
             </div>
         </div>
     </div>
@@ -80,6 +80,7 @@
                 'startPlayerName',
                 'activePlayer',
                 'fundingBoard',
+                'advanced',
                 'gameEnded',
                 'gameStateLoaded',
                 'players'

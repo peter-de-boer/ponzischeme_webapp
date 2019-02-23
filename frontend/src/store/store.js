@@ -455,6 +455,13 @@ export const store = new Vuex.Store({
                 return null;
             }
         },
+        advanced: state => {
+            if (state.gameStateLoaded) {
+                return state.gameState.advanced;
+            } else {
+                return null;
+            }    
+        },
         gameStateLoaded: state => {
             return state.gameStateLoaded;
         }    

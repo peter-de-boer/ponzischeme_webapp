@@ -397,7 +397,7 @@ class Game(object):
         self.bankruptPlayers = []
         self.standings = []
         for player in self.players:
-            player.calculatePoints()
+            player.calculatePoints(self.advanced)
             if player.bankrupt:
                 self.bankruptPlayers.append(player)
             else:

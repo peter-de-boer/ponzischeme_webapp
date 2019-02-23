@@ -16,7 +16,7 @@
                 <input v-model="tradeMoney">
                 <hr>
             </div>
-            <p><button class="btn btn-default" 
+            <p v-if="advanced"><button class="btn btn-default" 
                     :class="enableLuxuryButton(selectedLuxuryTile)"
                        @click="buyLuxuryTile(selectedLuxuryTile)"> 
                        Buy Luxury Tile 
@@ -54,7 +54,8 @@
                 'username',
                 'luxuryTiles',
                 'selectedLuxuryTile',
-                'selectedPlayerAndTile'
+                'selectedPlayerAndTile',
+                'advanced'
             ]),
             sliderOptions() {
                 // we know that the user is the active player:
