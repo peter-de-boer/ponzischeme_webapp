@@ -23,7 +23,7 @@
                 'tryAutoLogin'
             ]),
         },
-        mounted() {
+        created() {
             this.tryAutoLogin()
         }
     }

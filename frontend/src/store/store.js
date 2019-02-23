@@ -68,13 +68,17 @@ const auth = {
                 returnSecureToken: true
             })
             .then(res => {
+                console.log(res.data)
                 commit('loginStatus', res.data)
-                localStorage.setItem('token', res.data.idToken)
-                localStorage.setItem('username', res.data.username)
-                commit('authUser', {
-                    idToken: res.data.idToken,
-                    username: res.data.username
-                })
+                if (res.data.status=="authenticated") {
+                    localStorage.setItem('token', res.data.idToken)
+                    localStorage.setItem('username', res.data.username)
+                    commit('authUser', {
+                        idToken: res.data.idToken,
+                        username: res.data.username
+                    })
+                    router.replace({name: 'home'})
+                }
               })
               .catch(error => console.log(error))
         },
@@ -144,6 +148,9 @@ const auth = {
         token(state) {
             return state.idToken
             //return localStorage.getItem('token')
+        },
+        tokenStorage() {
+            return localStorage.getItem('token')
         }
     }
 }
@@ -280,7 +287,16 @@ const games = {
         }
     },
     actions: {
-        setGameList: ({ commit }, games) => {
+        setGameList: ({ commit }, data) => {
+            // data is a json array with two elements
+            // first is authentication data, second the game list
+            if (!data[0].name) {
+                // apparently an invalid or expired token was provided
+                commit('clearAuthData')
+                localStorage.removeItem('token')
+                localStorage.removeItem('username')
+            }
+            var games = data[1];
             commit('setNewGames', games['new']);
             commit('setRunningGames', games['running']);
             commit('setFinishedGames', games['finished']);

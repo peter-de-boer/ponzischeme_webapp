@@ -28,6 +28,13 @@ def readGameJSON(userData = None):
     gamejs_expand = jsonpickle.encode(gm, unpicklable=False)
     return gamejs_expand
 
+def getUserData(user):
+    if user:
+        userData = {"name": user.username, "id": user.id}
+    else:
+        userData = {"name": None, "id": None }
+    return userData
+
 def getGame(userData = None, id = None):
 
     session = Session()
@@ -42,6 +49,7 @@ def getGame(userData = None, id = None):
     return gamejs_expand
 
 def createGame(user, nplayers, advanced):
+    userData = getUserData(user)
     if user:
         session = Session()
         newgame = GameModel(advanced=advanced, nplayers=nplayers, owner=user)
@@ -49,9 +57,10 @@ def createGame(user, nplayers, advanced):
         session.add(newgame)
         session.commit()
         session.close()
-    return gameList()
+    return gameList(userData)
 
 def deleteGame(user, gameid):
+    userData = getUserData(user)
     if user:
         session = Session()
         game = session.query(GameModel) \
@@ -60,9 +69,10 @@ def deleteGame(user, gameid):
             session.delete(game)
         session.commit()
         session.close()
-    return gameList()
+    return gameList(userData)
 
 def joinGame(user, gameid):
+    userData = getUserData(user)
     if user:
         session = Session()
         game = session.query(GameModel) \
@@ -73,9 +83,10 @@ def joinGame(user, gameid):
             game.players.append(user)
         session.commit()
         session.close()
-    return gameList()
+    return gameList(userData)
 
 def leaveGame(user, gameid):
+    userData = getUserData(user)
     if user:
         session = Session()
         game = session.query(GameModel) \
@@ -84,9 +95,10 @@ def leaveGame(user, gameid):
             game.players.remove(user)
         session.commit()
         session.close()
-    return gameList()
+    return gameList(userData)
 
 def startGame(user, gameid):
+    userData = getUserData(user)
     if user:
         session = Session()
         game = session.query(GameModel) \
@@ -105,7 +117,7 @@ def startGame(user, gameid):
             game.game = jsonpickle.encode(newgame)
         session.commit()
         session.close()
-    return gameList()
+    return gameList(userData)
 
 def dbToDict(objects):
     dct = []
@@ -113,8 +125,8 @@ def dbToDict(objects):
         dct.append(obj.dict())
     return dct
 
-def gameList():
-    json_data = json.dumps(listOfGames())
+def gameList(userData):
+    json_data = json.dumps([userData, listOfGames()])
     return json_data
 
 def listOfGames():

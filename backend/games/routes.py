@@ -24,13 +24,11 @@ def getUserData(req):
         userData = {"name": user.username, "id": user.id}
     return userData
 
-def authData(userData):
-    # return userData in json format
-    return json.dumps(userData)
-
-@games.route("/gameList", methods=['GET'])
+@games.route("/gameList", methods=['PUT'])
 def gamelist():
-    return gameList()
+    req = request.get_json()
+    userData = getUserData(req)
+    return gameList(userData)
 
 @games.route("/createGame", methods=['PUT'])
 def creategame():

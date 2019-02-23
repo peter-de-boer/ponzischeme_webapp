@@ -11,7 +11,7 @@ import SigninPage from './components/auth/login.vue'
 Vue.use(VueRouter)
 
 const routes = [
-    { path: '', component:  Home },
+    { path: '', name: 'home', component:  Home },
     //{ path: '/urlgame', component:  Game },
     { path: '/game/:id', name:'game', component:  Game, props: true },
     { path: '/signup', component: SignupPage },
