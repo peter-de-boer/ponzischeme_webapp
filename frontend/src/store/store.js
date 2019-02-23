@@ -444,14 +444,22 @@ export const store = new Vuex.Store({
         }    
     },
     mutations: {
-        setGameState: (state, payload) => {
-            Vue.set(state, "gameState", payload);
+        setGameState: (state, data) => {
+            Vue.set(state, "gameState", data);
             state.gameStateLoaded = 1;
         }    
     },
     actions: {
-        setGameState: ({ commit }, payload) => {
-            commit('setGameState', payload);
+        setGameState: ({ commit }, data) => {
+            // data is a json array with two elements
+            // first is authentication data, second the game state
+            if (!data[0].name) {
+                // apparently an invalid or expired token was provided
+                commit('clearAuthData')
+                localStorage.removeItem('token')
+                localStorage.removeItem('username')
+            }
+            commit('setGameState', data[1]);
             store.dispatch('clearSelections');
         }
     }    

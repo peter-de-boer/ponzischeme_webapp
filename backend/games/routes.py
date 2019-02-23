@@ -24,6 +24,10 @@ def getUserData(req):
         userData = {"name": user.username, "id": user.id}
     return userData
 
+def authData(userData):
+    # return userData in json format
+    return json.dumps(userData)
+
 @games.route("/gameList", methods=['GET'])
 def gamelist():
     return gameList()
@@ -73,7 +77,9 @@ def get_game():
     userData = getUserData(req)
     print("get_game userData: ", userData)
     id = req['id']
-    return getGame(userData=userData, id=id)
+    #return getGame(userData=userData, id=id)
+    #need to loads and dumps to keep correct json format
+    return json.dumps([userData, json.loads(getGame(userData=userData, id=id))])
 
 @games.route("/game/selectTileAndCard", methods=['PUT'])
 def selecttileandcard():
