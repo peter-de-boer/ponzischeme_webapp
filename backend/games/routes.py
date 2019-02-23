@@ -69,6 +69,11 @@ def startgame():
     return startGame(user,gameid)
 
 
+def returnData(userData, error, id):
+    if error:
+        return json.dumps([userData, error])
+    else:
+        return json.dumps([userData, json.loads(getGame(userData=userData, id=id))])
 
 
 @games.route("/game", methods=['GET','PUT'])
@@ -98,10 +103,7 @@ def selecttileandcard():
     #error = selectTileAndCard(id, value, tile, userData['name'])
     kwargs = {'value': value, 'tile': tile, 'name': userData['name']}
     error = executeAction("selectTileAndCard", id, **kwargs)
-    if error:
-        return error
-    else:
-        return getGame(userData=userData, id=id)
+    return returnData(userData, error, id)
 
 @games.route("/game/passFunding", methods=['PUT'])
 def passfunding():
@@ -115,10 +117,7 @@ def passfunding():
     #error = passFunding(id, userData['name'])
     kwargs = {'name': userData['name']}
     error = executeAction("passFunding", id, **kwargs)
-    if error:
-        return error
-    else:
-        return getGame(userData=userData, id=id)
+    return returnData(userData, error, id)
 
 @games.route("/game/passTrading", methods=['PUT'])
 def passtrading():
@@ -132,10 +131,7 @@ def passtrading():
     #error = passTrading(id, userData['name'])
     kwargs = {'name': userData['name']}
     error = executeAction("passTrading", id, **kwargs)
-    if error:
-        return error
-    else:
-        return getGame(userData=userData, id=id)
+    return returnData(userData, error, id)
 
 @games.route("/game/buyTrade", methods=['PUT'])
 def buytrade():
@@ -150,10 +146,7 @@ def buytrade():
     #error = buyTrade(id, userData['name'])
     kwargs = {'name': userData['name']}
     error = executeAction("buyTrade", id, **kwargs)
-    if error:
-        return error
-    else:
-        return getGame(userData=userData, id=id)
+    return returnData(userData, error, id)
 
 @games.route("/game/sellTrade", methods=['PUT'])
 def selltrade():
@@ -168,10 +161,7 @@ def selltrade():
     #error = sellTrade(id, userData['name'])
     kwargs = {'name': userData['name']}
     error = executeAction("sellTrade", id, **kwargs)
-    if error:
-        return error
-    else:
-        return getGame(userData=userData, id=id)
+    return returnData(userData, error, id)
 
 @games.route("/game/offerTrade", methods=['PUT'])
 def offertrade():
@@ -189,10 +179,7 @@ def offertrade():
     #error = offerTrade(id, money, tile, opponentName, userData['name'])
     kwargs = {'money': money, 'tile': tile, 'opponentName': opponentName, 'name': userData['name']}
     error = executeAction("offerTrade", id, **kwargs)
-    if error:
-        return error
-    else:
-        return getGame(userData=userData, id=id)
+    return returnData(userData, error, id)
 
 @games.route("/game/buyLuxuryTile", methods=['PUT'])
 def buyluxurytile():
@@ -208,10 +195,7 @@ def buyluxurytile():
     #error = buyLuxuryTile(id, tile, userData['name'])
     kwargs = {'tileIndex': tile, 'name': userData['name']}
     error = executeAction("buyLuxuryTile", id, **kwargs)
-    if error:
-        return error
-    else:
-        return getGame(userData=userData, id=id)
+    return returnData(userData, error, id)
 
 
 @games.route("/game/selectCardToDiscard", methods=['PUT'])
@@ -228,10 +212,7 @@ def selectcardtodiscard():
     #error = selectCardToDiscard(id, value, userData['name'])
     kwargs = {'value': value, 'name': userData['name']}
     error = executeAction("selectCardToDiscard", id, **kwargs)
-    if error:
-        return error
-    else:
-        return getGame(userData=userData, id=id)
+    return returnData(userData, error, id)
 
 @games.route("/game/discardTile", methods=['PUT'])
 def discardtile():
@@ -247,7 +228,4 @@ def discardtile():
     #error = discardTile(id, tile, userData['name'])
     kwargs = {'tile': tile, 'name': userData['name']}
     error = executeAction("discardTile", id, **kwargs)
-    if error:
-        return error
-    else:
-        return getGame(userData=userData, id=id)
+    return returnData(userData, error, id)

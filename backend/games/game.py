@@ -475,10 +475,10 @@ class Game(object):
 
     @staticmethod
     def error(txt):
-        # returns an error text in json format
+        # returns an error text 
         data = {}
         data['error'] = txt
-        return json.dumps(data)
+        return data
 
     @staticmethod
     def fundCards():
