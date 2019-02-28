@@ -23,6 +23,7 @@ class User(Base): #, UserMixin):
     #image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
     registered_on = db.Column(db.DateTime, nullable=False ,default=datetime.datetime.utcnow)
+    confirmed = db.Column(db.Boolean)
     admin = db.Column(db.Boolean, nullable=False, default=False)
     #posts = db.relationship('Post', backref='author', lazy=True)
     #games = db.relationship('GameModel', backref='author', lazy=True)
@@ -31,13 +32,14 @@ class User(Base): #, UserMixin):
     active_games = relationship("GameModel", back_populates="active",
                                 foreign_keys="[GameModel.active_id]")
 
-    def __init__(self, email, username, password, admin=False):
+    def __init__(self, email, username, password, admin=False, confirmed=False):
         self.email = email
         self.username = username
         hashed_password = generate_password_hash(password)
         #if user and check_password_hash(user.password, form.password.data):
         self.password = hashed_password
         self.registered_on = datetime.datetime.now()
+        self.confirmed = confirmed
         self.admin = admin
 
     def check_password(self, password):
@@ -71,7 +73,8 @@ class User(Base): #, UserMixin):
 
     def __repr__(self):
         return f"User('{self.id}', '{self.username}', '{self.email}', " \
-               f"'{self.password}', '{self.admin}', '{self.registered_on}')"
+               f"'{self.password}', '{self.admin}', '{self.registered_on}'," \
+                f"'{self.confirmed}')"
 
 
 class GameModel(Base):
