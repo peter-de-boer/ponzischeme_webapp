@@ -7,6 +7,7 @@ import NotFound from './components/NotFound.vue'
 import DashboardPage from './components/dashboard/dashboard.vue'
 import SignupPage from './components/auth/signup.vue'
 import SigninPage from './components/auth/login.vue'
+import ConfirmPage from './components/auth/confirm.vue'
 
 Vue.use(VueRouter)
 
@@ -15,6 +16,7 @@ const routes = [
     //{ path: '/urlgame', component:  Game },
     { path: '/game/:id', name:'game', component:  Game, props: true },
     { path: '/signup', component: SignupPage },
+    { path: '/confirm/:token', name:'confirm', component:  ConfirmPage, props: true },
     { path: '/login', name: 'login', component: SigninPage },
     {
       path: '/dashboard',

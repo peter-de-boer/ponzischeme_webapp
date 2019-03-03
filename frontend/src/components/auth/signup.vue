@@ -67,6 +67,7 @@
                     username: this.username,
                     password: this.password,
                     confirmPassword: this.confirmPassword,
+                    url: location.origin
                 }
                 console.log(formData)
                 this.signup(formData)

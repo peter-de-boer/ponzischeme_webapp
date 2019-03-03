@@ -1,7 +1,5 @@
 <template>
     <div>
-        <li class="nav-item mx-2"><router-link to="/urlgame">Game</router-link></li>
-        <hr>
         <create-game v-if="isAuthenticated"></create-game>
         <hr>
         <new-games></new-games>

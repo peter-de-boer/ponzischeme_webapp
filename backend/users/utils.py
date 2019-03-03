@@ -32,3 +32,21 @@ def send_reset_email(user):
 If you did not make this request then simply ignore this email and no changes will be made.
 '''
     mail.send(msg)
+
+def send_registration_email(user, url):
+    if user:
+        print("USER: ", user)
+    else:
+        print("NO USER")
+    token = user.get_registration_token()
+    link = url + '/confirm/' + token
+    msg = Message('Confirm your registration',
+                  sender='peterdb001@gmail.com',
+                  recipients=[user.email])
+    msg.body = f'''To confirm your registration, follow the following link:
+{link}
+
+If you did not make this request then simply ignore this email and no changes will be made.
+'''
+#{url_for('users.confirm', token=token, _external=True)}
+    mail.send(msg)

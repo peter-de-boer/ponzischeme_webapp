@@ -4,7 +4,7 @@ from flask_cors import CORS
 from .db import Session
 # from flask_bcrypt import Bcrypt
 #from flask_login import LoginManager
-#from flask_mail import Mail
+from flask_mail import Mail
 from backend.config import Config
 import requests
 
@@ -14,7 +14,7 @@ import requests
 #login_manager = LoginManager()
 #login_manager.login_view = 'users.login'
 #login_manager.login_message_category = 'info'
-#mail = Mail()
+mail = Mail()
 
 
 def create_app(config_class=Config, createdb=False):
@@ -37,7 +37,7 @@ def create_app(config_class=Config, createdb=False):
     #db.init_app(app)
     #bcrypt.init_app(app)
     #login_manager.init_app(app)
-    #mail.init_app(app)
+    mail.init_app(app)
 
     @app.route('/', defaults={'path': ''})
     @app.route('/<path:path>')

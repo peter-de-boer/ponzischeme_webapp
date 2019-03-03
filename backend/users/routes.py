@@ -4,7 +4,7 @@ from backend import Session # db # , bcrypt
 from backend.models import User #, Post
 #from backend.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
 #                                   RequestResetForm, ResetPasswordForm)
-#from backend.users.utils import save_picture, send_reset_email
+from backend.users.utils import send_reset_email, send_registration_email
 import json
 
 users = Blueprint('users', __name__)
@@ -17,13 +17,23 @@ def exists_username(username):
     user = Session.query(User).filter_by(username=username).first()
     return user
 
+def getUser(req):
+    token = None
+    if 'token' in req:
+        token = req['token']
+    session = Session()
+    user=User.verify_token(token,salt='registration')
+    return user
+
 @users.route("/user/signup", methods=['POST'])
 def signup():
     session = Session()
     req = request.get_json()
+    print(req)
     email = req['email']
     password = req['password']
     username = req['username']
+    url = req['url']
     data = {}
     if exists_email(email):
         data['status'] = 'email_exists'
@@ -32,11 +42,30 @@ def signup():
     else:
         user = User(username=username, email=email, password=password)
         session.add(user)
+        # now first commit before sending email, else the new user has no id
+        # yet...
         session.commit()
+        send_registration_email(user, url)
         data['status'] = 'success'
     json_data = json.dumps(data)
     return json_data
 
+@users.route("/user/confirm", methods=['POST'])
+def confirm():
+    session = Session()
+    req = request.get_json()
+    print("req: ", req)
+    user=getUser(req)
+    print("user: ", user)
+    data = {}
+    if user:
+        user.confirmed = True
+        session.commit()
+        data['status'] = 'confirmed'
+    else:
+        data['status'] = 'not confirmed'
+    json_data = json.dumps(data)
+    return json_data
 
 
 @users.route("/user/login", methods=['GET', 'POST'])

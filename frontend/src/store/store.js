@@ -40,7 +40,8 @@ const auth = {
                 email: authData.email,
                 username: authData.username,
                 password: authData.password,
-                returnSecureToken: true
+                returnSecureToken: true,
+                url: location.origin
             })
             .then(res => {
                 console.log('signup then')

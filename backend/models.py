@@ -50,8 +50,13 @@ class User(Base): #, UserMixin):
         s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
         return s.dumps({'user_id': self.id}).decode('utf-8')
 
+    def get_registration_token(self, expires_sec=86400): # 86400 = 1 day
+        s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
+        print("register user id: ", self.id)
+        return s.dumps({'user_id': self.id},salt='registration').decode('utf-8')
+
     @staticmethod
-    def verify_token(token):
+    def verify_token(token, salt=None):
         s = Serializer(current_app.config['SECRET_KEY'])
         """
         print("try: ")
@@ -59,9 +64,10 @@ class User(Base): #, UserMixin):
         user_id = stoken['user_id']
         """
         try:
-            user_id = s.loads(token)['user_id']
+            user_id = s.loads(token, salt=salt)['user_id']
         except:
             return None
+        print("user_id: ", user_id)
         return Session.query(User).get(user_id)
 
     def dict(self, includeGames=False):
