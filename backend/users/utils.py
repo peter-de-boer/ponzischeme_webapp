@@ -48,9 +48,27 @@ If you did not make this request then simply ignore this email and no changes wi
 
 
 def send_notification(user, game_id):
-    msg = Message('[ponzischeme]: your turn',
+    msg = Message(f'[ponzischeme]: your turn in game {game_id}',
                   sender='peterdb001@gmail.com',
                   recipients=[user.email])
     msg.body = f'''It is your turn in game {game_id}.
 '''
     mail.send(msg)
+
+def send_end_of_game_email(emails, game_id):
+    msg = Message(f'[ponzischeme]: end of game {game_id}',
+                  sender='peterdb001@gmail.com',
+                  recipients=emails)
+    msg.body = f'''Game {game_id} is finished.
+'''
+    mail.send(msg)
+
+def send_start_game_email(emails, game_id):
+    msg = Message(f'[ponzischeme]: start of game {game_id}',
+                  sender='peterdb001@gmail.com',
+                  recipients=emails)
+    msg.body = f'''Game {game_id} is started.
+'''
+    mail.send(msg)
+
+

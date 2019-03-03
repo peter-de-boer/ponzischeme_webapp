@@ -2,6 +2,7 @@ import json, jsonpickle
 from backend.games.game import Game
 from backend.models import GameModel, User
 from backend import Session
+from backend.users.utils import send_start_game_email
 
 def writeGame(game):
 
@@ -114,7 +115,9 @@ def startGame(user, gameid):
             game.active = active
             game.status="running"
             game.game = jsonpickle.encode(newgame)
-        session.commit()
+            session.commit()
+            emails = [player.email for player in game.players]
+            send_start_game_email(emails, gameid) 
         session.close()
     return gameList(userData)
 

@@ -6,7 +6,6 @@ from backend.games.game import Game
 
 from backend import Session
 from backend.models import User, GameModel
-from backend.users.utils import send_notification
 
 
 games = Blueprint('games', __name__)
@@ -28,19 +27,6 @@ def getUserData(req):
     if user:
         userData = {"name": user.username, "id": user.id}
     return userData
-
-def notifyNextPlayer(userData, id):
-    session = Session()
-    game = session.query(GameModel) \
-            .filter(GameModel.id==id).first()
-    gm = jsonpickle.decode(game.game)
-    nextPlayer = gm.getActivePlayer()
-    if (nextPlayer is not None) and (nextPlayer.name != userData['name']):
-        user = session.query(User) \
-                .filter(User.id==nextPlayer.id).first()
-        send_notification(user, id)
-    session.close()
-
 
 @games.route("/gameList", methods=['PUT'])
 def gamelist():
@@ -119,8 +105,6 @@ def selecttileandcard():
     #error = selectTileAndCard(id, value, tile, userData['name'])
     kwargs = {'value': value, 'tile': tile, 'name': userData['name']}
     error = executeAction("selectTileAndCard", id, **kwargs)
-    if (error is None):
-        notifyNextPlayer(userData, id)
     return returnData(userData, error, id)
 
 @games.route("/game/passFunding", methods=['PUT'])
@@ -135,8 +119,6 @@ def passfunding():
     #error = passFunding(id, userData['name'])
     kwargs = {'name': userData['name']}
     error = executeAction("passFunding", id, **kwargs)
-    if (error is None):
-        notifyNextPlayer(userData, id)
     return returnData(userData, error, id)
 
 @games.route("/game/passTrading", methods=['PUT'])
@@ -151,8 +133,6 @@ def passtrading():
     #error = passTrading(id, userData['name'])
     kwargs = {'name': userData['name']}
     error = executeAction("passTrading", id, **kwargs)
-    if (error is None):
-        notifyNextPlayer(userData, id)
     return returnData(userData, error, id)
 
 @games.route("/game/buyTrade", methods=['PUT'])
@@ -168,8 +148,6 @@ def buytrade():
     #error = buyTrade(id, userData['name'])
     kwargs = {'name': userData['name']}
     error = executeAction("buyTrade", id, **kwargs)
-    if (error is None):
-        notifyNextPlayer(userData, id)
     return returnData(userData, error, id)
 
 @games.route("/game/sellTrade", methods=['PUT'])
@@ -185,8 +163,6 @@ def selltrade():
     #error = sellTrade(id, userData['name'])
     kwargs = {'name': userData['name']}
     error = executeAction("sellTrade", id, **kwargs)
-    if (error is None):
-        notifyNextPlayer(userData, id)
     return returnData(userData, error, id)
 
 @games.route("/game/offerTrade", methods=['PUT'])
@@ -205,8 +181,6 @@ def offertrade():
     #error = offerTrade(id, money, tile, opponentName, userData['name'])
     kwargs = {'money': money, 'tile': tile, 'opponentName': opponentName, 'name': userData['name']}
     error = executeAction("offerTrade", id, **kwargs)
-    if (error is None):
-        notifyNextPlayer(userData, id)
     return returnData(userData, error, id)
 
 @games.route("/game/buyLuxuryTile", methods=['PUT'])
@@ -223,8 +197,6 @@ def buyluxurytile():
     #error = buyLuxuryTile(id, tile, userData['name'])
     kwargs = {'tileIndex': tile, 'name': userData['name']}
     error = executeAction("buyLuxuryTile", id, **kwargs)
-    if (error is None):
-        notifyNextPlayer(userData, id)
     return returnData(userData, error, id)
 
 
@@ -242,8 +214,6 @@ def selectcardtodiscard():
     #error = selectCardToDiscard(id, value, userData['name'])
     kwargs = {'value': value, 'name': userData['name']}
     error = executeAction("selectCardToDiscard", id, **kwargs)
-    if (error is None):
-        notifyNextPlayer(userData, id)
     return returnData(userData, error, id)
 
 @games.route("/game/discardTile", methods=['PUT'])
@@ -260,6 +230,4 @@ def discardtile():
     #error = discardTile(id, tile, userData['name'])
     kwargs = {'tile': tile, 'name': userData['name']}
     error = executeAction("discardTile", id, **kwargs)
-    if (error is None):
-        notifyNextPlayer(userData, id)
     return returnData(userData, error, id)

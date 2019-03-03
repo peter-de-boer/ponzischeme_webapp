@@ -3,6 +3,7 @@ from backend.games.game import Game
 from backend.games.gameIO import writeGame, readGame
 from backend.models import GameModel, User
 from backend import Session
+from backend.users.utils import send_notification, send_end_of_game_email
 
 """
 all very similor methods
@@ -39,9 +40,7 @@ def executeAction(method, id, **kwargs):
     game = session.query(GameModel) \
             .filter(GameModel.id==id).first()
     gm = jsonpickle.decode(game.game)
-    print("just before method call")
     error = execute(gm, method, **kwargs)
-    print("just after method call")
     if error:
         session.close()
         return error
@@ -50,11 +49,15 @@ def executeAction(method, id, **kwargs):
         if gm.status.endOfGame:
             game.status = "finished"
             game.active = None
+            emails = [player.email for player in game.players]
+            send_end_of_game_email(emails, id)
         else:
             activePlayer = gm.getActivePlayer()
             active = session.query(User) \
                     .filter(User.id==activePlayer.id).first()
             game.active = active
+            if (active.username != kwargs['name']):
+                send_notification(active, id)
         session.commit()
         session.close()
         return None
