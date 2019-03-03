@@ -48,9 +48,9 @@ If you did not make this request then simply ignore this email and no changes wi
 
 
 def send_notification(user, game_id):
-    msg = Message('Ponzi Scheme: your turn',
+    msg = Message('[ponzischeme]: your turn',
                   sender='peterdb001@gmail.com',
                   recipients=[user.email])
-    msg.body = f'''It is your turn in game {{id}}
+    msg.body = f'''It is your turn in game {game_id}.
 '''
     mail.send(msg)
