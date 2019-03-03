@@ -34,10 +34,6 @@ If you did not make this request then simply ignore this email and no changes wi
     mail.send(msg)
 
 def send_registration_email(user, url):
-    if user:
-        print("USER: ", user)
-    else:
-        print("NO USER")
     token = user.get_registration_token()
     link = url + '/confirm/' + token
     msg = Message('Confirm your registration',
@@ -48,5 +44,13 @@ def send_registration_email(user, url):
 
 If you did not make this request then simply ignore this email and no changes will be made.
 '''
-#{url_for('users.confirm', token=token, _external=True)}
+    mail.send(msg)
+
+
+def send_notification(user, game_id):
+    msg = Message('Ponzi Scheme: your turn',
+                  sender='peterdb001@gmail.com',
+                  recipients=[user.email])
+    msg.body = f'''It is your turn in game {{id}}
+'''
     mail.send(msg)

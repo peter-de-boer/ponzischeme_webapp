@@ -5,6 +5,7 @@ from backend.games.game import Game
 
 from backend import Session
 from backend.models import User
+from backend.users.utils import send_notification
 
 
 games = Blueprint('games', __name__)
@@ -15,7 +16,10 @@ def getUser(req):
         token = req['token']
     session = Session()
     user=User.verify_token(token)
-    return user
+    if user and user.confirmed:
+        return user
+    else:
+        return None
 
 def getUserData(req):
     userData = {"name": None, "id": None }
@@ -71,6 +75,8 @@ def returnData(userData, error, id):
     if error:
         return json.dumps([userData, error])
     else:
+        # need to get the new active player
+        #send_notification(user, id)
         return json.dumps([userData, json.loads(getGame(userData=userData, id=id))])
 
 

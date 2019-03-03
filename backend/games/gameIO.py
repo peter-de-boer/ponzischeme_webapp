@@ -41,7 +41,6 @@ def getGame(userData = None, id = None):
     game = session.query(GameModel) \
             .filter(GameModel.id==id).first()
     gm = jsonpickle.decode(game.game)
-    print("getGame gm.status.active: ", id, gm.status.active)
     session.commit()
     session.close()
     gm.removeHiddenInfo(userData)

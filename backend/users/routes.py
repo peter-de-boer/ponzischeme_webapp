@@ -76,7 +76,7 @@ def login():
     username = req['username']
     data = {}
     user = session.query(User).filter_by(username=username).first()
-    if (user and user.check_password(password)):
+    if (user and user.check_password(password) and user.confirmed):
         data['status'] = 'authenticated'
         data['idToken'] = user.get_token()
         data['username'] = username
