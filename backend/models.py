@@ -100,6 +100,7 @@ class GameModel(Base):
     active = relationship("User",  foreign_keys=[active_id],
                           back_populates="active_games")
     game = db.Column(db.PickleType)
+    chat = db.Column(db.PickleType)
     status = db.Column(db.String)
     # status can be: "new", "running", "finished"
 
@@ -124,5 +125,6 @@ class GameModel(Base):
         return game
 
     def __repr__(self):
-        return f"GameModel({self.id}, {self.status}, {self.advanced}, {self.nplayers})"
+        return f"GameModel({self.id}, {self.status}, {self.advanced}, "\
+                f"{self.nplayers}, {self.chat})"
 

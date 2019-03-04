@@ -21,4 +21,4 @@ def upgrade():
 
 
 def downgrade():
-    sa.drop_column('users', 'confirmed')
+    op.drop_column('users', 'confirmed')
