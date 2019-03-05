@@ -314,7 +314,8 @@ export const store = new Vuex.Store({
     },
     state: {
         gameStateLoaded: 0,
-        gameState: {}
+        gameState: {},
+        gameChat: [],
     },
     getters: {
         tileName: () => (tile) => {
@@ -463,6 +464,9 @@ export const store = new Vuex.Store({
                 return null;
             }    
         },
+        gameChat: state => {
+            return state.gameChat;
+        },    
         gameStateLoaded: state => {
             return state.gameStateLoaded;
         }    
@@ -471,6 +475,9 @@ export const store = new Vuex.Store({
         setGameState: (state, data) => {
             Vue.set(state, "gameState", data);
             state.gameStateLoaded = 1;
+        },    
+        setGameChat: (state, data) => {
+            Vue.set(state, "gameChat", data);
         }    
     },
     actions: {
@@ -483,6 +490,7 @@ export const store = new Vuex.Store({
                 localStorage.removeItem('token')
                 localStorage.removeItem('username')
             }
+            commit('setGameChat', data[2]);
             commit('setGameState', data[1]);
             store.dispatch('clearSelections');
         }

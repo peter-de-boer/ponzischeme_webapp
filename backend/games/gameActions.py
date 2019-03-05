@@ -33,9 +33,6 @@ def execute(gm, method, **kwargs):
         return gm.discardTile(**kwargs)
 
 def executeAction(method, id, **kwargs):
-    print("************* in executeAction *************")
-    print(kwargs)
-    print(method)
     session = Session()
     game = session.query(GameModel) \
             .filter(GameModel.id==id).first()
@@ -62,3 +59,16 @@ def executeAction(method, id, **kwargs):
         session.close()
         return None
 
+def addPost(post, id, name):
+    session = Session()
+    game = session.query(GameModel) \
+            .filter(GameModel.id==id).first()
+    chat = jsonpickle.decode(game.chat)
+    if (chat is None):
+        chat = []
+    fullPost = name + ": " + post
+    chat.append(fullPost)
+    game.chat = jsonpickle.encode(chat)
+    session.commit()
+    session.close()
+    return None

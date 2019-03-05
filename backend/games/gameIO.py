@@ -42,11 +42,12 @@ def getGame(userData = None, id = None):
     game = session.query(GameModel) \
             .filter(GameModel.id==id).first()
     gm = jsonpickle.decode(game.game)
+    chat = game.chat
     session.commit()
     session.close()
     gm.removeHiddenInfo(userData)
     gamejs_expand = jsonpickle.encode(gm, unpicklable=False)
-    return gamejs_expand
+    return gamejs_expand, chat
 
 def createGame(user, nplayers, advanced):
     userData = getUserData(user)

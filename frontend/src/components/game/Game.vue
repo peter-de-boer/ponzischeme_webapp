@@ -10,7 +10,8 @@
                 <action-box v-if="gameStateLoaded && !gameEnded"></action-box>
             </div>
             <div class="col-12 col-sm-8">
-                <log></log>
+                <log v-if="gameStateLoaded"></log>
+                <chat v-if="gameStateLoaded"></chat>
             </div>
         </div>
         <div class="row">
@@ -43,6 +44,7 @@
     import ActionBox from './ActionBox.vue';
     import EndOfGame from './EndOfGame.vue';
     import Log from './Log.vue';
+    import Chat from './Chat.vue';
     import {mapActions} from 'vuex';
     import {mapGetters} from 'vuex';
 
@@ -63,6 +65,7 @@
         },
         components: {
             log: Log,
+            chat: Chat,
             endOfGame: EndOfGame,
             actionBox: ActionBox,
             luxuryTiles: LuxuryTiles,

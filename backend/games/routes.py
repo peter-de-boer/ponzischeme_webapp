@@ -75,18 +75,28 @@ def returnData(userData, error, id):
     if error:
         return json.dumps([userData, error])
     else:
-        return json.dumps([userData, json.loads(getGame(userData=userData, id=id))])
+        game, chat = getGame(userData=userData, id=id)
+        return json.dumps([userData, json.loads(game), json.loads(chat)])
 
 
 @games.route("/game", methods=['GET','PUT'])
 def get_game():
     req = request.get_json()
     userData = getUserData(req)
-    print("get_game userData: ", userData)
     id = req['id']
     #return getGame(userData=userData, id=id)
     #need to loads and dumps to keep correct json format
-    return json.dumps([userData, json.loads(getGame(userData=userData, id=id))])
+    return returnData(userData, None, id)
+    #return json.dumps([userData, json.loads(getGame(userData=userData, id=id))])
+
+@games.route("/game/chat", methods=['PUT'])
+def post():
+    req = request.get_json()
+    userData = getUserData(req)
+    id = req['id']
+    post = req['post']
+    error = addPost(post, id, userData['name'])
+    return returnData(userData, error, id)
 
 @games.route("/game/selectTileAndCard", methods=['PUT'])
 def selecttileandcard():
@@ -100,8 +110,6 @@ def selecttileandcard():
     value = req['value']
     tile = req['tile']
     userData = getUserData(req)
-    print(req)
-    print("userdata: ", userData)
     #error = selectTileAndCard(id, value, tile, userData['name'])
     kwargs = {'value': value, 'tile': tile, 'name': userData['name']}
     error = executeAction("selectTileAndCard", id, **kwargs)
