@@ -288,13 +288,13 @@ export const store = new Vuex.Store({
         tileName: () => (tile) => {
             switch(tile) {
                 case 0:
-                    return "transportation";
+                    return "transportation(blue)";
                 case 1:
-                    return "grain";
+                    return "grain(yellow)";
                 case 2:
-                    return "media";
+                    return "media(green)";
                 case 3:
-                    return "real estate";
+                    return "real estate(red)";
                 default:
                     return "<unknown>";
             }

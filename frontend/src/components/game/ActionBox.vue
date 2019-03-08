@@ -31,7 +31,6 @@
 <style scoped>
 .action {
   border-style: solid;
-  height: 370px
 }
 
 </style>

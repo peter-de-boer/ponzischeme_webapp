@@ -63,7 +63,6 @@
                     confirmPassword: this.confirmPassword,
                     url: location.origin
                 }
-                console.log(formData)
                 this.signup(formData)
             }
         }

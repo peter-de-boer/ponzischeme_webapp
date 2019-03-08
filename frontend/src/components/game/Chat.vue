@@ -56,10 +56,8 @@
             onSubmit () {
                 if (this.token) {
                     var json = {"post": this.post, "token": this.token, "id": this.id}
-                    console.log(json)
                     axios.put('/game/chat', json)
                         .then( res => {
-                            console.log(res)
                             if (res.data.error) {
                                 console.log(res.data.error)
                             } else {

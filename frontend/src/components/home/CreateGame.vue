@@ -37,13 +37,11 @@
                     axios.put('/createGame', json)
                         .then( res => {
                             this.setGameList(res.data)
-                            console.log(res)
                     }, error => {
                         console.log(error)
                     }); 
                 }
                 else {
-                    console.log("no token")
                 }
             }
         }

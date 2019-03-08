@@ -1,16 +1,12 @@
 <template>
     <div>
         <h1>Game {{id}}</h1>
-        {{round}}/{{phase}}
-        {{startPlayerName}}
-        {{activePlayer ? activePlayer.name : ""}}
+        <button @click="getGame()"> Refresh </button> 
         <div class="row">
-            <div class="col-12 col-sm-4">
-                <end-of-game v-if="gameStateLoaded && gameEnded"></end-of-game>
-                <action-box v-if="gameStateLoaded && !gameEnded"></action-box>
-            </div>
-            <div class="col-12 col-sm-8">
+            <div class="col-12 col-sm-6">
                 <log v-if="gameStateLoaded"></log>
+            </div>
+            <div class="col-12 col-sm-6">
                 <chat v-if="gameStateLoaded"></chat>
             </div>
         </div>
@@ -20,6 +16,8 @@
                 <industry-tiles v-if="gameStateLoaded"></industry-tiles>
                 <funding-board v-if="gameStateLoaded"></funding-board>
                 <!-- <discard-pile v-if="gameStateLoaded"></discard-pile> -->
+                <end-of-game v-if="gameStateLoaded && gameEnded"></end-of-game>
+                <action-box v-if="gameStateLoaded && !gameEnded"></action-box>
             </div>
             <div class="col-12 col-sm-8">
                 <player v-if="gameStateLoaded" v-for="plr in players" :player="plr"></player>
@@ -52,16 +50,7 @@
         name: 'Game',
         props: ['id'],
         created() {
-            var json = {"token": this.token, "id": this.id}
-            console.log(json)
-            // need to do put instead of get request, else json arg is not working somehow
-            axios.put('/game', json)
-                .then( res => {
-                    console.log(res)
-                    this.setGameState(res.data)
-                }, error => {
-                    console.log(error)
-                }); 
+            this.getGame()
         },
         components: {
             log: Log,
@@ -92,7 +81,17 @@
         methods: {
             ...mapActions([
                 'setGameState'
-            ])    
+            ]),
+            getGame() {
+                var json = {"token": this.token, "id": this.id}
+                // need to do put instead of get request, else json arg is not working somehow
+                axios.put('/game', json)
+                    .then( res => {
+                        this.setGameState(res.data)
+                    }, error => {
+                        console.log(error)
+                    }); 
+            }
         }
 
 

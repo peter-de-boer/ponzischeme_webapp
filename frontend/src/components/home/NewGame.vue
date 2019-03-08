@@ -54,29 +54,24 @@
                     axios.put('/deleteGame', json)
                         .then( res => {
                             this.setGameList(res.data)
-                            console.log(res)
                     }, error => {
                         console.log(error)
                     }); 
                 }
                 else {
-                    console.log("no token")
                 }
             },
             joinGame(id) {
                 if (this.token) {
-                    console.log(this.token)
                     var json = {"id": id, "token": this.token}
                     axios.put('/joinGame', json)
                         .then( res => {
                             this.setGameList(res.data)
-                            console.log(res)
                     }, error => {
                         console.log(error)
                     }); 
                 }
                 else {
-                    console.log("no token")
                 }
             },
             leaveGame(id) {
@@ -85,13 +80,11 @@
                     axios.put('/leaveGame', json)
                         .then( res => {
                             this.setGameList(res.data)
-                            console.log(res)
                     }, error => {
                         console.log(error)
                     }); 
                 }
                 else {
-                    console.log("no token")
                 }
             },
             startGame(id) {
@@ -100,13 +93,11 @@
                     axios.put('/startGame', json)
                         .then( res => {
                             this.setGameList(res.data)
-                            console.log(res)
                     }, error => {
                         console.log(error)
                     }); 
                 }
                 else {
-                    console.log("no token")
                 }
             }
         }

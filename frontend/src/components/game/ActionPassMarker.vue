@@ -58,13 +58,10 @@
                 }
             },
             selectCardToDiscard(card) {
-                console.log("in selectCardToDiscard")
                 if (this.token && this.correctSelection(card)) {
                     var json = {"value": card.value, "token": this.token, "id": this.id}
-                    console.log(json)
                     axios.put('/game/selectCardToDiscard', json)
                         .then( res => {
-                            console.log(res)
                             if (res.data.error) {
                                 console.log(res.data.error)
                             } else {

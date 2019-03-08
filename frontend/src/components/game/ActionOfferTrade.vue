@@ -2,18 +2,22 @@
     <div>
         <h2>Trading</h2>
         <div v-if="userIsActive">
-            <p>Please select an industry tile from an opponent and offer an amount of money, or pass</p>
+            Please select an industry tile from an opponent and offer an amount of money, or pass.<br>
+            <span v-if="advanced">Alternatively, buy a luxury tile.<br></span> <br>
             <p><button class="btn btn-default" 
                     :class="enableButton(selectedPlayerAndTile)"
                     @click="offerTrade(selectedPlayerAndTile, tradeMoney)"> 
                         Offer Trade
                </button> 
-                 {{tradeMoney}} {{selectedPlayer(selectedPlayerAndTile) }} {{selectedTile(selectedPlayerAndTile)}}</p>
+               <span v-if="selectedPlayerAndTile"> 
+                 [offer ${{tradeMoney}} to {{selectedPlayer(selectedPlayerAndTile) }} for tile {{selectedTile(selectedPlayerAndTile)}}]
+               </span>
+            </p>
             <button class="btn btn-default" @click="passTrading()"> Pass </button> 
             <hr>
             <div v-if="sliderOptions.max>0">
                 <vue-slider ref="slider" v-model="tradeMoney" v-bind="sliderOptions"></vue-slider>
-                <input v-model="tradeMoney">
+                <!-- <input v-model="tradeMoney"> -->
                 <hr>
             </div>
             <p v-if="advanced"><button class="btn btn-default" 
@@ -125,14 +129,11 @@
                 }
             },
             buyLuxuryTile(tile) {
-                console.log("in buyLuxuryTile")
                 if (this.token && tile!=null &&
                     this.correctLuxurySelection(tile)) {
                     var json = {"tile": tile, "token": this.token, "id": this.id}
-                    console.log(json)
                     axios.put('/game/buyLuxuryTile', json)
                         .then( res => {
-                            console.log(res)
                             if (res.data.error) {
                                 console.log(res.data.error)
                             } else {
@@ -145,17 +146,12 @@
                 }
             },
             offerTrade(playerAndTile, money) {
-                console.log("in offerTrade")
-                console.log(this.username, playerAndTile.name, playerAndTile.tile, money)
-                console.log(this.correctSelection(playerAndTile))
                 if (this.token && playerAndTile && 
                     money != null && this.correctSelection(playerAndTile)) {
                     var json = {"money": money, "tile": playerAndTile.tile, "opponentName": playerAndTile.name,
                                 "token": this.token, "id": this.id}
-                    console.log(json)
                     axios.put('/game/offerTrade', json)
                         .then( res => {
-                            console.log(res)
                             if (res.data.error) {
                                 console.log(res.data.error)
                             } else {
@@ -168,12 +164,10 @@
                 }
             },
             passTrading() {
-                console.log("in passTrade")
                 if (this.token) {
                     var json = {"token": this.token, "id": this.id}
                     axios.put('/game/passTrading', json)
                         .then( res => {
-                            console.log(res)
                             if (res.data.error) {
                                 console.log(res.data.error)
                             } else {

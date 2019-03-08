@@ -40,12 +40,9 @@
                 console.log("in discardTile")
                 if (this.token && playerAndTile && playerAndTile.name==this.activePlayer.name) {
                     var json = {"tile": playerAndTile.tile, "token": this.token, "id": this.id}
-                    console.log(json)
                     axios.put('/game/discardTile', json)
                         .then( res => {
-                            console.log(res)
                             if (res.data.error) {
-                                console.log(res.data.error)
                             } else {
                                 this.setGameState(res.data)
                                 //this.clearSelections()

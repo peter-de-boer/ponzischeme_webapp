@@ -22,11 +22,9 @@
         },
         created() {
             var json = {"token": this.token}
-            console.log(json)
             // need to do put instead of get request, else json arg is not working somehow
             axios.post('/user/confirm', json)
                 .then( res => {
-                    console.log(res)
                     this.status = res.data.status
                 }, error => {
                     console.log(error)

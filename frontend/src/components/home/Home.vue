@@ -25,12 +25,9 @@
     export default {
         name: 'Home',
         created() {
-            console.log("Home created()")
             var json = {"token": this.token}
-            console.log(json)
             axios.put('/gameList', json)
                 .then( res => {
-                    console.log(res)
                     this.setGameList(res.data)
                 }, error => {
                     console.log(error)

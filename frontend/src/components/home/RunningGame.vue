@@ -34,7 +34,6 @@
                 'setGameList',
             ]),
             changeviewtothisgame() {
-                console.log(" changeviewtothisgame")
             }
         }
 

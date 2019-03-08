@@ -55,12 +55,10 @@
                 }
             },
             sellTrade() {
-                console.log("in sellTrade")
                 if (this.token) {
                     var json = {"token": this.token, "id": this.id}
                     axios.put('/game/sellTrade', json)
                         .then( res => {
-                            console.log(res)
                             if (res.data.error) {
                                 console.log(res.data.error)
                             } else {
@@ -74,12 +72,10 @@
                 }
             },
             buyTrade() {
-                console.log("in buyTrade")
                 if (this.counterOfferPossible()) {
                     var json = {"token": this.token, "id": this.id}
                     axios.put('/game/buyTrade', json)
                         .then( res => {
-                            console.log(res)
                             if (res.data.error) {
                                 console.log(res.data.error)
                             } else {
