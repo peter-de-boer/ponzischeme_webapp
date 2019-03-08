@@ -2,28 +2,28 @@
   <div id="signup">
     <div class="signup-form">
       <form @submit.prevent="onSubmit">
-        <div class="input">
+        <div class="input" :class="{invalid: status=='email_exists'}">
           <label for="email">Mail</label>
           <input
                   type="email"
                   id="email"
                   v-model="email">
         </div>
-        <div class="input">
+        <div class="input" :class="{invalid: status=='username_exists'}">
           <label for="username">Username</label>
           <input
                   type="text"
                   id="username"
                   v-model="username">
         </div>
-        <div class="input">
+        <div class="input" :class="{invalid: status=='unequal_password'}">
           <label for="password">Password</label>
           <input
                   type="password"
                   id="password"
                   v-model="password">
         </div>
-        <div class="input">
+        <div class="input" :class="{invalid: status=='unequal_password'}">
           <label for="confirm-password">Confirm Password</label>
           <input
                   type="password"
@@ -35,12 +35,18 @@
         </div>
       </form>
     </div>
+    <div v-if="status=='username_exists'">The username already exists. Please choose a different username.</div>
+    <div v-if="status=='email_exists'">The email already exists. Please choose a different email.</div>
+    <div v-if="status=='unequal_password'">The passwords are different.</div>
+    <div v-if="status=='success'">An email has been sent to your email address. Please follow the instructions in that email.</div>
+    <div v-if="status=='wait'">Please wait...</div>
   </div>
 </template>
 
 <script>
     import { mapGetters } from 'vuex';
     import { mapActions } from 'vuex';
+    import axios from 'axios';
 
     export default {
         data () {
@@ -49,6 +55,7 @@
                 username: '',
                 password: '',
                 confirmPassword: '',
+                status: ''
             }
         },
         methods: {
@@ -56,14 +63,22 @@
                 'signup'
             ]),
             onSubmit () {
-                const formData = {
-                    email: this.email,
-                    username: this.username,
-                    password: this.password,
-                    confirmPassword: this.confirmPassword,
-                    url: location.origin
+                if (this.password != this.confirmPassword) {
+                    this.status = "unequal_password"
+                } else {
+                    this.status="wait"
+                    axios.post('/user/signup', {
+                        email: this.email,
+                        username: this.username,
+                        password: this.password,
+                        returnSecureToken: true,
+                        url: location.origin
+                    })
+                    .then(res => {
+                        this.status = res.data.status
+                    })
+                    .catch(error => console.log(error))
                 }
-                this.signup(formData)
             }
         }
     }
@@ -115,6 +130,15 @@
     font: inherit;
   }
 
+  .input.invalid input {
+    border-style: solid;
+    border-color: red;
+  }
+
+  .input.invalid label {
+    color: red;
+  }
+
   .submit button {
     border: 1px solid #521751;
     color: #521751;
@@ -137,4 +161,5 @@
     color: #ccc;
     cursor: not-allowed;
   }
+
 </style>
