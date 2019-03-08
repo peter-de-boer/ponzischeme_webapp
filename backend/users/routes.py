@@ -17,13 +17,34 @@ def exists_username(username):
     user = Session.query(User).filter_by(username=username).first()
     return user
 
-def getUser(req, salt=None):
+def getUserByPassword(req, salt=None, onlyIfConfirmed=True):
+    username = None
+    if 'username' in req:
+        username = req['username']
+    password = None
+    if 'password' in req:
+        password = req['password']
+    if username and password:
+        session = Session()
+        user = Session.query(User).filter_by(username=username).first()
+        if (user and user.check_password(password)):
+            if (onlyIfConfirmed and not user.confirmed):
+                return None
+            else:
+                return user
+    else:
+        return None
+
+def getUserByToken(req, salt=None, onlyIfConfirmed=True):
     token = None
     if 'token' in req:
         token = req['token']
     session = Session()
     user=User.verify_token(token,salt)
-    return user
+    if (onlyIfConfirmed and not (user and user.confirmed)):
+        return None
+    else:
+        return user
 
 @users.route("/user/signup", methods=['POST'])
 def signup():
@@ -53,7 +74,7 @@ def signup():
 def confirm():
     session = Session()
     req = request.get_json()
-    user=getUser(req,salt='registration')
+    user=getUserByToken(req,salt='registration', onlyIfConfirmed=False)
     data = {}
     if user:
         user.confirmed = True
@@ -69,12 +90,13 @@ def confirm():
 def login():
     session = Session()
     req = request.get_json()
-    user=getUser(req,salt=None)
+    print("REQ: ", req)
+    user=getUserByPassword(req,salt=None)
     data = {}
     if (user):
         data['status'] = 'authenticated'
         data['idToken'] = user.get_token()
-        data['username'] = username
+        data['username'] = user.username
     else:
         data['status'] = 'failed'
     json_data = json.dumps(data)
@@ -92,7 +114,7 @@ def account():
     print("NOW IN  /user/account")
     session = Session()
     req = request.get_json(force=True)
-    user = getUser(req,salt=None)
+    user = getUserByToken(req,salt=None)
     data = {}
     if (user):
         data['email'] = user.email
