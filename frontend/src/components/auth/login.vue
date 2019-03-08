@@ -1,6 +1,5 @@
 <template>
   <div id="login">
-    <div> {{loginStatus}}</div>
     <div class="login-form">
       <form @submit.prevent="onSubmit">
         <div class="input">
@@ -37,11 +36,6 @@
                 username: '',
                 password: ''
             }
-        },
-        computed: {
-            ...mapGetters([
-                'loginStatus'
-            ])    
         },
         methods: {
             ...mapActions([

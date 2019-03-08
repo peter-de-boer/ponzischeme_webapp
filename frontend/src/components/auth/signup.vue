@@ -1,6 +1,5 @@
 <template>
   <div id="signup">
-    <div> {{signupStatus}} </div>
     <div class="signup-form">
       <form @submit.prevent="onSubmit">
         <div class="input">
@@ -51,11 +50,6 @@
                 password: '',
                 confirmPassword: '',
             }
-        },
-        computed: {
-            ...mapGetters([
-                'signupStatus'
-            ])    
         },
         methods: {
             ...mapActions([

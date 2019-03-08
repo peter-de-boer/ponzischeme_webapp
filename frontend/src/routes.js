@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+//need to import store
+import { store } from './store/store.js';
+
 import Game from './components/game/Game.vue'
 import Home from './components/home/Home.vue'
 import NotFound from './components/NotFound.vue'
@@ -22,7 +25,7 @@ const routes = [
       path: '/dashboard',
       component: DashboardPage,
       beforeEnter (to, from, next) {
-        if (store.state.idToken) {
+        if (store.state.auth.idToken) {
           next()
         } else {
           next('/login')

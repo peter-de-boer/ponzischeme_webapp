@@ -67,7 +67,6 @@ class User(Base): #, UserMixin):
             user_id = s.loads(token, salt=salt)['user_id']
         except:
             return None
-        print("user_id: ", user_id)
         return Session.query(User).get(user_id)
 
     def dict(self, includeGames=False):

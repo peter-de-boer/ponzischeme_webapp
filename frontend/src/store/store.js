@@ -9,16 +9,9 @@ const auth = {
     state: {
         idToken: null,
         username: null,
-        loginStatus: null,
-        signupStatus: null
+        email: null
     },
     mutations: {
-        loginStatus(state, loginStatus) {
-            Vue.set(state, "loginStatus", loginStatus.status);
-        },
-        signupStatus(state, signupStatus) {
-            Vue.set(state, "signupStatus", signupStatus.status);
-        },
         authUser (state, userData) {
             Vue.set(state, "idToken", userData.idToken);
             Vue.set(state, "username", userData.username);
@@ -26,13 +19,16 @@ const auth = {
         clearAuthData (state) {
             Vue.set(state, "idToken", null);
             Vue.set(state, "username", null);
+        },
+        accountData (state, data) {
+            Vue.set(state, "email", data.email)
         }
     },
     actions: {
-        setLogoutTimer ({commit}, expirationTime) {
-            setTimeout(() => {
-                commit('clearAuthData')
-            }, expirationTime * 1000)
+        clearAuthData ({commit}) {
+            commit('clearAuthData')
+            localStorage.removeItem('token')
+            localStorage.removeItem('username')
         },
         signup ({commit, dispatch}, authData) {
             console.log('in signup');
@@ -46,19 +42,6 @@ const auth = {
             .then(res => {
                 console.log('signup then')
                 console.log(res)
-                commit('signupStatus', res.data)
-                //commit('authUser', {
-                //  token: res.data.idToken,
-                //  userId: res.data.userId
-                //})
-                //const now = new Date()
-                //const expirationDate = new Date(now.getTime() + res.data.expiresIn * 1000)
-                //localStorage.setItem('token', res.data.idToken)
-                //localStorage.setItem('userId', res.data.userId)
-                //localStorage.setItem('username', res.data.username)
-                //localStorage.setItem('expirationDate', expirationDate)
-                //dispatch('storeUser', authData)
-                //dispatch('setLogoutTimer', res.data.expiresIn)
             })
             .catch(error => console.log(error))
         },
@@ -70,7 +53,6 @@ const auth = {
             })
             .then(res => {
                 console.log(res.data)
-                commit('loginStatus', res.data)
                 if (res.data.status=="authenticated") {
                     localStorage.setItem('token', res.data.idToken)
                     localStorage.setItem('username', res.data.username)
@@ -105,30 +87,21 @@ const auth = {
             localStorage.removeItem('username')
             router.replace({name: 'login'})
         },
-        storeUser ({commit, state}, userData) {
+        fetchUser ({commit, dispatch, state}) {
             if (!state.idToken) {
                 return
             }
-            axios.post('/users.json' + '?auth=' + state.idToken, userData)
-                .then(res => console.log(res))
-                .catch(error => console.log(error))
-        },
-        fetchUser ({commit, state}) {
-            if (!state.idToken) {
-                return
-            }
-            axios.get('/users.json' + '?auth=' + state.idToken)
+            var json = {"token": state.idToken}
+            axios.put('/user/account', json)
                 .then(res => {
-                    console.log(res)
-                    const data = res.data
-                    const users = []
-                    for (let key in data) {
-                        const user = data[key]
-                        user.id = key
-                        users.push(user)
+                    if (res.data.status=="success") {
+                        commit('accountData', {
+                            email: res.data.email
+                        })
+                    } else {
+                        dispatch('clearAuthData');
                     }
-                    console.log(users)
-                    commit('storeUser', users[0])
+                    console.log(res)
                 })
                 .catch(error => console.log(error))
         }
@@ -137,14 +110,11 @@ const auth = {
         isAuthenticated (state) {
             return state.idToken !== null
         },
-        loginStatus(state) {
-            return state.loginStatus
-        },
-        signupStatus(state) {
-            return state.signupStatus
-        },
         username(state) {
             return state.username
+        },
+        email(state) {
+            return state.email
         },
         token(state) {
             return state.idToken
@@ -288,14 +258,12 @@ const games = {
         }
     },
     actions: {
-        setGameList: ({ commit }, data) => {
+        setGameList: ({ commit, dispatch }, data) => {
             // data is a json array with two elements
             // first is authentication data, second the game list
             if (!data[0].name) {
                 // apparently an invalid or expired token was provided
-                commit('clearAuthData')
-                localStorage.removeItem('token')
-                localStorage.removeItem('username')
+                dispatch('clearAuthData')
             }
             var games = data[1];
             commit('setNewGames', games['new']);
@@ -481,13 +449,12 @@ export const store = new Vuex.Store({
         }    
     },
     actions: {
-        setGameState: ({ commit }, data) => {
+        setGameState: ({ commit, dispatch }, data) => {
             // data is a json array with two elements
             // first is authentication data, second the game state
             if (!data[0].name) {
                 // apparently an invalid or expired token was provided
-                commit('clearAuthData')
-                localStorage.removeItem('token')
+                dispatch('clearAuthData')
                 localStorage.removeItem('username')
             }
             commit('setGameChat', data[2]);
