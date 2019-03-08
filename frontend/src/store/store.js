@@ -31,7 +31,6 @@ const auth = {
             localStorage.removeItem('username')
         },
         signup ({commit, dispatch}, authData) {
-            console.log('in signup');
             axios.post('/user/signup', {
                 email: authData.email,
                 username: authData.username,
@@ -40,8 +39,6 @@ const auth = {
                 url: location.origin
             })
             .then(res => {
-                console.log('signup then')
-                console.log(res)
             })
             .catch(error => console.log(error))
         },
@@ -100,7 +97,6 @@ const auth = {
                     } else {
                         dispatch('clearAuthData');
                     }
-                    console.log(res)
                 })
                 .catch(error => console.log(error))
         }
