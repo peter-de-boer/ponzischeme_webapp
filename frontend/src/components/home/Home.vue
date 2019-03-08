@@ -1,7 +1,10 @@
 <template>
     <div>
-        <create-game v-if="isAuthenticated"></create-game>
         <hr>
+        <div v-if="isAuthenticated">
+            <create-game></create-game>
+            <hr>
+        </div>
         <new-games></new-games>
         <hr>
         <running-games></running-games>

@@ -46,7 +46,6 @@
                   username: this.username,
                   password: this.password,
               }
-            console.log(formData)
             this.login(formData)
       }
     }

@@ -1,11 +1,11 @@
 <template>
     <div class="newgame">
-        Game id: {{game.id}} 
+        Game id: {{game.id}} <br>
         
-        {{game.advanced ? "adv" : ""}} <br>
-        {{game.nplayers}} players <br>
+        Variant: {{game.advanced ? "advanced" : "standard"}} <br>
+        # players: {{game.nplayers}} <br>
         <div v-for="(player, index) in game.players" :key="index">
-            {{player.username}} 
+            <span class="player">{{player.username}}</span> 
                 <button v-if="username==player.username &&
                               username!=game.owner.username"
                         @click="leaveGame(game.id)"  > X </button>
@@ -23,7 +23,7 @@
                     @click="startGame(game.id)"> start </button>
         </div>
         <div v-else-if="game.nplayers==game.players.length">
-            Waiting for owner to start
+            Waiting for {{game.owner.username}} to start
         </div>
     </div>
 </template>
@@ -124,7 +124,9 @@
     margin-top: 5px;
 }
 
-
+.player {
+    font-weight: bold;
+}
 
 
 </style>

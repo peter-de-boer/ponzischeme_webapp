@@ -52,7 +52,6 @@ const auth = {
                 returnSecureToken: true
             })
             .then(res => {
-                console.log(res.data)
                 if (res.data.status=="authenticated") {
                     localStorage.setItem('token', res.data.idToken)
                     localStorage.setItem('username', res.data.username)
