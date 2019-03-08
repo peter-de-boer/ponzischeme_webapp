@@ -173,7 +173,7 @@ const selectItems = {
     },
     mutations: {
         clearSelections: (state) => {
-            Vue.set(state, "selectedFundCard", {});
+            Vue.set(state, "selectedFundCard", null);
             Vue.set(state, "selectedPlayerAndTile", null);
             Vue.set(state, "selectedIndustryTile", null);
             Vue.set(state, "selectedLuxuryTile", null);

@@ -9,8 +9,11 @@
                     @click="offerTrade(selectedPlayerAndTile, tradeMoney)"> 
                         Offer Trade
                </button> 
+               <br>
                <span v-if="selectedPlayerAndTile"> 
-                 [offer ${{tradeMoney}} to {{selectedPlayer(selectedPlayerAndTile) }} for tile {{selectedTile(selectedPlayerAndTile)}}]
+                 [offer ${{tradeMoney}} 
+                  to {{selectedPlayer(selectedPlayerAndTile) }} 
+                  for {{tileName(selectedTile(selectedPlayerAndTile))}} tile]
                </span>
             </p>
             <button class="btn btn-default" @click="passTrading()"> Pass </button> 
@@ -59,7 +62,8 @@
                 'luxuryTiles',
                 'selectedLuxuryTile',
                 'selectedPlayerAndTile',
-                'advanced'
+                'advanced',
+                'tileName'
             ]),
             sliderOptions() {
                 // we know that the user is the active player:

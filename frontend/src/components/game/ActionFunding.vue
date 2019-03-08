@@ -9,7 +9,16 @@
                         @click="selectTileAndCard(selectedFundCard, selectedIndustryTile)"> 
                             Select Tile/Card 
                    </button> 
-                     {{selectedFundCard ? selectedFundCard.value : ""}} {{selectedIndustryTile}}</p>
+                     <br> [
+                     <span v-if="selectedIndustryTile!=null"> 
+                        {{tileName(selectedIndustryTile)}} tile 
+                     </span>
+                     /
+                     <span v-if="selectedFundCard"> 
+                       fundcard {{selectedFundCard.value}} 
+                     </span>
+                     ]
+                </p>
                 <button class="btn btn-default" @click="passFunding()"> Pass </button> 
             </div>
             <div v-else>
@@ -35,7 +44,8 @@
                 'username',
                 'isPhase1',
                 'selectedFundCard',
-                'selectedIndustryTile'
+                'selectedIndustryTile',
+                'tileName'
             ])    
         },
         methods: {
