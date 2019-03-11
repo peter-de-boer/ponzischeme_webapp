@@ -6,6 +6,7 @@ from backend.db import Base, db
 from backend import Session
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import relationship
+import jsonpickle
 #from flask_login import UserMixin
 
 games_players_association = db.Table(
@@ -108,6 +109,7 @@ class GameModel(Base):
         self.nplayers = nplayers
         self.owner = owner
         self.status = "new"
+        self.chat = jsonpickle.encode([])
 
     def dict(self):
         # return the game in dict format

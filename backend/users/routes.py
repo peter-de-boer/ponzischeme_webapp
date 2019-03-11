@@ -32,6 +32,8 @@ def getUserByPassword(req, salt=None, onlyIfConfirmed=True):
                 return None
             else:
                 return user
+        else:
+            return None
     else:
         return None
 
