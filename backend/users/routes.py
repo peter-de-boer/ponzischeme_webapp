@@ -48,6 +48,38 @@ def getUserByToken(req, salt=None, onlyIfConfirmed=True):
     else:
         return user
 
+@users.route("/user/request_reset_password", methods=['POST'])
+def requestresetpassword():
+    session = Session()
+    req = request.get_json()
+    email = req['email']
+    #password = req['password']
+    #username = req['username']
+    url = req['url']
+    data = {}
+    user = Session.query(User).filter_by(email=email).first()
+    if not user:
+        data['status'] = 'failed'
+    else:
+        send_reset_email(user, url)
+        data['status'] = 'success'
+    json_data = json.dumps(data)
+    return json_data
+
+@users.route("/user/reset_password", methods=['POST'])
+def resetpassword():
+    session = Session()
+    req = request.get_json()
+    user=getUserByToken(req,salt='reset', onlyIfConfirmed=False)
+    data = {}
+    if user:
+        data['status'] = 'reset_password'
+        data['token'] = req['token']
+    else:
+        data['status'] = 'failed'
+    json_data = json.dumps(data)
+    return json_data
+
 @users.route("/user/signup", methods=['POST'])
 def signup():
     session = Session()
@@ -72,6 +104,23 @@ def signup():
     json_data = json.dumps(data)
     return json_data
 
+@users.route("/user/change_password", methods=['POST'])
+def changepassword():
+    session = Session()
+    req = request.get_json()
+    user=getUserByToken(req,salt='reset', onlyIfConfirmed=False)
+    data = {}
+    if not user:
+        data['status'] = 'failed'
+    else:
+        password = req['password']
+        user.set_password(password)
+        data['status'] = 'changed'
+        session.commit()
+    json_data = json.dumps(data)
+    return json_data
+
+
 @users.route("/user/confirm", methods=['POST'])
 def confirm():
     session = Session()
@@ -92,7 +141,6 @@ def confirm():
 def login():
     session = Session()
     req = request.get_json()
-    print("REQ: ", req)
     user=getUserByPassword(req,salt=None)
     data = {}
     if (user):

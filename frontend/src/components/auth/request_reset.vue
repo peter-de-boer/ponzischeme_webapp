@@ -1,60 +1,54 @@
 <template>
-  <div id="login">
-    <div class="login-form">
+  <div id="signup">
+    <div class="signup-form">
       <form @submit.prevent="onSubmit">
-        <div class="input">
-          <label for="username">Username</label>
+        <div class="input" >
+          <label for="email">Mail</label>
           <input
-                  type="text"
-                  id="username"
-                  autocomplete="username"
-                  v-model="username">
-        </div>
-        <div class="input">
-          <label for="password">Password</label>
-          <input
-                  type="password"
-                  id="password"
-                  autocomplete="current-password"
-                  v-model="password">
+                  type="email"
+                  id="email"
+                  v-model="email">
         </div>
         <div class="submit">
-          <button type="submit">Submit</button>
+          <button type="submit">Forgot password</button>
         </div>
-        <router-link :to="{name: 'request_reset_password'}">Forgot Password?</router-link>
       </form>
     </div>
+    <div v-if="status=='success'">An email has been sent to your email address. Please follow the instructions in that email.</div>
+    <div v-if="status=='wait'">Please wait...</div>
   </div>
 </template>
 
 <script>
     import { mapGetters } from 'vuex';
     import { mapActions } from 'vuex';
+    import axios from 'axios';
 
     export default {
         data () {
             return {
-                username: '',
-                password: ''
+                email: '',
+                status: ''
             }
         },
         methods: {
-            ...mapActions([
-                'login'
-            ]),
-          onSubmit () {
-              const formData = {
-                  username: this.username,
-                  password: this.password,
-              }
-            this.login(formData)
-      }
+            onSubmit () {
+                this.status="wait"
+                axios.post('/user/request_reset_password', {
+                    email: this.email,
+                    url: location.origin
+                })
+                .then(res => {
+                    this.status = res.data.status
+                })
+                .catch(error => console.log(error))
+            }
+        }
     }
-  }
 </script>
 
 <style scoped>
-  .login-form {
+  .signup-form {
     width: 400px;
     margin: 30px auto;
     border: 1px solid #eee;
@@ -72,6 +66,10 @@
     margin-bottom: 6px;
   }
 
+  .input.inline label {
+    display: inline;
+  }
+
   .input input {
     font: inherit;
     width: 100%;
@@ -80,10 +78,28 @@
     border: 1px solid #ccc;
   }
 
+  .input.inline input {
+    width: auto;
+  }
+
   .input input:focus {
     outline: none;
     border: 1px solid #521751;
     background-color: #eee;
+  }
+
+  .input select {
+    border: 1px solid #ccc;
+    font: inherit;
+  }
+
+  .input.invalid input {
+    border-style: solid;
+    border-color: red;
+  }
+
+  .input.invalid label {
+    color: red;
   }
 
   .submit button {
@@ -108,4 +124,5 @@
     color: #ccc;
     cursor: not-allowed;
   }
+
 </style>

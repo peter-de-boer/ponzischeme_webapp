@@ -11,6 +11,8 @@ import DashboardPage from './components/dashboard/dashboard.vue'
 import SignupPage from './components/auth/signup.vue'
 import SigninPage from './components/auth/login.vue'
 import ConfirmPage from './components/auth/confirm.vue'
+import ResetPage from './components/auth/reset.vue'
+import RequestResetPage from './components/auth/request_reset.vue'
 
 Vue.use(VueRouter)
 
@@ -20,6 +22,8 @@ const routes = [
     { path: '/game/:id', name:'game', component:  Game, props: true },
     { path: '/signup', component: SignupPage },
     { path: '/confirm/:token', name:'confirm', component:  ConfirmPage, props: true },
+    { path: '/reset_password/:token', name:'reset_password', component:  ResetPage, props: true },
+    { path: '/request_reset_password', name:'request_reset_password', component:  RequestResetPage },
     { path: '/login', name: 'login', component: SigninPage },
     {
       path: '/dashboard',

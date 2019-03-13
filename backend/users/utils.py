@@ -21,13 +21,14 @@ def save_picture(form_picture):
     return picture_fn
 
 
-def send_reset_email(user):
+def send_reset_email(user, url):
     token = user.get_reset_token()
+    link = url + '/reset_password/' + token
     msg = Message('Password Reset Request',
-                  sender='noreply@demo.com',
+                  sender='peterdb001@gmail.com',
                   recipients=[user.email])
     msg.body = f'''To reset your password, visit the following link:
-{url_for('users.reset_token', token=token, _external=True)}
+{link}
 
 If you did not make this request then simply ignore this email and no changes will be made.
 '''

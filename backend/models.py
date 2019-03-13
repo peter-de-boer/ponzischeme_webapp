@@ -36,9 +36,9 @@ class User(Base): #, UserMixin):
     def __init__(self, email, username, password, admin=False, confirmed=False):
         self.email = email
         self.username = username
-        hashed_password = generate_password_hash(password)
-        #if user and check_password_hash(user.password, form.password.data):
-        self.password = hashed_password
+        self.set_password(password)
+        #hashed_password = generate_password_hash(password)
+        #self.password = hashed_password
         self.registered_on = datetime.datetime.now()
         self.confirmed = confirmed
         self.admin = admin
@@ -46,6 +46,13 @@ class User(Base): #, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
+    def set_password(self, password):
+        hashed_password = generate_password_hash(password)
+        self.password = hashed_password
+
+    def get_reset_token(self, expires_sec=86400):
+        s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
+        return s.dumps({'user_id': self.id},salt='reset').decode('utf-8')
 
     def get_token(self, expires_sec=259200): #259200sec=3days
         s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
@@ -53,7 +60,6 @@ class User(Base): #, UserMixin):
 
     def get_registration_token(self, expires_sec=86400): # 86400 = 1 day
         s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
-        print("register user id: ", self.id)
         return s.dumps({'user_id': self.id},salt='registration').decode('utf-8')
 
     @staticmethod
