@@ -97,7 +97,7 @@ class Game(object):
     def turnWheel(self):
         if self.status.marketCrash:
             self.log.add("The Wheel is turned twice (market crash)!")
-        else: 
+        else:
             self.log.add("The Wheel is turned.")
         for player in self.players:
             player.turnWheel(self.status.marketCrash)
@@ -171,8 +171,28 @@ class Game(object):
     """
 
     def autoPassTrading(self):
-        # TODO: implement
-        return False
+        """
+        if possible, autopass the trading phase for the active player:
+            advanced option is not used or all luxuryTiles are already bought
+            AND
+            active player has no industry tiles or none of the other players
+            has any tile he has
+        """
+        if (self.advanced and len(self.luxuryTiles)>1):
+            return False
+        active = self.status.active[0]
+        activePlayer = self.players[active]
+        for index, tiles in enumerate(activePlayer.industryTiles):
+            if tiles>0:
+                for player in self.players:
+                    if player.name!=activePlayer.name and \
+                      player.industryTiles[index]>0:
+                        return False
+        # player must pass
+        self.log.add( activePlayer.name + \
+                     " auto-passes (cannot trade).")
+        self.status.next()
+        return True
 
     def passTrading(self, name):
         # TODO: check phase
@@ -430,6 +450,9 @@ class Game(object):
               (like in the phase market crash and there is a single tile type
               with the most tiles)
             - if there is an order given (to be implemented...)
+        The loop will continue while there are still actions to be
+        auto-executed, and will exit with a return when there is no
+        auto-execute action left.
         """
         while True:
             if (self.status.phase==1):
