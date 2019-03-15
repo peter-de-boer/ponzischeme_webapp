@@ -61,18 +61,24 @@ def send_notification(user, game_id):
     mail.send(msg)
 
 def send_end_of_game_email(emails, game_id):
+    url = os.environ.get('BASE_URL')
+    link = url + f'/game/{game_id}'
     msg = Message(f'[ponzischeme]: end of game {game_id}',
                   sender='peterdb001@gmail.com',
                   recipients=emails)
-    msg.body = f'''Game {game_id} is finished.
+    msg.body = f'''Game {game_id} is finished:
+{link}
 '''
     mail.send(msg)
 
 def send_start_game_email(emails, game_id):
+    url = os.environ.get('BASE_URL')
+    link = url + f'/game/{game_id}'
     msg = Message(f'[ponzischeme]: start of game {game_id}',
                   sender='peterdb001@gmail.com',
                   recipients=emails)
-    msg.body = f'''Game {game_id} is started.
+    msg.body = f'''Game {game_id} is started:
+{link}
 '''
     mail.send(msg)
 
