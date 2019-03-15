@@ -41,16 +41,23 @@ class Status(object):
         """
         self.endOfGame = True
 
+    @staticmethod
+    def phaseStyle(phase):
+        return "<span style='font-weight: bold'>Phase: " + phase + "</span>"
+
     def phase1Start(self):
         self.round += 1
         self.phase = 1
         self.active = self.getPlayerOrder()
-        self.log.add("*** Round " + str(self.round) + " ***")
+        self.log.add("<span style='font-style: italic'>*** Round " + \
+                     str(self.round) + " ***</span>")
+        self.log.add(self.phaseStyle("Funding"))
 
     def phase2Start(self):
         self.phase = 2
         self.active = self.getPlayerOrder()
         self.tradeOffer = None
+        self.log.add(self.phaseStyle("Clandestine Trading"))
 
     def phase2SetTrade(self, tile, money, offeringPlayerIndex, opponentIndex):
         self.tradeOffer = TradeOffer(tile, money, offeringPlayerIndex, opponentIndex)
@@ -64,10 +71,12 @@ class Status(object):
         self.phase = 3
         self.start = (self.start+1)%self.numPlayers
         self.active = [self.start]
+        self.log.add(self.phaseStyle("Pass the Start Player Marker"))
         self.log.add(self.players[self.start] + " is the new start player.")
 
     def phase4Start(self):
         self.phase = 4
+        self.log.add(self.phaseStyle("Market Crash"))
         return
 
     def phase4SetMarketCrash(self):
@@ -76,10 +85,12 @@ class Status(object):
 
     def phase5Start(self):
         self.phase = 5
+        self.log.add(self.phaseStyle("Turn the Wheel"))
         return
 
     def phase6Start(self):
         self.phase = 6
+        self.log.add(self.phaseStyle("Pay the Interest"))
         return
 
     def next(self):

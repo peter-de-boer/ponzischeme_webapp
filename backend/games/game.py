@@ -364,6 +364,7 @@ class Game(object):
         """
         numBearCards = self.fundingBoard.numBearCards()
         if numBearCards < self.numPlayers:
+            self.log.add("No market crash.")
             self.status.next()
         else:
             """
@@ -430,7 +431,7 @@ class Game(object):
             self.log.add("The winner is: " + self.standings[0].name)
         for place, player in enumerate(self.standings, start=1):
             self.log.add(str(place) + ": " + player.name + \
-                         "(points: {:3.0f}".format(player.points) + \
+                         " (points: {:3.0f}".format(player.points) + \
                          "; most valuable card: " + \
                          str(player.maxCardValue) + ")")
         for index, player in enumerate(self.bankruptPlayers, ):
@@ -474,7 +475,7 @@ class Game(object):
             elif (self.status.phase==6):
                 self.payInterest()
                 if self.gameEnded():
-                    self.log.add("Game ended.")
+                    self.log.add("<span style='font-style:italic'>End of Game</span>")
                     self.calculateFinalScoring()
                     return
                 self.moveFundCards()
