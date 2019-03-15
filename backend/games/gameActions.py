@@ -66,7 +66,7 @@ def addPost(post, id, name):
     chat = jsonpickle.decode(game.chat)
     if (chat is None):
         chat = []
-    fullPost = name + ": " + post
+    fullPost = "<span style='font-weight: bold'>" + name + "</span>: " + post
     chat.append(fullPost)
     game.chat = jsonpickle.encode(chat)
     session.commit()

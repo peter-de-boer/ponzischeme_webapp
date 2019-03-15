@@ -5,7 +5,7 @@
             <!--
                 see Log.vue for scroll issue
             -->
-                <div v-for="line in gameChat"> {{line}} </div>
+                <div v-for="line in gameChat" v-html="line">  </div>
         </div>
         <form @submit.prevent="onSubmit">
             <input
