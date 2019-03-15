@@ -12,7 +12,8 @@
             only with a sufficient timeout it works
         -->
             <h2> Log </h2>
-            <div v-for="line in log"> {{line}} </div>
+            <!-- the log contains html code (e.g. for coloring the tile names) -->
+            <div v-for="line in log" v-html="line">  </div>
     </div>
 </template>
 
@@ -41,6 +42,7 @@
 </script>
 
 <style scoped>
+
 .log {
     border-style: solid;
     height: 350px;
@@ -50,4 +52,5 @@
     flex-direction: column-reverse;
     */
 }
+
 </style>

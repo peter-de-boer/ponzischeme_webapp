@@ -485,14 +485,15 @@ class Game(object):
 
     @staticmethod
     def tileName(tile):
+        # the styles need to match the colors used in IndustryTiles.vue
         if tile==0:
-            return "transportation"
+            return "<span style='background-color:#5F7F9D'>transportation</span>"
         elif tile==1:
-            return "grain"
+            return "<span style='background-color:#E1C908'>grain</span>"
         elif tile==2:
-            return "media"
+            return "<span style='background-color:#50A492'>media</span>"
         elif tile==3:
-            return "real estate"
+            return "<span style='background-color:#A70909'>real estate</span>"
         else:
             return "unknown"
 
