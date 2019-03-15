@@ -49,10 +49,14 @@ If you did not make this request then simply ignore this email and no changes wi
 
 
 def send_notification(user, game_id):
+    url = os.environ.get('BASE_URL')
+    link = url + f'/game/{game_id}'
+    print("link: ", link)
     msg = Message(f'[ponzischeme]: your turn in game {game_id}',
                   sender='peterdb001@gmail.com',
                   recipients=[user.email])
-    msg.body = f'''It is your turn in game {game_id}.
+    msg.body = f'''It is your turn in game {game_id}:
+{link}
 '''
     mail.send(msg)
 
