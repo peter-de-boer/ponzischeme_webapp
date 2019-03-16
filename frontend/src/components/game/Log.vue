@@ -13,13 +13,23 @@
         -->
             <h2> Log </h2>
             <!-- the log contains html code (e.g. for coloring the tile names) -->
-            <div v-for="line in log" v-html="line">  </div>
+            <div v-for="line in log" v-html="replaceTags(line)">  </div>
     </div>
 </template>
 
 <script>
     import { mapGetters } from 'vuex';
     export default {
+        data() {
+            return {
+                tags: { 
+                    "<transporttag>":  "style='background-color:#5F7F9D; color:white'",
+                    "<graintag>":      "style='background-color:#E1C908; color:black'",
+                    "<mediatag>":      "style='background-color:#50A492; color:white'",
+                    "<realestatetag>": "style='background-color:#A70909; color:white'"
+                }
+            }
+        },
         mounted() {
             this.scrollToEnd()
         },
@@ -36,6 +46,13 @@
                 var container = self.$refs["myid"];
                 container.scrollTop = container.scrollHeight;
               },200)
+            },
+            replaceTags(line) {
+                var newline = line;
+                for (var key in this.tags) {
+                    newline = newline.replace(key,this.tags[key])
+                }
+                return newline
             }
         }
     }    

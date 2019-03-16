@@ -20,6 +20,12 @@ def save_picture(form_picture):
 
     return picture_fn
 
+def sendMessage(msg):
+    try:
+        mail.send(msg)
+    except:
+        print("message could not be sent")
+        print(msg)
 
 def send_reset_email(user, url):
     token = user.get_reset_token()
@@ -32,7 +38,7 @@ def send_reset_email(user, url):
 
 If you did not make this request then simply ignore this email and no changes will be made.
 '''
-    mail.send(msg)
+    sendMessage(msg)
 
 def send_registration_email(user, url):
     token = user.get_registration_token()
@@ -45,7 +51,7 @@ def send_registration_email(user, url):
 
 If you did not make this request then simply ignore this email and no changes will be made.
 '''
-    mail.send(msg)
+    sendMessage(msg)
 
 
 def send_notification(user, game_id):
@@ -58,7 +64,7 @@ def send_notification(user, game_id):
     msg.body = f'''It is your turn in game {game_id}:
 {link}
 '''
-    mail.send(msg)
+    sendMessage(msg)
 
 def send_end_of_game_email(emails, game_id):
     url = os.environ.get('BASE_URL')
@@ -69,7 +75,7 @@ def send_end_of_game_email(emails, game_id):
     msg.body = f'''Game {game_id} is finished:
 {link}
 '''
-    mail.send(msg)
+    sendMessage(msg)
 
 def send_start_game_email(emails, game_id):
     url = os.environ.get('BASE_URL')
@@ -80,6 +86,6 @@ def send_start_game_email(emails, game_id):
     msg.body = f'''Game {game_id} is started:
 {link}
 '''
-    mail.send(msg)
+    sendMessage(msg)
 
 
