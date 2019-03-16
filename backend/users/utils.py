@@ -89,3 +89,16 @@ def send_start_game_email(emails, game_id):
     sendMessage(msg)
 
 
+def send_ready_game_email(user, game_id):
+    url = os.environ.get('BASE_URL')
+    link = url
+    msg = Message(f'[ponzischeme]: game {game_id} is ready to start',
+                  sender='peterdb001@gmail.com',
+                  recipients=[user.email])
+    msg.body = f'''All seats in game {game_id} are occupied.
+You can start the game now:
+{link}
+'''
+    sendMessage(msg)
+
+

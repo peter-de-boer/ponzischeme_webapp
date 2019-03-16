@@ -1,15 +1,9 @@
 import json, jsonpickle
 from backend.games.game import Game
-from backend.games.gameIO import writeGame, readGame
 from backend.models import GameModel, User
 from backend import Session
 from backend.users.utils import send_notification, send_end_of_game_email
 
-"""
-all very similor methods
-could probably  simplify by putting most of it in a single method
-and then pass methods as argument
-"""
 
 def execute(gm, method, **kwargs):
     # need to do a mapping of method string to Game class method

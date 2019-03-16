@@ -18,9 +18,9 @@
             </div>
         </div>
         <div v-if="game.owner.username==username">
-            <button @click="deleteGame(game.id)"> delete game</button>
             <button v-if="game.nplayers==game.players.length"
                     @click="startGame(game.id)"> start </button>
+            <button @click="deleteGame(game.id)"> delete game</button>
         </div>
         <div v-else-if="game.nplayers==game.players.length">
             Waiting for {{game.owner.username}} to start

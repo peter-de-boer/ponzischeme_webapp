@@ -2,32 +2,7 @@ import json, jsonpickle
 from backend.games.game import Game
 from backend.models import GameModel, User
 from backend import Session
-from backend.users.utils import send_start_game_email
-
-def writeGame(game):
-
-    gamejs = jsonpickle.encode(game)
-    g = json.dumps(json.loads(gamejs), indent=2)
-    f = open('game.json', 'w')
-    f.write(g)
-    f.close()
-
-def readGame():
-
-    f = open('game.json')
-    gamejs = f.read()
-    f.close()
-    return jsonpickle.decode(str(gamejs))
-
-def readGameJSON(userData = None):
-
-    f = open('game.json')
-    gamejs = f.read()
-    f.close()
-    gm = jsonpickle.decode(gamejs)
-    gm.removeHiddenInfo(userData)
-    gamejs_expand = jsonpickle.encode(gm, unpicklable=False)
-    return gamejs_expand
+from backend.users.utils import send_start_game_email, send_ready_game_email
 
 def getUserData(user):
     if user:
@@ -78,11 +53,13 @@ def joinGame(user, gameid):
         session = Session()
         game = session.query(GameModel) \
                 .filter(GameModel.id==gameid).first()
-        if ((user not in game.players) and
-           (len(game.players)<game.nplayers) and
-           game.status=="new"):
-            game.players.append(user)
-        session.commit()
+        if game.status=="new":
+            if ((user not in game.players) and
+               (len(game.players)<game.nplayers)):
+                game.players.append(user)
+                session.commit()
+            if len(game.players)==game.nplayers:
+                send_ready_game_email(game.owner, gameid)
         session.close()
     return gameList(userData)
 
