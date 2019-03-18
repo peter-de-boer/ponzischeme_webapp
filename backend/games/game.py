@@ -225,7 +225,7 @@ class Game(object):
             return self.error(name + " is not the active player")
         if opponent.industryTiles[tile]<=0:
             return self.error(name + " has no tile " + str(tile))
-        self.log.add(name + " accepts the trade.")
+        self.log.add("=> " + name + " accepts the trade.")
         offeringPlayer.buy(tile, money)
         opponent.sell(tile, money)
         self.status.phase2RemoveTrade()
@@ -251,7 +251,7 @@ class Game(object):
             return self.error(name + " is not the active player")
         if opponent.money < money:
             return self.error(name + " has not enough money for this trade")
-        self.log.add(name + " counter-offers the trade.")
+        self.log.add("=> " + name + " counter-offers the trade.")
         offeringPlayer.sell(tile, money)
         opponent.buy(tile, money)
         self.status.phase2RemoveTrade()
@@ -283,7 +283,7 @@ class Game(object):
         if self.players[active].money < money:
             return self.error(name + " has not enough money for this trade")
         self.log.add(name + " offers a trade to " + opponentName + \
-                     " involving a " + self.tileName(tile) + " tile")
+                     " involving a " + self.tileName(tile) + " tile.")
         self.status.phase2SetTrade(tile, money, active, opponentIndex)
         self.autoFlow()
         return None
