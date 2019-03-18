@@ -10,6 +10,7 @@
         <form @submit.prevent="onSubmit">
             <input
                 type="text"
+                autocomplete="off"
                 id="post"
                 v-model="post">
             <span>
