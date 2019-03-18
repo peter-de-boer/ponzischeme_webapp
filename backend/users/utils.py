@@ -21,11 +21,15 @@ def save_picture(form_picture):
     return picture_fn
 
 def sendMessage(msg):
-    try:
-        mail.send(msg)
-    except:
-        print("message could not be sent")
-        print(msg)
+    SEND_EMAIL = os.environ.get('SEND_EMAIL')
+    if SEND_EMAIL!='no':
+        try:
+            mail.send(msg)
+        except:
+            print("message could not be sent")
+            print(msg)
+    else:
+        print("no email sent")
 
 def send_reset_email(user, url):
     token = user.get_reset_token()
