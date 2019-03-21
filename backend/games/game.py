@@ -70,7 +70,7 @@ class Game(object):
 
     def addCardFromDeckToBoard(self):
         card = self.fundDeck.pop(0)
-        self.log.add("Funding Card " + str(card.value) + " enters the board.")
+        self.log.add("Funding Card " + card.name() + " enters the board.")
         self.fundingBoard.addCard(card)
         if len(self.fundDeck)==0:
             self.log.add("Deck is empty. The discard pile is " + \
@@ -140,9 +140,9 @@ class Game(object):
                          str(row))
         if (self.industryTiles[tile]<=0):
             return(self.error("No tiles left of that type"))
-        self.log.add(name + " takes Funding Card " + \
-                     str(value) + " and a " + self.tileName(tile) + " tile.")
         card = self.removeCardFromBoard(value)
+        self.log.add(name + " takes Funding Card " + \
+                     card.name() + " and a " + self.tileName(tile) + " tile.")
         self.players[active].selectCardAndTile(card, tile)
         self.industryTiles[tile] -= 1
         self.addCardFromDeckToBoard()
@@ -329,7 +329,7 @@ class Game(object):
         if (card.fundtype != "Starting Fund Card"):
             self.discardPile.append(card)
         self.log.add(name + " removes Funding Card " \
-                     + str(value) + " from the board.")
+                     + card.name() + " from the board.")
         self.addCardFromDeckToBoard()
         self.status.next()
         self.autoFlow()
@@ -376,8 +376,8 @@ class Game(object):
             bearCards = self.fundingBoard.removeBearCards()
             logstr = "All Bear Funding Cards ("
             for card in bearCards[:-1]:
-                logstr = logstr + str(card.value) + ", "
-            logstr = logstr + str(bearCards[-1].value) + ") are removed " + \
+                logstr = logstr + card.shortName() + ", "
+            logstr = logstr + bearCards[-1].shortName() + ") are removed " + \
                     "from the board."
             self.log.add("Market crash!")
             self.log.add(logstr)
@@ -386,7 +386,7 @@ class Game(object):
             self.discardPile = []
             for i in range(numBearCards):
                 card = self.fundDeck.pop(0)
-                self.log.add("Funding Card " + str(card.value) + " enters the board.")
+                self.log.add("Funding Card " + card.name() + " enters the board.")
                 self.fundingBoard.addCard(card)
             # empty deck cannot happen, if it does then discard pile is empty
             # anyway
@@ -432,14 +432,14 @@ class Game(object):
         for place, player in enumerate(self.standings, start=1):
             self.log.add(str(place) + ": " + player.name + \
                          " (points: {:3.0f}".format(player.points) + \
-                         "; most valuable card: " + \
+                         "; most valuable card: $" + \
                          str(player.maxCardValue) + ")")
         for index, player in enumerate(self.bankruptPlayers, ):
             self.log.add(str(len(self.standings) + index + 1) + \
                          ": " + player.name + \
                          " BANKRUPT " + \
                          "(points: {:3.0f}".format(player.points) + \
-                         "; most valuable card: " + \
+                         "; most valuable card: $" + \
                          str(player.maxCardValue) + ")")
 
     def autoFlow(self):

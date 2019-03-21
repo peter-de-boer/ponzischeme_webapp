@@ -53,13 +53,13 @@ class Player(object):
         for card in self.wheel[0]:
             interest = interest + card.interest
         if interest > self.money:
-            log.add(self.name + " cannot pay " + str(interest) + \
-                    " interest (only " + str(self.money) + " left).")
+            log.add(self.name + " cannot pay $" + str(interest) + \
+                    " interest (only $" + str(self.money) + " left).")
             log.add(self.name + " is bankrupt.")
             self.money = 0
             self.bankrupt = True
         else:
-            log.add(self.name + " pays " + str(interest) + \
+            log.add(self.name + " pays $" + str(interest) + \
                     " interest.")
             self.money = self.money - interest
 

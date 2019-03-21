@@ -9,6 +9,13 @@ class FundCard(object):
     def averageInterest(self):
         return 100*(((self.interest)/self.time)/self.value)
 
+    def name(self):
+        return "$" + str(self.value) + "&nbsp;(<" + str(self.time) + ">&nbsp;$" + \
+                str(self.interest) + ")"
+
+    def shortName(self):
+        return "$" + str(self.value)
+
     def __eq__(self, other):
         if isinstance(other, FundCard):
             return self.value == other.value
