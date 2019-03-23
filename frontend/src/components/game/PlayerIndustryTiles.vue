@@ -5,9 +5,25 @@
                 <div 
                     v-if="row>(maxTiles()-tiles)" 
                     @click="selectPlayerIndustryTile(i, row, name)">
-                   <div class="bar" :class="[tileStyle(i), hiLight(i, row, name, selectedPlayerAndTile)]" ></div>
+                   <div class="bar" :class="[tileStyle(i), hiLight(i, row, name, selectedPlayerAndTile)]" >
+                   </div>
                 </div>
             </div>
+        </div>
+        <div class="row">
+            <div class="col-2" v-for="(tiles, i) in industryTiles" :key="i + 'p'">
+                <div class="bar nohilight points"> 
+                    <span class="pnts" v-if="tiles>0"> {{points(tiles)}}  </span>
+                </div>
+            </div>
+            <!-- wait for feedback to implement this
+            <div class="col-4">
+                <div class="bar nohilight points"> 
+                    <span class="pnts"> (total: {{totalPoints()}})  </span>
+                </div>
+            </div>
+            -->
+
         </div>
     </div>
 </template>
@@ -34,6 +50,16 @@
                 'selectOpponentName',
                 'selectIndustryTile'
             ]),
+            points(tiles) {
+                return tiles*(tiles+1)/2
+            },
+            totalPoints() {
+                var total = 0
+                for (var i in this.industryTiles) {
+                    total = total + this.points(this.industryTiles[i])
+                }
+                return total
+            },
             maxTiles() {
                 var max = 0;
                 for (var i in this.industryTiles) {
@@ -103,6 +129,15 @@
     border-width: 2px;
     width: 60px;
     height: 20px;
+}
+
+.points {
+    text-align: center;
+}
+
+.pnts {
+    font-weight: bold;
+    background-color: #BBBBBB;
 }
 
 .transport {
