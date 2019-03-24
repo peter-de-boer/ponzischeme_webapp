@@ -364,9 +364,9 @@ export const store = new Vuex.Store({
                 return null;
             }    
         },
-        startPlayerName: state => {
+        startPlayer: state => {
             if (state.gameStateLoaded) {
-                return state.gameState.players[state.gameState.status.start].name;
+                return state.gameState.players[state.gameState.status.start];
             } else {
                 return null;
             }    

@@ -2,6 +2,9 @@
     <div class="player" 
         :class="hiLight(player.name, selectedPlayerAndTile)">
         <p class="player-name">
+            <span v-if="activePlayer && activePlayer.name==player.name"> 
+               > 
+            </span>
             {{player.name}}
         </p>
         <p class="money">
@@ -32,7 +35,9 @@
         computed: {
             ...mapGetters([
                 'phase',
-                'selectedPlayerAndTile'
+                'selectedPlayerAndTile',
+                'startPlayer',
+                'activePlayer'
             ])
         },
         components: {
@@ -42,12 +47,14 @@
         },
         methods: {
             hiLight(name, sel) {
+                var cl = "nohilight";
                 if (sel && name==sel.name && this.phase==2) {
-                    return "hilight";
-                } else {
-                    return "nohilight";
+                    cl = "hilight";
+                } 
+                if (this.startPlayer && this.startPlayer.name==this.player.name) {
+                    cl = cl + " startplayer"
                 }
-                    
+                return cl
             }
         }
     }
@@ -67,6 +74,10 @@
     font-size: 2em;
     font-weight: 1000;
 	float: left;
+}
+
+.startplayer {
+    background-color: #ffb2c0;
 }
 
 .money {

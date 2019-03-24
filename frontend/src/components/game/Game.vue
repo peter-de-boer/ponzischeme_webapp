@@ -69,8 +69,6 @@
                 'token',
                 'phase',
                 'round',
-                'startPlayerName',
-                'activePlayer',
                 'fundingBoard',
                 'advanced',
                 'gameEnded',
