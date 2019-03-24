@@ -149,7 +149,8 @@ const selectItems = {
         selectedIndustryTile: null,
         selectedLuxuryTile: null,
         selectedOpponentName: null,
-        tradeMoney: null
+        tradeMoney: null,
+        showFullFundCards: false
     },
     getters: {
         tradeMoney: state => {
@@ -169,6 +170,9 @@ const selectItems = {
         },
         selectedFundCard: state => {
             return state.selectedFundCard;
+        },
+        showFullFundCards: state => {
+            return state.showFullFundCards;
         }
     },
     mutations: {
@@ -197,6 +201,9 @@ const selectItems = {
         },    
         selectFundCard: (state, payload) => {
             Vue.set(state, "selectedFundCard", payload);
+        },    
+        switchShowFullFundCards: (state, payload) => {
+            Vue.set(state, "showFullFundCards", payload);
         }    
     },
     actions: {
@@ -220,6 +227,9 @@ const selectItems = {
         },
         selectFundCard: ({ commit }, payload) => {
             commit('selectFundCard', payload)
+        },
+        switchShowFullFundCards: ({ commit, getters }) => {
+            commit('switchShowFullFundCards', !getters.showFullFundCards)
         }
     }    
 }

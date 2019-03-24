@@ -9,8 +9,9 @@
                                 {{index}}
                             </div>
                         </div>
-                        <div v-for="card in cards" class="col-12">
-                            <div class="timeandinterest normal my-1 mx-auto">
+                        <div v-for="card in cards" class="col-12" @click="switchShowFullFundCards()">
+                            <fund-card :card="card" v-if="showFullFundCards"></fund-card>
+                            <div class="timeandinterest normal mx-auto" v-else>
                                 <div class="time">
                                     <{{card.time}}> 
                                 </div>
@@ -46,9 +47,24 @@
 </template>
 
 <script>
+    import {mapGetters} from 'vuex';
+    import {mapActions} from 'vuex';
+    import FundCard from './FundCard.vue';
+
     export default {
         props: ['wheel'],
+        components: {
+            FundCard
+        },
+        computed: {
+            ...mapGetters([
+                'showFullFundCards'
+            ]),
+        },
         methods: {
+            ...mapActions([
+                'switchShowFullFundCards'
+            ]),
             totalInterest(cards) {
                 var total = 0;
                 //debugger
@@ -78,6 +94,7 @@
 .custom-gutter > [class*='col-'] {
     padding-right:2px;
     padding-left:2px;
+    padding-top:4px;
 }
 
 .row {
