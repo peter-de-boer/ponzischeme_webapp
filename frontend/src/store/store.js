@@ -289,8 +289,12 @@ export const store = new Vuex.Store({
         gameStateLoaded: 0,
         gameState: {},
         gameChat: [],
+        loading: false,
     },
     getters: {
+        loading: state => {
+            return state.loading;
+        },
         tileName: () => (tile) => {
             switch(tile) {
                 case 0:
@@ -445,6 +449,9 @@ export const store = new Vuex.Store({
         }    
     },
     mutations: {
+        loading: (state, param) => {
+            Vue.set(state, "loading", param);
+        },    
         setGameState: (state, data) => {
             Vue.set(state, "gameState", data);
             state.gameStateLoaded = 1;
@@ -454,6 +461,12 @@ export const store = new Vuex.Store({
         }    
     },
     actions: {
+        loadingOn: ({commit}) => {
+            commit('loading', true);
+        },
+        loadingOff: ({commit}) => {
+            commit('loading', false);
+        },
         setGameState: ({ commit, dispatch }, data) => {
             // data is a json array with two elements
             // first is authentication data, second the game state
