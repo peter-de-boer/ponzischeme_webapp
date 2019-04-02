@@ -26,7 +26,10 @@
                     "<transporttag>":  "style='background-color:#5F7F9D; color:white'",
                     "<graintag>":      "style='background-color:#E1C908; color:black'",
                     "<mediatag>":      "style='background-color:#50A492; color:white'",
-                    "<realestatetag>": "style='background-color:#A70909; color:white'"
+                    "<realestatetag>": "style='background-color:#A70909; color:white'",
+                    "<tradeoffertag>":   "style='background-color:#DDDDDD; font-style: italic; font-weight: bold; color:#c99620'",
+                    "<soldtag>":         "style='background-color:#DDDDDD; font-style: italic; font-weight: bold; color:#29a041'",
+                    "<counteroffertag>": "style='background-color:#DDDDDD; font-style: italic; font-weight: bold; color:#a32b1b'"
                 }
             }
         },

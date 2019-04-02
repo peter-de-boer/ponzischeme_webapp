@@ -227,7 +227,9 @@ class Game(object):
             return self.error(name + " is not the active player")
         if opponent.industryTiles[tile]<=0:
             return self.error(name + " has no tile " + str(tile))
-        self.log.add("=> " + name + " accepts the trade.")
+        #self.log.add("=> " + name + " accepts the trade.")
+        self.log.replace(offeringPlayer.name + " <= " + self.tileName(tile) + \
+                    " [<span <soldtag>>sold</span>] $ => " + name)
         offeringPlayer.buy(tile, money)
         opponent.sell(tile, money)
         self.status.phase2RemoveTrade()
@@ -253,7 +255,10 @@ class Game(object):
             return self.error(name + " is not the active player")
         if opponent.money < money:
             return self.error(name + " has not enough money for this trade")
-        self.log.add("=> " + name + " counter-offers the trade.")
+        #self.log.add("=> " + name + " counter-offers the trade.")
+        self.log.replace(offeringPlayer.name + \
+                     " <= $ [<span <counteroffertag>>counter-offered</span>] " + \
+                     self.tileName(tile)  + " => " + name)
         offeringPlayer.sell(tile, money)
         opponent.buy(tile, money)
         self.status.phase2RemoveTrade()
@@ -284,8 +289,11 @@ class Game(object):
             return self.error(opponentName + " has no tile " + str(tile))
         if self.players[active].money < money:
             return self.error(name + " has not enough money for this trade")
-        self.log.add(name + " offers a trade to " + opponentName + \
-                     " involving a " + self.tileName(tile) + " tile.")
+        #self.log.add(name + " offers a trade to " + opponentName + \
+        #             " involving a " + self.tileName(tile) + " tile.")
+        self.log.add(name + " <= " + self.tileName(tile) + \
+                    " [<span <tradeoffertag>>trade offer</span>] $ => " + \
+                     opponentName)
         self.status.phase2SetTrade(tile, money, active, opponentIndex)
         self.autoFlow()
         return None

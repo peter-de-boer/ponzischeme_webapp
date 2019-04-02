@@ -9,3 +9,7 @@ class Log(object):
 
     def add(self, logtxt):
         self.log.append(logtxt)
+
+    def replace(self, logtxt):
+        # replace the last entry by logtxt
+        self.log[-1] = logtxt
