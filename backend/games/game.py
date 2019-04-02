@@ -55,6 +55,7 @@ class Game(object):
         involved in is not hidden
         '''
         self.fundDeck = None
+        self.log.log2 = None
         if not self.status.endOfGame:
             for player in self.players:
                 if not player.identical(playerInfo):
@@ -228,8 +229,12 @@ class Game(object):
         if opponent.industryTiles[tile]<=0:
             return self.error(name + " has no tile " + str(tile))
         #self.log.add("=> " + name + " accepts the trade.")
-        self.log.replace(offeringPlayer.name + " <= " + self.tileName(tile) + \
-                    " [<span <soldtag>>sold</span>] $ => " + name)
+        logtxt = offeringPlayer.name + " <= " + self.tileName(tile) + \
+                    " [<span <soldtag>>sold</span>] $ => " + name
+        log2txt = offeringPlayer.name + " <= " + self.tileName(tile) + \
+                    " [<span <soldtag>>sold</span>] $" + str(money) + \
+                    " => " + name
+        self.log.replace(logtxt,log2txt)
         offeringPlayer.buy(tile, money)
         opponent.sell(tile, money)
         self.status.phase2RemoveTrade()
@@ -256,9 +261,14 @@ class Game(object):
         if opponent.money < money:
             return self.error(name + " has not enough money for this trade")
         #self.log.add("=> " + name + " counter-offers the trade.")
-        self.log.replace(offeringPlayer.name + \
+        logtxt = offeringPlayer.name + \
                      " <= $ [<span <counteroffertag>>counter-offered</span>] " + \
-                     self.tileName(tile)  + " => " + name)
+                     self.tileName(tile)  + " => " + name
+        log2txt = offeringPlayer.name + \
+                     " <= $" + str(money) + \
+                     " [<span <counteroffertag>>counter-offered</span>] " + \
+                     self.tileName(tile)  + " => " + name
+        self.log.replace(logtxt, log2txt)
         offeringPlayer.sell(tile, money)
         opponent.buy(tile, money)
         self.status.phase2RemoveTrade()
@@ -487,6 +497,7 @@ class Game(object):
                 if self.gameEnded():
                     self.log.add("<span style='font-style:italic'>End of Game</span>")
                     self.calculateFinalScoring()
+                    self.log.revealHiddenInfo()
                     return
                 self.moveFundCards()
                 self.status.next()
