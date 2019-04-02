@@ -158,9 +158,11 @@ class Game(object):
         active = self.status.active[0]
         if (name!=self.players[active].name):
             return self.error(name + " is not the active player")
-        # not allowed to pass in round 1
-        if (self.status.round==1):
-            return self.error("You may not pass in the first round")
+        # to avoid the situation that everonye passes in round 1,
+        # leading to neverending game, we might forbid it. 
+        # for now, allow it and see if there is any feedback:
+        #if (self.status.round==1):
+        #    return self.error("You may not pass in the first round")
         self.log.add(name + " passes.")
         self.status.next()
         self.autoFlow()

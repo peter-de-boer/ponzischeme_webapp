@@ -138,8 +138,8 @@
                     var json = {"tile": tile, "token": this.token, "id": this.id}
                     axios.put('/game/buyLuxuryTile', json)
                         .then( res => {
-                            if (res.data.error) {
-                                console.log(res.data.error)
+                            if (res.data[1].error) {
+                                console.log(res.data[1].error)
                             } else {
                                 this.setGameState(res.data)
                                 //this.clearSelections()
@@ -156,8 +156,8 @@
                                 "token": this.token, "id": this.id}
                     axios.put('/game/offerTrade', json)
                         .then( res => {
-                            if (res.data.error) {
-                                console.log(res.data.error)
+                            if (res.data[1].error) {
+                                console.log(res.data[1].error)
                             } else {
                                 this.setGameState(res.data)
                                 //this.clearSelections()
@@ -172,8 +172,8 @@
                     var json = {"token": this.token, "id": this.id}
                     axios.put('/game/passTrading', json)
                         .then( res => {
-                            if (res.data.error) {
-                                console.log(res.data.error)
+                            if (res.data[1].error) {
+                                console.log(res.data[1].error)
                             } else {
                                 this.setGameState(res.data)
                                 //this.clearSelections()

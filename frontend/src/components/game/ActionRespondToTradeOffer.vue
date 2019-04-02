@@ -59,8 +59,8 @@
                     var json = {"token": this.token, "id": this.id}
                     axios.put('/game/sellTrade', json)
                         .then( res => {
-                            if (res.data.error) {
-                                console.log(res.data.error)
+                            if (res.data[1].error) {
+                                console.log(res.data[1].error)
                             } else {
                                 this.setGameState(res.data)
                                 //this.clearSelections()
@@ -76,8 +76,8 @@
                     var json = {"token": this.token, "id": this.id}
                     axios.put('/game/buyTrade', json)
                         .then( res => {
-                            if (res.data.error) {
-                                console.log(res.data.error)
+                            if (res.data[1].error) {
+                                console.log(res.data[1].error)
                             } else {
                                 this.setGameState(res.data)
                                 //this.clearSelections()

@@ -81,8 +81,8 @@
                     var json = {"value": card.value, "tile": tile, "token": this.token, "id": this.id}
                     axios.put('/game/selectTileAndCard', json)
                         .then( res => {
-                            if (res.data.error) {
-                                console.log(res.data.error)
+                            if (res.data[1].error) {
+                                console.log(res.data[1].error)
                             } else {
                                 this.setGameState(res.data)
                 //                this.clearSelections()
@@ -97,8 +97,8 @@
                     var json = {"token": this.token, "id": this.id}
                     axios.put('/game/passFunding', json)
                         .then( res => {
-                            if (res.data.error) {
-                                console.log(res.data.error)
+                            if (res.data[1].error) {
+                                console.log(res.data[1].error)
                             } else {
                                 this.setGameState(res.data)
                             }
