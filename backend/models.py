@@ -54,7 +54,7 @@ class User(Base): #, UserMixin):
         s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
         return s.dumps({'user_id': self.id},salt='reset').decode('utf-8')
 
-    def get_token(self, expires_sec=259200): #259200sec=3days
+    def get_token(self, expires_sec=2592000): #2592000sec=30days
         s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
         return s.dumps({'user_id': self.id}).decode('utf-8')
 
