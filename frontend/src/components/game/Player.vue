@@ -7,9 +7,19 @@
             </span>
             {{player.name}}
         </p>
-        <p class="money">
-            ${{player.money}}
+        <p class="moneyandpoints">
+            <span class="money" >
+                ${{player.money}} 
+            </span>
+            <br>
+            <span class="points">
+                points: {{tilesPoints()}}
+                <span v-if="!advanced">  
+                    (tot: {{totalPoints()}}) 
+                </span>
+            </span>
         </p>
+
         <div style="clear: both;"></div>
 
         <div class="row">
@@ -37,7 +47,8 @@
                 'phase',
                 'selectedPlayerAndTile',
                 'startPlayer',
-                'activePlayer'
+                'activePlayer',
+                'advanced'
             ])
         },
         components: {
@@ -55,6 +66,39 @@
                     cl = cl + " startplayer"
                 }
                 return cl
+            },
+            points(tiles) {
+                return tiles*(tiles+1)/2
+            },
+            tilesPoints() {
+                var p = 0;
+                for (var i in this.player.industryTiles) {
+                    p = p + this.points(this.player.industryTiles[i])
+                }
+                for (var i in this.player.luxuryTiles) {
+                    p = p + this.player.luxuryTiles[i].points
+                }
+                return p
+            },
+            moneyPoints(money) {
+                if (money < 30) {
+                    return 0
+                } else if (money < 56) {
+                    return 1
+                } else if (money < 78) {
+                    return 2
+                } else if (money < 96) {
+                    return 3
+                } else {
+                    return 4
+                }
+            },
+            totalPoints() {
+                if (this.player.money === null) {
+                    return "?"
+                } else {
+                    return this.tilesPoints() + this.moneyPoints(this.player.money)
+                }
             }
         }
     }
@@ -80,9 +124,17 @@
     background-color: #ffb2c0;
 }
 
-.money {
+.moneyandpoints {
     font-size: 1.5em;
 	float: right;
+}
+
+.money {
+    font-weight: bold;
+}
+
+.points {
+    font-style: italic;
 }
 
 .hilight {
