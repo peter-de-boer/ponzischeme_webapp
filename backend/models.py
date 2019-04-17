@@ -32,6 +32,8 @@ class User(Base): #, UserMixin):
                              foreign_keys="[GameModel.owner_id]")
     active_games = relationship("GameModel", back_populates="active",
                                 foreign_keys="[GameModel.active_id]")
+    own_notes = relationship("Notes", back_populates="player",
+                             foreign_keys="[Notes.player_id]")
 
     def __init__(self, email, username, password, admin=False, confirmed=False):
         self.email = email
@@ -109,6 +111,8 @@ class GameModel(Base):
     chat = db.Column(db.PickleType)
     status = db.Column(db.String)
     # status can be: "new", "running", "finished"
+    player_notes = relationship("Notes", back_populates="game",
+                             foreign_keys="[Notes.game_id]")
 
     def __init__(self, advanced, nplayers, owner):
         self.advanced = advanced
@@ -129,9 +133,43 @@ class GameModel(Base):
         game['players'] = []
         for plr in self.players:
             game['players'].append(plr.dict())
+        game['player_notes'] = []
+        for notes in self.player_notes:
+            game['player_notes'].append(notes.dict())
         return game
 
     def __repr__(self):
         return f"GameModel({self.id}, {self.status}, {self.advanced}, "\
                 f"{self.nplayers}, {self.chat})"
+
+
+class Notes(Base):
+    __tablename__ = 'notes'
+    id = db.Column(db.Integer, primary_key=True)
+    notes = db.Column(db.String)
+    # for the game and player I use the back_populates argument on both
+    # side of the relationship, instead of backref on one
+    player_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    player = relationship("User",  foreign_keys=[player_id],
+                         back_populates="own_notes")
+    game_id = db.Column(db.Integer, db.ForeignKey('games.id'))
+    game = relationship("GameModel",  foreign_keys=[game_id],
+                          back_populates="player_notes")
+
+    def __init__(self, player, game):
+        self.notes = ""
+        self.player = player
+        self.game = game
+
+    def dict(self):
+        # return the notes in dict format
+        notes = {}
+        notes['id'] = self.id
+        notes['notes'] = self.notes
+        notes['player_id'] = self.player.id
+        notes['game_id'] = self.game.id
+        return notes
+
+    def __repr__(self):
+        return f"Notes({self.id}, {self.player.id}, {self.game.id}, {self.notes})"
 

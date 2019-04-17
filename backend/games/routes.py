@@ -75,8 +75,8 @@ def returnData(userData, error, id):
     if error:
         return json.dumps([userData, error])
     else:
-        game, chat = getGame(userData=userData, id=id)
-        return json.dumps([userData, json.loads(game), json.loads(chat)])
+        game, chat, notes = getGame(userData=userData, id=id)
+        return json.dumps([userData, json.loads(game), json.loads(chat), notes])
 
 
 @games.route("/game", methods=['GET','PUT'])

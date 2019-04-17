@@ -1,6 +1,6 @@
 import json, jsonpickle
 from backend.games.game import Game
-from backend.models import GameModel, User
+from backend.models import GameModel, User, Notes
 from backend import Session
 from backend.users.utils import send_start_game_email, send_ready_game_email
 
@@ -18,11 +18,18 @@ def getGame(userData = None, id = None):
             .filter(GameModel.id==id).first()
     gm = jsonpickle.decode(game.game)
     chat = game.chat
+    if userData is None:
+        notesdict = None
+    else:
+        notes = session.query(Notes) \
+            .filter(Notes.game_id==id,
+                    Notes.player_id==userData["id"]).first()
+        notesdict = notes.dict() if notes else None
     session.commit()
     session.close()
     gm.removeHiddenInfo(userData)
     gamejs_expand = jsonpickle.encode(gm, unpicklable=False)
-    return gamejs_expand, chat
+    return gamejs_expand, chat, notesdict
 
 def createGame(user, nplayers, advanced):
     userData = getUserData(user)
@@ -86,6 +93,8 @@ def startGame(user, gameid):
             players = []
             for player in game.players:
                 players.append({'name': player.username, 'id': player.id})
+                notes = Notes(player, game)
+                session.add(notes)
             newgame = Game(players, game.advanced, game.id)
             activePlayer = newgame.getActivePlayer()
             active = session.query(User) \

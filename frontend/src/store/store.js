@@ -468,8 +468,11 @@ export const store = new Vuex.Store({
             commit('loading', false);
         },
         setGameState: ({ commit, dispatch }, data) => {
-            // data is a json array with two elements
-            // first is authentication data, second the game state
+            // data is a json array with several elements
+            // 0: authentication data
+            // 1: game state
+            // 2: chat
+            // 3: notes
             if (!data[0].name) {
                 // apparently an invalid or expired token was provided
                 dispatch('clearAuthData')
