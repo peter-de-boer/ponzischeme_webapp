@@ -29,6 +29,11 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-12">
+                    <notes v-if="gameStateLoaded && userIsPlayer"></notes>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-12 col-sm-4">
                     <!-- <deck v-if="gameStateLoaded"></deck> -->
                 </div>
@@ -49,6 +54,7 @@
     import EndOfGame from './EndOfGame.vue';
     import Log from './Log.vue';
     import Chat from './Chat.vue';
+    import Notes from './Notes.vue';
     import {mapActions} from 'vuex';
     import {mapGetters} from 'vuex';
 
@@ -61,6 +67,7 @@
         components: {
             log: Log,
             chat: Chat,
+            notes: Notes,
             endOfGame: EndOfGame,
             actionBox: ActionBox,
             luxuryTiles: LuxuryTiles,
@@ -80,6 +87,7 @@
                 'gameEnded',
                 'gameStateLoaded',
                 'players',
+                'userIsPlayer',
                 'loading'
             ])    
         },

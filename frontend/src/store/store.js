@@ -289,6 +289,7 @@ export const store = new Vuex.Store({
         gameStateLoaded: 0,
         gameState: {},
         gameChat: [],
+        gameNotes: "",
         loading: false,
     },
     getters: {
@@ -320,6 +321,19 @@ export const store = new Vuex.Store({
             if (state.gameStateLoaded && getters.activePlayer.name && getters.username && 
                 getters.activePlayer.name == getters.username ) {
                 return "True";
+            } else {
+                return null;
+            }
+        },
+        userIsPlayer: (state, getters) => {
+            if (state.gameStateLoaded && getters.username) {
+                var plrs = getters.players;
+                for (var plrIndex in plrs) {
+                    if (plrs[plrIndex].name==getters.username) {
+                        return "True";
+                    }
+                }
+                return null;
             } else {
                 return null;
             }
@@ -441,6 +455,9 @@ export const store = new Vuex.Store({
                 return null;
             }    
         },
+        gameNotes: state => {
+            return state.gameNotes;
+        },    
         gameChat: state => {
             return state.gameChat;
         },    
@@ -458,6 +475,9 @@ export const store = new Vuex.Store({
         },    
         setGameChat: (state, data) => {
             Vue.set(state, "gameChat", data);
+        },    
+        setGameNotes: (state, data) => {
+            Vue.set(state, "gameNotes", data);
         }    
     },
     actions: {
@@ -478,7 +498,8 @@ export const store = new Vuex.Store({
                 dispatch('clearAuthData')
                 localStorage.removeItem('username')
             }
-            commit('setGameChat', data[2]);
+            commit('setGameNotes', data[3]);
+            commit('setGameChat',  data[2]);
             commit('setGameState', data[1]);
             store.dispatch('clearSelections');
         }
