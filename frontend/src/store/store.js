@@ -502,6 +502,9 @@ export const store = new Vuex.Store({
             commit('setGameChat',  data[2]);
             commit('setGameState', data[1]);
             store.dispatch('clearSelections');
+        },
+        setGameNotes: ({commit}, data) => {
+            commit('setGameNotes', data);
         }
     }    
 

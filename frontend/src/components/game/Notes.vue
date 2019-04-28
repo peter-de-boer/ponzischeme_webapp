@@ -2,7 +2,13 @@
     <div class="notes">
         <h2> Notes </h2>
         <div ref="myid" class="nnotes"> 
-                {{gameNotes}}
+            <textarea 
+                v-model="notes" 
+                placeholder="add your notes" 
+                style="width:100%; height:100%;"
+                @keyup="changeNotes"
+            >
+            </textarea>
         </div>
     </div>
 </template>
@@ -15,8 +21,11 @@
     export default {
         data () {
             return {
-                post: '',
+                notes: '',
             }
+        },
+        mounted() {
+            this.notes = this.gameNotes;
         },
         computed: {
             ...mapGetters([
@@ -29,8 +38,12 @@
         },
         methods: {
             ...mapActions([
-                'setGameState'
-            ])
+                'setGameState',
+                'setGameNotes'
+            ]),
+            changeNotes() {
+                this.setGameNotes(this.notes)
+            }
         }
     }    
 </script>
@@ -44,7 +57,6 @@
     height: 295px;
     width: 98%;
     margin: 0 auto;
-    overflow: auto;
     background: white;
 }
 </style>
