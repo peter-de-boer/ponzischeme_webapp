@@ -25,7 +25,13 @@
                     <action-box v-if="gameStateLoaded && !gameEnded"></action-box>
                 </div>
                 <div class="col-12 col-sm-8">
-                    <player v-if="gameStateLoaded" v-for="plr in players" :player="plr"></player>
+                    <player 
+                        v-if="gameStateLoaded" 
+                        v-for="plr in players" 
+                        :player="plr"
+                        :key="plr.id"
+                    >
+                    </player>
                 </div>
             </div>
             <div class="row">
