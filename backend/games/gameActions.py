@@ -1,6 +1,6 @@
 import json, jsonpickle
 from backend.games.game import Game
-from backend.models import GameModel, User
+from backend.models import GameModel, User, Notes
 from backend import Session
 from backend.users.utils import send_notification, send_end_of_game_email
 
@@ -63,6 +63,26 @@ def addPost(post, id, name):
     fullPost = "<span style='font-weight: bold'>" + name + "</span>: " + post
     chat.append(fullPost)
     game.chat = jsonpickle.encode(chat)
+    session.commit()
+    session.close()
+    return None
+
+def changeNotes(newnotes, name):
+    data = {}
+    session = Session()
+    user_id = newnotes['player_id']
+    player = session.query(User) \
+            .filter(User.id==user_id).first()
+    if (player is None) or (player.username!=name):
+        data['error'] = 'user error'
+        return data
+    id = newnotes['id']
+    notes = session.query(Notes) \
+            .filter(Notes.id==id).first()
+    if notes is None:
+        data['error'] = 'notes error'
+        return data
+    notes.notes = newnotes['notes']
     session.commit()
     session.close()
     return None

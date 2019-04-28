@@ -36,7 +36,7 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <notes v-if="gameStateLoaded && userIsPlayer"></notes>
+                    <notes v-if="!loading && userIsPlayer"></notes>
                 </div>
             </div>
             <div class="row">

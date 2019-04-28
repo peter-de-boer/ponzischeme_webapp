@@ -89,6 +89,15 @@ def get_game():
     return returnData(userData, None, id)
     #return json.dumps([userData, json.loads(getGame(userData=userData, id=id))])
 
+@games.route("/game/notes", methods=['PUT'])
+def notes():
+    req = request.get_json()
+    userData = getUserData(req)
+    notes = req['notes']
+    error = changeNotes(notes, userData['name'])
+    game_id = notes['game_id']
+    return returnData(userData, error, game_id)
+
 @games.route("/game/chat", methods=['PUT'])
 def post():
     req = request.get_json()
