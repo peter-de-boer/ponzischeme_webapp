@@ -25,6 +25,9 @@ class Player(object):
         # returns true if player name and id is identical to self
         return (player and self.name==player['name'] and self.id==player['id'])
 
+    def changeName(self, name):
+        self.name = name
+
     def getMaxCardValue(self):
         maxValue = 0
         for cards in self.wheel:

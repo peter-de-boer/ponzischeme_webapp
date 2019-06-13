@@ -140,7 +140,7 @@ class GameModel(Base):
 
     def __repr__(self):
         return f"GameModel({self.id}, {self.status}, {self.advanced}, "\
-                f"{self.nplayers}, {self.chat})"
+                f"{self.nplayers} )"
 
 
 class Notes(Base):
