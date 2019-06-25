@@ -1,8 +1,7 @@
 <template>
     <div>
         Finished Games <br>
-        {{finishedGames}}
-        <div v-for="(game, index) in finishedGames" :key="index">
+        <div v-for="(game, index) in paginatedData" :key="index">
             <finished-game :game="game"></finished-game>
         </div>
         <button @click="prevPage" :disabled="pageNumber==0">
@@ -38,15 +37,14 @@
                 'finishedGames'
             ]),
             pageCount() { 
-                let l = this.finishedGames.length, 
+                let l = (this.finishedGames == null ? 0 : this.finishedGames.length), 
                     s = this.size; 
                 return Math.ceil(l/s); 
             },
             paginatedData() { 
                 const start = this.pageNumber * this.size, 
                       end = start + this.size; 
-                console.log(this.finishedGames);
-                return this.finishedGames.slice(start, end); 
+                return (this.finishedGames==null ? null : this.finishedGames.slice(start, end)); 
             }
         },
         components: {
