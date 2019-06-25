@@ -273,7 +273,7 @@ const games = {
             var games = data[1];
             commit('setNewGames', games['new']);
             commit('setRunningGames', games['running']);
-            commit('setFinishedGames', games['finished']);
+            commit('setFinishedGames', games['finished'].slice().reverse());
         }
     }    
 }
