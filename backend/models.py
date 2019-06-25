@@ -133,9 +133,9 @@ class GameModel(Base):
         game['players'] = []
         for plr in self.players:
             game['players'].append(plr.dict())
-        game['player_notes'] = []
-        for notes in self.player_notes:
-            game['player_notes'].append(notes.dict())
+        #game['player_notes'] = []
+        #for notes in self.player_notes:
+        #    game['player_notes'].append(notes.dict())
         return game
 
     def __repr__(self):
