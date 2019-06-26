@@ -12,16 +12,16 @@ The main contents of the code:
 - backend (Python)
 
 
-Files needed`(in root dir), but not under version control:
+Files needed (in root dir), but not under version control:
 
-`.env` (environment variables needed by python)
-`site.db` (the database with users and games)
-`dist` (deployed frontend code)
+`.env` (environment variables needed by python) <br>
+`site.db` (the database with users and games) <br>
+`dist` (deployed frontend code) <br>
 
 The `.env` file contains the following environment variables:
 
-`export    SECRET_KEY=
-export    SQLALCHEMY_DATABASE_URI='sqlite:///site.db'
+`export    SECRET_KEY= <br>
+export    SQLALCHEMY_DATABASE_URI='sqlite:///site.db'  <br>
 export    EMAIL_USER=
 export    EMAIL_PASS=
 export    BASE_URL='http://localhost:8080'
