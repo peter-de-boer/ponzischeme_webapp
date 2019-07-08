@@ -4,3 +4,4 @@ __pycache__/
 dist
 dist.tar
 .eslintrc.js
+site.db
