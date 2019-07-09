@@ -1,7 +1,7 @@
 # template for creating a fresh new db for testing purposes
 
 from backend.db import engine, Base, db
-from backend.models import User, GameModel
+from backend.models import User, GameModel, ChatModel
 
 Base.metadata.create_all(engine)
 
@@ -35,6 +35,10 @@ game4.players= [alice, bob, charlie]
 
 game5 = GameModel(advanced=True, nplayers=3, owner=alice)
 game5.players= [alice, bob]
+
+chat = ChatModel()
+
+session.add(chat)
 
 session.add(admin)
 session.add(alice)

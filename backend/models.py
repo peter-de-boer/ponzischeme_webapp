@@ -173,3 +173,16 @@ class Notes(Base):
     def __repr__(self):
         return f"Notes({self.id}, {self.player.id}, {self.game.id}, {self.notes})"
 
+
+class ChatModel(Base):
+    __tablename__ = 'mainchat'
+    id = db.Column(db.Integer, primary_key=True)
+    chat = db.Column(db.PickleType)
+
+    def __init__(self):
+        self.chat = jsonpickle.encode([])
+
+    def __repr__(self):
+        return f"ChatModel({self.id}, {self.chat})"
+
+

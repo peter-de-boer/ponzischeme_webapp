@@ -1,6 +1,8 @@
 <template>
     <div>
         <hr>
+        <main-chat></main-chat>
+        <hr>
         <div v-if="isAuthenticated">
             <create-game></create-game>
             <hr>
@@ -17,6 +19,7 @@
     import axios from 'axios';
     import { mapGetters } from 'vuex';
     import { mapActions } from 'vuex';
+    import MainChat from './MainChat.vue';
     import CreateGame from './CreateGame.vue';
     import NewGames from './NewGames.vue';
     import RunningGames from './RunningGames.vue';
@@ -46,6 +49,7 @@
             ]),   
         },
         components: {
+            mainChat: MainChat,
             createGame: CreateGame,
             runningGames: RunningGames,
             finishedGames: FinishedGames,
