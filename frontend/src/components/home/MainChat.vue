@@ -57,8 +57,6 @@
             },
             getMainChat() {
                 var json = {"token": this.token}
-                console.log("in getMainChat")
-                console.log(json)
                 axios.get('/mainchat', { params: json })
                     .then( res => {
                         if (res.data[1].error) {

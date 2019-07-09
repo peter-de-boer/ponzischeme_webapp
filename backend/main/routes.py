@@ -38,7 +38,6 @@ def returnData(userData, error):
 
 @main.route("/mainchat", methods=['PUT', 'GET'])
 def post():
-    print("************* mainchat ***************")
     if request.method == 'PUT':
         req = request.get_json()
         userData = getUserData(req)
