@@ -15,7 +15,7 @@
                 id="post"
                 v-model="post">
             <span>
-              <button type="submit">Send</button>
+              <button type="submit" :disabled="!token">Send</button>
             </span>
         </form>
     </div>
