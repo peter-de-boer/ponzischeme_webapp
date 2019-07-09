@@ -278,8 +278,36 @@ const games = {
     }    
 }
 
+const mainchat = {
+    state: {
+        mainChat: []
+    },
+    getters: {
+        mainChat: state => {
+            return state.mainChat;
+        }
+    },
+    mutations: {
+        setMainChat: (state, payload) => {
+            Vue.set(state, "mainChat", payload);
+        }
+    },
+    actions: {
+        setMainChat: ({ commit, dispatch }, data) => {
+            // data is a json array with two elements
+            // first is authentication data, second the chat
+            if (!data[0].name) {
+                // apparently an invalid or expired token was provided
+                dispatch('clearAuthData')
+            }
+            commit('setMainChat', data[1]);
+        }
+    }    
+}
+
 export const store = new Vuex.Store({
     modules: {
+        mainchat,
         games,
         auth,
         selectPlayer,

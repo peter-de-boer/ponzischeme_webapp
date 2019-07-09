@@ -49,6 +49,8 @@ def create_app(config_class=Config, createdb=False):
     if (not createdb):
         from backend.users.routes import users
         app.register_blueprint(users)
+    from backend.main.routes import main
+    app.register_blueprint(main)
 
     @app.teardown_appcontext
     def cleanup(resp_or_exc):
