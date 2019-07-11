@@ -22,7 +22,6 @@ def save_picture(form_picture):
 
 def sendMessage(msg):
     SEND_EMAIL = os.environ.get('SEND_EMAIL')
-    print("SEND_EMAIL: ", SEND_EMAIL)
     if SEND_EMAIL=='no':
         print("no email sent")
     else:
@@ -62,7 +61,6 @@ If you did not make this request then simply ignore this email and no changes wi
 def send_notification(user, game_id):
     url = os.environ.get('BASE_URL')
     link = url + f'/game/{game_id}'
-    print("link: ", link)
     msg = Message(f'[ponzischeme]: your turn in game {game_id}',
                   sender='peterdb001@gmail.com',
                   recipients=[user.email])
