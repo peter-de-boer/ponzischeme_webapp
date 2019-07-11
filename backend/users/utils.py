@@ -22,6 +22,7 @@ def save_picture(form_picture):
 
 def sendMessage(msg):
     SEND_EMAIL = os.environ.get('SEND_EMAIL')
+    print("SEND_EMAIL: ", SEND_EMAIL)
     if SEND_EMAIL=='no':
         print("no email sent")
     else:
@@ -73,24 +74,26 @@ def send_notification(user, game_id):
 def send_end_of_game_email(emails, game_id):
     url = os.environ.get('BASE_URL')
     link = url + f'/game/{game_id}'
-    msg = Message(f'[ponzischeme]: end of game {game_id}',
-                  sender='peterdb001@gmail.com',
-                  recipients=emails)
-    msg.body = f'''Game {game_id} is finished:
+    for email in emails:
+        msg = Message(f'[ponzischeme]: end of game {game_id}',
+                      sender='peterdb001@gmail.com',
+                      recipients=[email])
+        msg.body = f'''Game {game_id} is finished:
 {link}
 '''
-    sendMessage(msg)
+        sendMessage(msg)
 
 def send_start_game_email(emails, game_id):
     url = os.environ.get('BASE_URL')
     link = url + f'/game/{game_id}'
-    msg = Message(f'[ponzischeme]: start of game {game_id}',
-                  sender='peterdb001@gmail.com',
-                  recipients=emails)
-    msg.body = f'''Game {game_id} is started:
+    for email in emails:
+        msg = Message(f'[ponzischeme]: start of game {game_id}',
+                      sender='peterdb001@gmail.com',
+                      recipients=[email])
+        msg.body = f'''Game {game_id} is started:
 {link}
 '''
-    sendMessage(msg)
+        sendMessage(msg)
 
 
 def send_ready_game_email(user, game_id):
