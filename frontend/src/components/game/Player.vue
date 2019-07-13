@@ -2,7 +2,7 @@
     <div class="player" 
         :class="hiLight(player.name, selectedPlayerAndTile)">
         <p class="player-name">
-            <span v-if="activePlayer && activePlayer.name==player.name"> 
+            <span v-if="startPlayer && startPlayer.name==player.name"> 
                > 
             </span>
             {{player.name}}
@@ -62,8 +62,8 @@
                 if (sel && name==sel.name && this.phase==2) {
                     cl = "hilight";
                 } 
-                if (this.startPlayer && this.startPlayer.name==this.player.name) {
-                    cl = cl + " startplayer"
+                if (this.activePlayer && this.activePlayer.name==this.player.name) {
+                    cl = cl + " activeplayer"
                 }
                 return cl
             },
@@ -120,7 +120,7 @@
 	float: left;
 }
 
-.startplayer {
+.activeplayer {
     background-color: #ffb2c0;
 }
 
