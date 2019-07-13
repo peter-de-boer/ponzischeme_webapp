@@ -1,6 +1,6 @@
 __pycache__/
 *.py[cod]
-.env
+.env*
 dist
 dist.tar
 .eslintrc.js
