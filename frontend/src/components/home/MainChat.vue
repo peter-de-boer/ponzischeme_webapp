@@ -46,7 +46,9 @@
         },
         methods: {
             ...mapActions([
-                'setMainChat'
+                'setMainChat',
+                'loadingOn',
+                'loadingOff'
             ]),
             scrollToEnd() {
               var self = this
@@ -72,6 +74,7 @@
             onSubmit () {
                 if (this.token) {
                     var json = {"post": this.post, "token": this.token}
+                    this.loadingOn();
                     axios.put('/mainchat', json)
                         .then( res => {
                             if (res.data[1].error) {
@@ -81,9 +84,13 @@
                                 this.post="";
                                 this.scrollToEnd();
                             }
-                    }, error => {
-                        console.log(error)
-                    }); 
+                        })
+                        .catch( error => {
+                            console.log(error)
+                        })
+                        .then( () => {
+                            this.loadingOff()
+                        }); 
                 }
             }
         }

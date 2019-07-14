@@ -29,7 +29,6 @@
 </template>
 
 <script>
-    import axios from 'axios';
     import { mapGetters } from 'vuex';
     import { mapActions } from 'vuex';
 
@@ -43,7 +42,7 @@
         },
         methods: {
             ...mapActions([
-                'setGameList',
+                'doListAction'
             ])    ,
             canNotJoin(players) {
                 return !this.username || players.some(player => player.username==this.username)
@@ -51,12 +50,7 @@
             deleteGame(id) {
                 if (this.token) {
                     var json = {"id": id, "token": this.token}
-                    axios.put('/deleteGame', json)
-                        .then( res => {
-                            this.setGameList(res.data)
-                    }, error => {
-                        console.log(error)
-                    }); 
+                    this.doListAction({route: '/deleteGame', json})
                 }
                 else {
                 }
@@ -64,12 +58,7 @@
             joinGame(id) {
                 if (this.token) {
                     var json = {"id": id, "token": this.token}
-                    axios.put('/joinGame', json)
-                        .then( res => {
-                            this.setGameList(res.data)
-                    }, error => {
-                        console.log(error)
-                    }); 
+                    this.doListAction({route: '/joinGame', json})
                 }
                 else {
                 }
@@ -77,12 +66,7 @@
             leaveGame(id) {
                 if (this.token) {
                     var json = {"id": id, "token": this.token}
-                    axios.put('/leaveGame', json)
-                        .then( res => {
-                            this.setGameList(res.data)
-                    }, error => {
-                        console.log(error)
-                    }); 
+                    this.doListAction({route: '/leaveGame', json})
                 }
                 else {
                 }
@@ -90,12 +74,7 @@
             startGame(id) {
                 if (this.token) {
                     var json = {"id": id, "token": this.token}
-                    axios.put('/startGame', json)
-                        .then( res => {
-                            this.setGameList(res.data)
-                    }, error => {
-                        console.log(error)
-                    }); 
+                    this.doListAction({route: '/startGame', json})
                 }
                 else {
                 }

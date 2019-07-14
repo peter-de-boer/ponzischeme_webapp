@@ -16,7 +16,6 @@
 </template>
 
 <script>
-    import axios from 'axios';
     import { mapGetters } from 'vuex';
     import { mapActions } from 'vuex';
     import MainChat from './MainChat.vue';
@@ -29,23 +28,17 @@
         name: 'Home',
         created() {
             var json = {"token": this.token}
-            axios.put('/gameList', json)
-                .then( res => {
-                    this.setGameList(res.data)
-                }, error => {
-                    console.log(error)
-                }); 
+            this.doListAction({route: '/gameList', json})
         },
         computed: {
             ...mapGetters([
                 'isAuthenticated',
-                'token',
-                'tokenStorage'
+                'token'
             ]),   
         },
         methods: {
             ...mapActions([
-                'setGameList'
+                'doListAction'
             ]),   
         },
         components: {
