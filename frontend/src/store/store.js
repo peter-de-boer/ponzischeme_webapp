@@ -533,6 +533,23 @@ export const store = new Vuex.Store({
         },
         setGameNotes: ({commit}, data) => {
             commit('setGameNotes', data);
+        },
+        doAction: ({commit, dispatch}, {route, json}) => {
+            dispatch('loadingOn');
+            axios.put(route, json)
+                .then( res => {
+                    if (res.data[1].error) {
+                    } else {
+                        dispatch('setGameState', res.data)
+                        //this.clearSelections()
+                    }
+                })
+                .catch(  error => {
+                    console.log(error)
+                })
+                .then(() => {
+                    dispatch('loadingOff');
+                }); 
         }
     }    
 

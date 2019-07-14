@@ -16,7 +16,6 @@
 </template>
 
 <script>
-    import axios from 'axios';
     import { mapGetters } from 'vuex';
     import { mapActions } from 'vuex';
 
@@ -33,23 +32,13 @@
         },
         methods: {
             ...mapActions([
-                'clearSelections',
-                'setGameState'
+                'doAction'
             ]),
             discardTile(playerAndTile) {
                 console.log("in discardTile")
                 if (this.token && playerAndTile && playerAndTile.name==this.activePlayer.name) {
                     var json = {"tile": playerAndTile.tile, "token": this.token, "id": this.id}
-                    axios.put('/game/discardTile', json)
-                        .then( res => {
-                            if (res.data[1].error) {
-                            } else {
-                                this.setGameState(res.data)
-                                //this.clearSelections()
-                            }
-                    }, error => {
-                        console.log(error)
-                    }); 
+                    this.doAction({route: '/game/discardTile', json})
                 }
             }
         }

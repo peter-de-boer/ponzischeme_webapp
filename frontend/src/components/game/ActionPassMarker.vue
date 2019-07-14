@@ -20,7 +20,6 @@
 </template>
 
 <script>
-    import axios from 'axios';
     import { mapGetters } from 'vuex';
     import { mapActions } from 'vuex';
 
@@ -38,8 +37,7 @@
         },
         methods: {
             ...mapActions([
-                'clearSelections',
-                'setGameState'
+                'doAction'
             ]),
             correctSelection(card) {
                 var correct = 0
@@ -63,17 +61,7 @@
             selectCardToDiscard(card) {
                 if (this.token && this.correctSelection(card)) {
                     var json = {"value": card.value, "token": this.token, "id": this.id}
-                    axios.put('/game/selectCardToDiscard', json)
-                        .then( res => {
-                            if (res.data[1].error) {
-                                console.log(res.data[1].error)
-                            } else {
-                                this.setGameState(res.data)
-                                //this.clearSelections()
-                            }
-                    }, error => {
-                        console.log(error)
-                    }); 
+                    this.doAction({route: '/game/selectCardToDiscard', json})
                 }
             }
         }

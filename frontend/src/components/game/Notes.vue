@@ -53,14 +53,12 @@
         },
         methods: {
             ...mapActions([
-                'setGameState',
-                'setGameNotes'
+                'setGameState'
             ]),
             sendToServer: debounce(
                 function() {
                     this.saveStatus = "saving...";
                     var json = {"token": this.token, "notes": this.currentGameNotes}
-                    // need to do put instead of get request, else json arg is not working somehow
                     axios.put('/game/notes', json)
                         .then( res => {
                             if (res.data[1].error) {

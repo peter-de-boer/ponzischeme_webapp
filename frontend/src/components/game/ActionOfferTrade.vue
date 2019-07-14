@@ -38,7 +38,6 @@
 </template>
 
 <script>
-    import axios from 'axios';
     import { mapGetters } from 'vuex';
     import { mapActions } from 'vuex';
     import vueSlider from 'vue-slider-component';
@@ -86,8 +85,7 @@
         },
         methods: {
             ...mapActions([
-                'setGameState',
-                'clearSelections'
+                'doAction'
             ]),
             correctLuxurySelection(tile) {
                 if (tile!=null) {
@@ -136,17 +134,7 @@
                 if (this.token && tile!=null &&
                     this.correctLuxurySelection(tile)) {
                     var json = {"tile": tile, "token": this.token, "id": this.id}
-                    axios.put('/game/buyLuxuryTile', json)
-                        .then( res => {
-                            if (res.data[1].error) {
-                                console.log(res.data[1].error)
-                            } else {
-                                this.setGameState(res.data)
-                                //this.clearSelections()
-                            }
-                    }, error => {
-                        console.log(error)
-                    }); 
+                    this.doAction({route: '/game/buyLuxuryTile', json})
                 }
             },
             offerTrade(playerAndTile, money) {
@@ -154,34 +142,13 @@
                     money != null && this.correctSelection(playerAndTile)) {
                     var json = {"money": money, "tile": playerAndTile.tile, "opponentName": playerAndTile.name,
                                 "token": this.token, "id": this.id}
-                    axios.put('/game/offerTrade', json)
-                        .then( res => {
-                            if (res.data[1].error) {
-                                console.log(res.data[1].error)
-                            } else {
-                                this.setGameState(res.data)
-                                //this.clearSelections()
-                            }
-                    }, error => {
-                        console.log(error)
-                    }); 
+                    this.doAction({route: '/game/offerTrade', json})
                 }
             },
             passTrading() {
                 if (this.token) {
                     var json = {"token": this.token, "id": this.id}
-                    axios.put('/game/passTrading', json)
-                        .then( res => {
-                            if (res.data[1].error) {
-                                console.log(res.data[1].error)
-                            } else {
-                                this.setGameState(res.data)
-                                //this.clearSelections()
-                            }
-                        }, error => {
-                            console.log(error)
-                        }
-                    ); 
+                    this.doAction({route: '/game/passTrading', json})
                 }
             }
         }
