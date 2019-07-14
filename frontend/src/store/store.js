@@ -274,6 +274,19 @@ const games = {
             commit('setNewGames', games['new']);
             commit('setRunningGames', games['running']);
             commit('setFinishedGames', games['finished'].slice().reverse());
+        },
+        doListAction: ({commit, dispatch}, {route, json}) => {
+            dispatch('loadingOn');
+            axios.put(route, json)
+                .then( res => {
+                    dispatch('setGameList', res.data)
+                })
+                .catch( error => {
+                    console.log(error)
+                })
+                .then(() => {
+                    dispatch('loadingOff');
+                }); 
         }
     }    
 }
@@ -533,6 +546,23 @@ export const store = new Vuex.Store({
         },
         setGameNotes: ({commit}, data) => {
             commit('setGameNotes', data);
+        },
+        doAction: ({commit, dispatch}, {route, json}) => {
+            dispatch('loadingOn');
+            axios.put(route, json)
+                .then( res => {
+                    if (res.data[1].error) {
+                    } else {
+                        dispatch('setGameState', res.data)
+                        //this.clearSelections()
+                    }
+                })
+                .catch(  error => {
+                    console.log(error)
+                })
+                .then(() => {
+                    dispatch('loadingOff');
+                }); 
         }
     }    
 

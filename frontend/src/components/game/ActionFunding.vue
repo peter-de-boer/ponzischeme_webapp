@@ -29,7 +29,6 @@
 </template>
 
 <script>
-    import axios from 'axios';
     import { mapGetters } from 'vuex';
     import { mapActions } from 'vuex';
 
@@ -50,8 +49,7 @@
         },
         methods: {
             ...mapActions([
-                'setGameState',
-                'clearSelections'
+                'doAction'
             ]),
             getRow(myCard) {
                 var row = 0
@@ -79,33 +77,13 @@
                 // if (this.username && card != null && tile != null) {
                 if (this.correctSelection(card, tile)) {
                     var json = {"value": card.value, "tile": tile, "token": this.token, "id": this.id}
-                    axios.put('/game/selectTileAndCard', json)
-                        .then( res => {
-                            if (res.data[1].error) {
-                                console.log(res.data[1].error)
-                            } else {
-                                this.setGameState(res.data)
-                //                this.clearSelections()
-                            }
-                    }, error => {
-                        console.log(error)
-                    }); 
+                    this.doAction({route: '/game/selectTileAndCard', json})
                 }
             },
             passFunding() {
                 if (this.token) {
                     var json = {"token": this.token, "id": this.id}
-                    axios.put('/game/passFunding', json)
-                        .then( res => {
-                            if (res.data[1].error) {
-                                console.log(res.data[1].error)
-                            } else {
-                                this.setGameState(res.data)
-                            }
-                        }, error => {
-                            console.log(error)
-                        }
-                    ); 
+                    this.doAction({route: '/game/passFunding', json})
                 }
             }
         }

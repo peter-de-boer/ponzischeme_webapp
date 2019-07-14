@@ -23,7 +23,6 @@
 </template>
 
 <script>
-    import axios from 'axios';
     import { mapGetters } from 'vuex';
     import { mapActions } from 'vuex';
 
@@ -40,8 +39,7 @@
         },
         methods: {
             ...mapActions([
-                'setGameState',
-                'clearSelections'
+                'doAction'
             ]),
             counterOfferPossible() {
                 return (this.userIsActive && 
@@ -57,35 +55,13 @@
             sellTrade() {
                 if (this.token) {
                     var json = {"token": this.token, "id": this.id}
-                    axios.put('/game/sellTrade', json)
-                        .then( res => {
-                            if (res.data[1].error) {
-                                console.log(res.data[1].error)
-                            } else {
-                                this.setGameState(res.data)
-                                //this.clearSelections()
-                            }
-                        }, error => {
-                            console.log(error)
-                        }
-                    ); 
+                    this.doAction({route: '/game/sellTrade', json})
                 }
             },
             buyTrade() {
                 if (this.counterOfferPossible()) {
                     var json = {"token": this.token, "id": this.id}
-                    axios.put('/game/buyTrade', json)
-                        .then( res => {
-                            if (res.data[1].error) {
-                                console.log(res.data[1].error)
-                            } else {
-                                this.setGameState(res.data)
-                                //this.clearSelections()
-                            }
-                        }, error => {
-                            console.log(error)
-                        }
-                    ); 
+                    this.doAction({route: '/game/buyTrade', json})
                 }
             }
         }
