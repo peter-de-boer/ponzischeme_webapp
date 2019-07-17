@@ -54,10 +54,14 @@ class Status(object):
         self.log.add(self.phaseStyle("Funding"))
 
     def phase2Start(self):
-        self.phase = 2
-        self.active = self.getPlayerOrder()
-        self.tradeOffer = None
         self.log.add(self.phaseStyle("Clandestine Trading"))
+        if self.round == 1:
+            self.log.add("Clandestine Trading Phase is skipped in Round 1.")
+            self.phase3Start()
+        else:
+            self.phase = 2
+            self.active = self.getPlayerOrder()
+            self.tradeOffer = None
 
     def phase2SetTrade(self, tile, money, offeringPlayerIndex, opponentIndex):
         self.tradeOffer = TradeOffer(tile, money, offeringPlayerIndex, opponentIndex)
