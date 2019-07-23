@@ -47,7 +47,10 @@ def executeAction(method, id, **kwargs):
             active = session.query(User) \
                     .filter(User.id==activePlayer.id).first()
             game.active = active
-            if (active.username != kwargs['name']):
+            # removed the condition if the active player is not changed
+            # since apparently players do not notice it is still their turn
+            # if (active.username != kwargs['name']):
+            if True:
                 send_notification(active, id)
         session.commit()
         session.close()
