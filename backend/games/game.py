@@ -49,17 +49,20 @@ class Game(object):
         hidden information is:
             player's money: hidden to all others
             bid from player A to player B: money involved hidden to all other's
+            player-specific logs (contains bids)
             deck: hidden to everyone
         if player is None or not a player in this game, all this information is hidden
         if player is in this game, it's money and money involved in a bid he is
-        involved in is not hidden
+        involved in is not hidden; also his log should be used
         '''
         self.fundDeck = None
-        self.log.log2 = None
         if not self.status.endOfGame:
+            self.log.showKnownInfo(playerInfo)
             for player in self.players:
                 if not player.identical(playerInfo):
                     player.money = None
+        self.log.log2 = None
+        self.log.playerLog = None
         # set self.status.tradeOffer.money to None if playerInfo not involved
         if self.status.tradeOffer:
             offeringPlayer = self.players[self.status.tradeOffer.offeringPlayerIndex];
@@ -234,7 +237,7 @@ class Game(object):
         log2txt = offeringPlayer.name + " <= " + self.tileName(tile) + \
                     " [<span <soldtag>>sold</span>] $" + str(money) + \
                     " => " + name
-        self.log.replace(logtxt,log2txt)
+        self.log.replace(logtxt,log2txt, [name, offeringPlayer.name])
         offeringPlayer.buy(tile, money)
         opponent.sell(tile, money)
         self.status.phase2RemoveTrade()
@@ -268,7 +271,7 @@ class Game(object):
                      " <= $" + str(money) + \
                      " [<span <counteroffertag>>counter-offered</span>] " + \
                      self.tileName(tile)  + " => " + name
-        self.log.replace(logtxt, log2txt)
+        self.log.replace(logtxt, log2txt, [name, offeringPlayer.name])
         offeringPlayer.sell(tile, money)
         opponent.buy(tile, money)
         self.status.phase2RemoveTrade()
@@ -301,9 +304,14 @@ class Game(object):
             return self.error(name + " has not enough money for this trade")
         #self.log.add(name + " offers a trade to " + opponentName + \
         #             " involving a " + self.tileName(tile) + " tile.")
-        self.log.add(name + " <= " + self.tileName(tile) + \
+        logtxt = name + " <= " + self.tileName(tile) + \
                     " [<span <tradeoffertag>>trade offer</span>] $ => " + \
-                     opponentName)
+                     opponentName
+        log2txt = name + " <= " + self.tileName(tile) + \
+                    " [<span <tradeoffertag>>trade offer</span>] $" + \
+                    str(money) + " => " + \
+                     opponentName
+        self.log.add(logtxt, log2txt, [name, opponentName])
         self.status.phase2SetTrade(tile, money, active, opponentIndex)
         self.autoFlow()
         return None
