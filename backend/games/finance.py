@@ -53,4 +53,7 @@ class Finance(object):
                 self.finance[p]['trades'].append(trade)
 
     def hideHiddenInfo(self, playerInfo):
-        return
+        if playerInfo['name'] in self.finance:
+            self.finance = self.finance[playerInfo['name']]
+        else:
+            self.finance = self.financePublic
