@@ -340,7 +340,7 @@ class Game(object):
         self.log.add(name + " buys a Luxury Tile (price: " + \
                      str(tile.value) + ", points: " + \
                      str(tile.points) + ")")
-        self.finance.change(name, tile.value)
+        self.finance.change(name, -tile.value)
         self.players[active].buyLuxuryTile(tile)
         del self.luxuryTiles[tileIndex]
         self.status.next()
