@@ -494,7 +494,14 @@ export const store = new Vuex.Store({
                 return state.gameState.advanced;
             } else {
                 return null;
-            }    
+            }
+        },
+        finance: state => {
+            if (state.gameStateLoaded && state.gameState.finance) {
+                return state.gameState.finance.finance;
+            } else {
+                return null;
+            }
         },
         gameNotes: state => {
             return state.gameNotes;
