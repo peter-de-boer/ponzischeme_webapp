@@ -359,7 +359,8 @@ export const store = new Vuex.Store({
             }
         },
         userIsActive: (state, getters) => {
-            if (state.gameStateLoaded && getters.activePlayer.name && getters.username && 
+            if (state.gameStateLoaded && getters.activePlayer && 
+                getters.activePlayer.name && getters.username && 
                 getters.activePlayer.name == getters.username ) {
                 return "True";
             } else {
