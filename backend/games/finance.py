@@ -3,6 +3,16 @@ import copy
 class Finance(object):
     def __init__(self, players):
         #  finance overview
+        # store:
+        #                   money                       trades
+        # financePublic   fun/int/lux                var.
+        # financeSecret   fun/int/lux                real values
+        # finance[plr]   fun/int/lux/known trades    var. for unknown trades
+        #
+        # finance[plr]:  show to plr during the game
+        # financePublic: show to other players/viewers during the game
+        # financeSecret: show to all after the game
+        #
         self.players = [p.name for p in players]
         self.finance = {}
         self.tradeCount = 0
@@ -17,6 +27,11 @@ class Finance(object):
         self.financePublic['money'] = {}
         for player2 in players:
             self.financePublic['money'][player2.name]= 0
+        self.financeSecret = {}
+        self.financeSecret['trades'] = []
+        self.financeSecret['money'] = {}
+        for player2 in players:
+            self.financeSecret['money'][player2.name]= 0
 
     def change(self, playerName, value, player2Name = None):
         # changes the money of player
@@ -24,6 +39,7 @@ class Finance(object):
         # else only known to player2Name
         if player2Name is None:
             self.financePublic['money'][playerName] += value
+            self.financeSecret['money'][playerName] += value
             for p in self.players:
                 self.finance[p]['money'][playerName] += value
         else:
@@ -51,9 +67,19 @@ class Finance(object):
         for p in self.players:
             if p != playerA and p!= playerB:
                 self.finance[p]['trades'].append(trade)
+        realtrade = {}
+        realtrade['playerA'] = playerA
+        realtrade['playerB'] = playerB
+        realtrade['valueA'] = -value
+        realtrade['valueB'] = +value
+        self.financeSecret['trades'].append(realtrade)
 
     def hideHiddenInfo(self, playerInfo):
+        self.financeSecret = None
         if playerInfo['name'] in self.finance:
             self.finance = self.finance[playerInfo['name']]
         else:
             self.finance = self.financePublic
+
+    def revealHiddenInfo(self):
+        self.finance = self.financeSecret

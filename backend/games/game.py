@@ -117,6 +117,7 @@ class Game(object):
     def gameEnded(self):
         for player in self.players:
             if player.bankrupt:
+                self.finance.revealHiddenInfo()
                 self.status.setEndOfGame()
         return self.status.endOfGame
 
