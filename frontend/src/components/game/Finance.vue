@@ -2,10 +2,23 @@
     <div class="finance">
         <div class="row">
             <div class="col-12">
-                <h2> Finance Overview </h2>
+                <h2> Finance Help </h2>
             </div>
             <div class="col-12">
-                {{finance}}
+                <table>
+                    <tr>
+                        <th v-for="money,player in finance.money">{{player}}</th>
+                    </tr>
+                    <tr>
+                        <td v-for="money in finance.money">${{money}}</td>
+                        <td>{{commentMoney()}}</td>
+                    </tr>
+                    <tr v-for="trade in finance.trades">
+                        <td v-for="money,player in finance.money">
+                            {{tradeValue(trade,player)}}
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
@@ -18,8 +31,33 @@
         computed: {
             ...mapGetters([
                 'gameStateLoaded',
+                'gameEnded',
+                'advanced',
+                'players',
                 'finance'
             ])
+        },
+        methods: {
+            tradeValue(trade, player) {
+                if (trade.playerA == player) {
+                    return trade.valueA
+                } else if (trade.playerB == player) {
+                    return trade.valueB
+                } else {
+                    return ""
+                }
+            },
+            commentMoney() {
+                var commentString = "=> includes fundings, paid interests and known trades; excludes unknown trades"
+                if (this.gameEnded && !this.advanced) { 
+                    commentString = "=> includes fundings and paid interests; excludes all trades"
+                } else if (this.gameEnded && this.advanced) {
+                    commentString = "=> includes fundings, bought luxuruy tiles and paid interests; excludes all trades"
+                } else if (!this.gameEnded && this.advanced) {
+                    commentString = "=> includes fundings, bought luxury tiles, paid interests and known trades; excludes unknown trades"
+                }
+                return commentString
+            }
         }
     }    
 </script>
@@ -27,5 +65,10 @@
 <style scoped>
 .finance {
     border-style: solid;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
 }
 </style>
