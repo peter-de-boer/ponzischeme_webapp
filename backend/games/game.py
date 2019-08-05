@@ -5,6 +5,7 @@ from backend.games.fundingBoard import FundingBoard
 from backend.games.player import Player
 from backend.games.status import Status
 from backend.games.log import Log
+from backend.games.finance import Finance
 from random import shuffle
 import sys
 
@@ -20,6 +21,7 @@ class Game(object):
             self.players.append(Player(players[i]))
         shuffle(self.players)
         self.log = Log(self.players, advanced, id)
+        self.finance = Finance(self.players)
         self.status = Status(self.numPlayers, self.players, self.log)
         #self.gameFlow = GameFlow()
         self.advanced = advanced
@@ -51,6 +53,7 @@ class Game(object):
             bid from player A to player B: money involved hidden to all other's
             player-specific logs (contains bids)
             deck: hidden to everyone
+            finance overview of the other players
         if player is None or not a player in this game, all this information is hidden
         if player is in this game, it's money and money involved in a bid he is
         involved in is not hidden; also his log should be used
@@ -58,6 +61,7 @@ class Game(object):
         self.fundDeck = None
         if not self.status.endOfGame:
             self.log.showKnownInfo(playerInfo)
+            self.finance.hideHiddenInfo(playerInfo)
             for player in self.players:
                 if not player.identical(playerInfo):
                     player.money = None
@@ -108,11 +112,12 @@ class Game(object):
 
     def payInterest(self):
         for player in self.players:
-            player.payInterest(self.log)
+            player.payInterest(self.log, self.finance)
 
     def gameEnded(self):
         for player in self.players:
             if player.bankrupt:
+                self.finance.revealHiddenInfo()
                 self.status.setEndOfGame()
         return self.status.endOfGame
 
@@ -147,6 +152,7 @@ class Game(object):
         card = self.removeCardFromBoard(value)
         self.log.add(name + " takes Funding Card " + \
                      card.name() + " and a " + self.tileName(tile) + " tile.")
+        self.finance.change(name, value)
         self.players[active].selectCardAndTile(card, tile)
         self.industryTiles[tile] -= 1
         self.addCardFromDeckToBoard()
@@ -238,6 +244,7 @@ class Game(object):
                     " [<span <soldtag>>sold</span>] $" + str(money) + \
                     " => " + name
         self.log.replace(logtxt,log2txt, [name, offeringPlayer.name])
+        self.finance.trade(offeringPlayer.name, opponent.name, money)
         offeringPlayer.buy(tile, money)
         opponent.sell(tile, money)
         self.status.phase2RemoveTrade()
@@ -272,6 +279,7 @@ class Game(object):
                      " [<span <counteroffertag>>counter-offered</span>] " + \
                      self.tileName(tile)  + " => " + name
         self.log.replace(logtxt, log2txt, [name, offeringPlayer.name])
+        self.finance.trade(opponent.name, offeringPlayer.name, money)
         offeringPlayer.sell(tile, money)
         opponent.buy(tile, money)
         self.status.phase2RemoveTrade()
@@ -333,6 +341,7 @@ class Game(object):
         self.log.add(name + " buys a Luxury Tile (price: " + \
                      str(tile.value) + ", points: " + \
                      str(tile.points) + ")")
+        self.finance.change(name, -tile.value)
         self.players[active].buyLuxuryTile(tile)
         del self.luxuryTiles[tileIndex]
         self.status.next()

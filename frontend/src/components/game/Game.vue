@@ -35,6 +35,11 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-12">
+                <finance v-if="gameStateLoaded && finance"></finance>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-12 col-sm-4">
                 <!-- <deck v-if="gameStateLoaded"></deck> -->
             </div>
@@ -55,6 +60,7 @@
     import Log from './Log.vue';
     import Chat from './Chat.vue';
     import Notes from './Notes.vue';
+    import Finance from './Finance.vue';
     import {mapActions} from 'vuex';
     import {mapGetters} from 'vuex';
 
@@ -68,6 +74,7 @@
             log: Log,
             chat: Chat,
             notes: Notes,
+            finance: Finance,
             endOfGame: EndOfGame,
             actionBox: ActionBox,
             luxuryTiles: LuxuryTiles,
@@ -87,7 +94,8 @@
                 'gameEnded',
                 'gameStateLoaded',
                 'players',
-                'userIsPlayer'
+                'userIsPlayer',
+                'finance'
             ])    
         },
         methods: {

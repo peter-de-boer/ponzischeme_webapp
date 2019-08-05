@@ -359,7 +359,8 @@ export const store = new Vuex.Store({
             }
         },
         userIsActive: (state, getters) => {
-            if (state.gameStateLoaded && getters.activePlayer.name && getters.username && 
+            if (state.gameStateLoaded && getters.activePlayer && 
+                getters.activePlayer.name && getters.username && 
                 getters.activePlayer.name == getters.username ) {
                 return "True";
             } else {
@@ -494,7 +495,14 @@ export const store = new Vuex.Store({
                 return state.gameState.advanced;
             } else {
                 return null;
-            }    
+            }
+        },
+        finance: state => {
+            if (state.gameStateLoaded && state.gameState.finance) {
+                return state.gameState.finance.finance;
+            } else {
+                return null;
+            }
         },
         gameNotes: state => {
             return state.gameNotes;
