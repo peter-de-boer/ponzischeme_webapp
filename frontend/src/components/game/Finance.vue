@@ -7,15 +7,25 @@
             <div class="col-12">
                 <table>
                     <tr>
-                        <th v-for="money,player in finance.money">{{player}}</th>
+                        <!-- <th v-for="money,player in finance.money">{{player}}</th> -->
+                        <!-- 
+                            loop over players instead of over finance,money because
+                            players is an (ordered) list and 
+                            finance.money is an (unordered) dictionary
+                        -->
+                        <th v-for="player in players">{{player.name}}</th>
                     </tr>
                     <tr>
-                        <td v-for="money in finance.money">${{money}}</td>
+                        <!-- <td v-for="money in finance.money">${{money}}</td> -->
+                        <td v-for="player in players">
+                            {{finance.money[player.name]}}
+                        </td>
                         <td>{{commentMoney()}}</td>
                     </tr>
                     <tr v-for="trade in finance.trades">
-                        <td v-for="money,player in finance.money">
-                            {{tradeValue(trade,player)}}
+                        <!-- <td v-for="money,player in finance.money"> -->
+                        <td v-for="player in players">
+                            {{tradeValue(trade,player.name)}}
                         </td>
                     </tr>
                 </table>
