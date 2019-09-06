@@ -18,6 +18,9 @@
                   autocomplete="current-password"
                   v-model="password">
         </div>
+        <div v-if="authFailed" style="color:red">
+            Wrong username and/or password!
+        </div>
         <div class="submit">
           <button type="submit">Submit</button>
         </div>
@@ -38,9 +41,18 @@
                 password: ''
             }
         },
+        computed: {
+            ...mapGetters([
+                'authFailed'
+            ])
+        },
+        beforeDestroy() {
+            this.clearFailedStatus()
+        },
         methods: {
             ...mapActions([
-                'login'
+                'login',
+                'clearFailedStatus'
             ]),
           onSubmit () {
               const formData = {

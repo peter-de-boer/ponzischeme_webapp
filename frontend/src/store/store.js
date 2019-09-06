@@ -9,16 +9,22 @@ const auth = {
     state: {
         idToken: null,
         username: null,
-        email: null
+        email: null,
+        authenticated: null
     },
     mutations: {
         authUser (state, userData) {
             Vue.set(state, "idToken", userData.idToken);
             Vue.set(state, "username", userData.username);
+            Vue.set(state, "authenticated", "success");
         },
         clearAuthData (state) {
             Vue.set(state, "idToken", null);
             Vue.set(state, "username", null);
+            Vue.set(state, "authenticated", null);
+        },
+        setAuthStatus (state, authStatus) {
+            Vue.set(state, "authenticated", authStatus);
         },
         accountData (state, data) {
             Vue.set(state, "email", data.email)
@@ -49,6 +55,7 @@ const auth = {
                 returnSecureToken: true
             })
             .then(res => {
+                console.log(res.data);
                 if (res.data.status=="authenticated") {
                     localStorage.setItem('token', res.data.idToken)
                     localStorage.setItem('username', res.data.username)
@@ -57,9 +64,14 @@ const auth = {
                         username: res.data.username
                     })
                     router.replace({name: 'home'})
+                } else {
+                    commit('setAuthStatus', 'failed');
                 }
               })
               .catch(error => console.log(error))
+        },
+        clearFailedStatus({commit}) {
+            commit('setAuthStatus', null);
         },
         tryAutoLogin ({commit}) {
             const token = localStorage.getItem('token')
@@ -104,6 +116,9 @@ const auth = {
     getters: {
         isAuthenticated (state) {
             return state.idToken !== null
+        },
+        authFailed (state) {
+            return state.authenticated == "failed"
         },
         username(state) {
             return state.username
