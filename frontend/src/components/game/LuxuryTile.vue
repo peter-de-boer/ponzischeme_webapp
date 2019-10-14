@@ -1,6 +1,6 @@
 <template>
     <div class="tile" :class="hiLight(value, points, luxuryTiles[selectedLuxuryTile])">
-        ${{value}} {{points}}
+         {{points}} ${{value}}
     </div>
 </template>
 
