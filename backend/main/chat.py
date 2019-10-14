@@ -5,13 +5,13 @@ from backend import Session
 from backend.users.utils import send_notification, send_end_of_game_email
 
 
-def addMainPost(post, name):
+def addMainPost(post, name, timestamp=None):
     session = Session()
     chatmodel = session.query(ChatModel).first()
     chat = jsonpickle.decode(chatmodel.chat)
     if (chat is None):
         chat = []
-    fullPost = [name, post]
+    fullPost = [name, post, timestamp]
     chat.append(fullPost)
     chatmodel.chat = jsonpickle.encode(chat)
     session.commit()
