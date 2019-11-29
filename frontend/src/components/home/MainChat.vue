@@ -5,7 +5,7 @@
                 see Log.vue for scroll issue
             -->
                 <div v-for="line in mainChat">  
-                    <span style='font-weight: bold'>{{line[0]}}</span>: {{line[1]}}
+                    <span style='font-weight: bold'>{{line[2]}} {{getTimeStamp(line[2])}} {{line[0]}}</span>: {{line[1]}}
                 </div>
         </div>
         <form @submit.prevent="onSubmit">
@@ -25,6 +25,7 @@
     import axios from 'axios';
     import { mapActions } from 'vuex';
     import { mapGetters } from 'vuex';
+    import shared from '@/shared';
 
     export default {
         data () {
@@ -33,7 +34,8 @@
             }
         },
         created() {
-            this.getMainChat()
+            this.getTimeStamp = shared.getTimeStamp;
+            this.getMainChat();
         },
         mounted() {
             this.scrollToEnd()
