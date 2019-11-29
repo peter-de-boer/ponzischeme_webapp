@@ -6,6 +6,6 @@ export default {
         var datetime = new Date(utctime);
         var date = datetime.toLocaleDateString();
         var time = datetime.toLocaleTimeString();
-        return date + ' ' + time
+        return '(' + date + ' ' + time + ')'
     },
 }

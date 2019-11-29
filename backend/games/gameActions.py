@@ -3,6 +3,7 @@ from backend.games.game import Game
 from backend.models import GameModel, User, Notes
 from backend import Session
 from backend.users.utils import send_notification, send_end_of_game_email
+import datetime, time
 
 
 def execute(gm, method, **kwargs):
@@ -56,14 +57,20 @@ def executeAction(method, id, **kwargs):
         session.close()
         return None
 
-def addPost(post, id, name):
+def addPost(post, id, name, timestamp=None):
+    # add a new post to the chat
+    # if timestamp is not provided, save the current time
+    # as UTC, and in iso format for easy handling on frontend
     session = Session()
     game = session.query(GameModel) \
             .filter(GameModel.id==id).first()
     chat = jsonpickle.decode(game.chat)
     if (chat is None):
         chat = []
-    fullPost = [name, post]
+    if timestamp is None:
+        now = datetime.datetime.now(tz=datetime.timezone.utc)
+        timestamp = now.isoformat()
+    fullPost = [name, post, timestamp]
     chat.append(fullPost)
     game.chat = jsonpickle.encode(chat)
     session.commit()
