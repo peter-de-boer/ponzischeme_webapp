@@ -6,7 +6,7 @@
                 see Log.vue for scroll issue
             -->
                 <div v-for="line in gameChat">  
-                    <span style='font-weight: bold'>{{getTimeStamp(line[2])}} {{line[0]}}</span>: {{line[1]}}
+                    {{getTimeStamp(line[2])}} <span style='font-weight: bold'> {{line[0]}}</span>: {{line[1]}}
                 </div>
         </div>
         <form @submit.prevent="onSubmit">
