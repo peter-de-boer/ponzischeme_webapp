@@ -13,7 +13,7 @@ idna==2.7
 itsdangerous==0.24
 Jinja2==2.10
 jsonpickle==1.0
-Mako==1.0.7
+Mako==1.2.2
 MarkupSafe==1.0
 python-dateutil==2.7.5
 python-dotenv==0.9.1
