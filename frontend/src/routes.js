@@ -13,6 +13,7 @@ import SigninPage from './components/auth/login.vue'
 import ConfirmPage from './components/auth/confirm.vue'
 import ResetPage from './components/auth/reset.vue'
 import RequestResetPage from './components/auth/request_reset.vue'
+import RequestConfirmPage from './components/auth/request_confirm.vue'
 
 Vue.use(VueRouter)
 
@@ -24,6 +25,7 @@ const routes = [
     { path: '/confirm/:token', name:'confirm', component:  ConfirmPage, props: true },
     { path: '/reset_password/:token', name:'reset_password', component:  ResetPage, props: true },
     { path: '/request_reset_password', name:'request_reset_password', component:  RequestResetPage },
+    { path: '/request_confirm_email', name:'request_confirm_email', component:  RequestConfirmPage },
     { path: '/login', name: 'login', component: SigninPage },
     {
       path: '/dashboard',

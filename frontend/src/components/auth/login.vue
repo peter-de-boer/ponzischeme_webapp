@@ -25,6 +25,8 @@
           <button type="submit">Submit</button>
         </div>
         <router-link :to="{name: 'request_reset_password'}">Forgot Password?</router-link>
+        <br>
+        <router-link :to="{name: 'request_confirm_email'}">Still need to confirm your email-address?</router-link>
       </form>
     </div>
   </div>

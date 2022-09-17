@@ -48,6 +48,24 @@ def getUserByToken(req, salt=None, onlyIfConfirmed=True):
     else:
         return user
 
+@users.route("/user/request_confirm_email", methods=['POST'])
+def requestconfirmemail():
+    session = Session()
+    req = request.get_json()
+    email = req['email']
+    #password = req['password']
+    #username = req['username']
+    url = req['url']
+    data = {}
+    user = Session.query(User).filter_by(email=email).first()
+    if not user:
+        data['status'] = 'failed'
+    else:
+        send_registration_email(user, url)
+        data['status'] = 'success'
+    json_data = json.dumps(data)
+    return json_data
+
 @users.route("/user/request_reset_password", methods=['POST'])
 def requestresetpassword():
     session = Session()
