@@ -32,10 +32,11 @@ def sendMessage(msg):
             print(msg)
 
 def send_reset_email(user, url):
+    SEND_EMAIL = os.environ.get('EMAIL_USER')
     token = user.get_reset_token()
     link = url + '/reset_password/' + token
     msg = Message('Password Reset Request',
-                  sender='peterdb001@gmail.com',
+                  sender=SEND_EMAIL,
                   recipients=[user.email])
     msg.body = f'''To reset your password, visit the following link:
 {link}
@@ -45,10 +46,11 @@ If you did not make this request then simply ignore this email and no changes wi
     sendMessage(msg)
 
 def send_registration_email(user, url):
+    SEND_EMAIL = os.environ.get('EMAIL_USER')
     token = user.get_registration_token()
     link = url + '/confirm/' + token
     msg = Message('Confirm your registration',
-                  sender='peterdb001@gmail.com',
+                  sender=SEND_EMAIL,
                   recipients=[user.email])
     msg.body = f'''To confirm your registration, follow the following link:
 {link}
@@ -59,10 +61,11 @@ If you did not make this request then simply ignore this email and no changes wi
 
 
 def send_notification(user, game_id):
+    SEND_EMAIL = os.environ.get('EMAIL_USER')
     url = os.environ.get('BASE_URL')
     link = url + f'/game/{game_id}'
     msg = Message(f'[ponzischeme]: your turn in game {game_id}',
-                  sender='peterdb001@gmail.com',
+                  sender=SEND_EMAIL,
                   recipients=[user.email])
     msg.body = f'''It is your turn in game {game_id}:
 {link}
@@ -70,11 +73,12 @@ def send_notification(user, game_id):
     sendMessage(msg)
 
 def send_end_of_game_email(emails, game_id):
+    SEND_EMAIL = os.environ.get('EMAIL_USER')
     url = os.environ.get('BASE_URL')
     link = url + f'/game/{game_id}'
     for email in emails:
         msg = Message(f'[ponzischeme]: end of game {game_id}',
-                      sender='peterdb001@gmail.com',
+                      sender=SEND_EMAIL,
                       recipients=[email])
         msg.body = f'''Game {game_id} is finished:
 {link}
@@ -82,11 +86,12 @@ def send_end_of_game_email(emails, game_id):
         sendMessage(msg)
 
 def send_start_game_email(emails, game_id):
+    SEND_EMAIL = os.environ.get('EMAIL_USER')
     url = os.environ.get('BASE_URL')
     link = url + f'/game/{game_id}'
     for email in emails:
         msg = Message(f'[ponzischeme]: start of game {game_id}',
-                      sender='peterdb001@gmail.com',
+                      sender=SEND_EMAIL,
                       recipients=[email])
         msg.body = f'''Game {game_id} is started:
 {link}
@@ -95,10 +100,11 @@ def send_start_game_email(emails, game_id):
 
 
 def send_ready_game_email(user, game_id):
+    SEND_EMAIL = os.environ.get('EMAIL_USER')
     url = os.environ.get('BASE_URL')
     link = url
     msg = Message(f'[ponzischeme]: game {game_id} is ready to start',
-                  sender='peterdb001@gmail.com',
+                  sender=SEND_EMAIL,
                   recipients=[user.email])
     msg.body = f'''All seats in game {game_id} are occupied.
 You can start the game now:
